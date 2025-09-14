@@ -1,0 +1,178 @@
+/* 오버레이 */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  /* 모달 카드 */
+  .modalCard {
+    position: relative;
+    width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    background: #fff;
+    border-radius: 12px;
+  }
+
+  .modalCard::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* 닫기 버튼 */
+  .closeButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: #6b7280; /* gray-500 */
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  
+  .closeButton:hover {
+    color: #374151; /* gray-700 */
+  }
+  
+  .closeIcon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* 타이틀 */
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* 컨텐츠 */
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  /* 이미지 */
+  .imageWrapper {
+    width: 256px;
+    height: 256px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 0 auto;
+  }
+  
+  .image {
+    width: 256px;
+    height: 256px;
+    object-fit: cover;
+  }
+  
+  /* 섹션 */
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .sectionTitle {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .infoIcon {
+    width: 20px;
+    height: 20px;
+    color: #2563eb; /* blue-600 */
+  }
+  
+  .alertIcon {
+    width: 20px;
+    height: 20px;
+    color: #ea580c; /* orange-600 */
+  }
+  
+  /* 설명 */
+  .description {
+    color: #374151; /* gray-700 */
+    line-height: 1.6;
+  }
+  
+  /* 증상 리스트 */
+  .symptomList {
+    list-style: none;
+    padding-left: 16px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .symptomItem {
+    display: flex;
+    align-items: center;
+    color: #374151; /* gray-700 */
+  }
+  
+  .symptomIcon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    color: #16a34a; /* green-600 */
+  }
+  
+  /* 푸터 */
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 16px;
+  }
+  
+  .footerButton {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  
+  /* 뱃지 색상 */
+  .severityHigh {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+  
+  .severityMedium {
+    background-color: #fef9c3;
+    color: #92400e;
+  }
+  
+  .severityLow {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  
+  .prevalenceHigh {
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+  }
+  
+  .prevalenceMedium {
+    border: 1px solid #fef08a;
+    color: #ca8a04;
+  }
+  
+  .prevalenceLow {
+    border: 1px solid #bbf7d0;
+    color: #15803d;
+  }
+  

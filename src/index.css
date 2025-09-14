@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS Variables for Talktail */
+:root {
+  --talktail-orange: #f0663f;
+  --talktail-orange-light: #ff7f57;
+  --talktail-orange-dark: #d45a2f;
+  --talktail-beige: #fef7ed;
+  --talktail-mint: #e6fffa;
+}
+
+/* Custom animations */
+@keyframes progress {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
