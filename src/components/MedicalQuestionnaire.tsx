@@ -709,7 +709,7 @@ export const MedicalQuestionnaire = React.memo(
 
               {/* 연결선 */}
               <div className="flex items-center justify-center self-start mt-6">
-                <div className="w-80 sm:w-96 md:w-[28rem] h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
+                <div className="w-16 sm:w-32 md:w-48 lg:w-64 xl:w-80 h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
                   <div className={`h-full transition-all duration-700 ease-out rounded-full ${
                     currentSection === 0
                       ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"

@@ -312,100 +312,52 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
           }}
           tabIndex={-1}
         >
-          <Card 
-            className="w-full max-w-xs bg-white border-0 rounded-2xl shadow-lg"
-            style={{ 
-              background: 'linear-gradient(135deg, #FAF6F2 0%, #ffffff 100%)',
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
-            }}
-          >
-            <div className="p-4">
+          <div className="w-full max-w-xs bg-white border border-gray-300 rounded p-3">
               {/* Header */}
-              <div className="flex items-center justify-between mb-4">
-                <h3 
-                  className="text-base font-semibold"
-                  style={{ 
-                    color: '#333333',
-                    fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
-                  }}
-                >
-                  {language === 'ko' && '생년월일 선택'}
-                  {language === 'ja' && '生年月日を選択'}
-                  {language === 'zh' && '选择出生日期'}
-                  {language === 'en' && 'Select Date of Birth'}
-                </h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-bold">생년월일 선택</h3>
+                <button
                   onClick={() => setIsOpen(false)}
-                  className="w-6 h-6 p-0 hover:bg-gray-100 rounded-full"
-                  aria-label="Close calendar"
+                  className="text-gray-500 hover:text-gray-700 text-lg"
                 >
-                  <X className="w-3 h-3" style={{ color: '#666666' }} />
-                </Button>
+                  ✕
+                </button>
               </div>
 
               {/* Month/Year Navigation */}
               <div className="flex items-center justify-between mb-3">
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <button
                   onClick={goToPreviousMonth}
                   disabled={isPreviousDisabled}
-                  className="w-7 h-7 p-0 hover:bg-gray-100 rounded-full disabled:opacity-30 disabled:cursor-not-allowed"
-                  aria-label="Previous month"
+                  className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
                 >
-                  <ChevronLeft className="w-3 h-3" style={{ color: '#333333' }} />
-                </Button>
-                
+                  ◀
+                </button>
+
                 <div className="text-center flex-1">
-                  <div 
-                    className="text-sm font-medium mb-1"
-                    style={{ 
-                      color: '#333333',
-                      fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
-                    }}
-                  >
+                  <div className="text-sm font-medium mb-1">
                     {getMonthName(viewDate)}
                   </div>
-                  {/* 연도 선택 드롭다운 - 개선된 UI */}
-                  <div className="relative">
-                    <select
-                      value={viewDate.getFullYear()}
-                      onChange={(e) => handleYearSelect(parseInt(e.target.value))}
-                      className="text-xs bg-white/80 backdrop-blur-sm border border-orange-200 outline-none cursor-pointer hover:border-orange-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 rounded-md px-2 py-1 appearance-none pr-6 transition-all duration-200"
-                      style={{ 
-                        color: '#F0663F',
-                        fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif',
-                        boxShadow: '0 2px 8px rgba(240, 102, 63, 0.1)'
-                      }}
-                    >
-                      {generateYears.map((year) => (
-                        <option key={year} value={year} style={{ color: '#333333' }}>
-                          {language === 'ko' && `${year}년`}
-                          {language === 'ja' && `${year}年`}
-                          {language === 'zh' && `${year}年`}
-                          {language === 'en' && `${year}`}
-                        </option>
-                      ))}
-                    </select>
-                    {/* 커스텀 화살표 아이콘 */}
-                    <div className="absolute right-1 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <ChevronRight className="w-3 h-3 rotate-90" style={{ color: '#F0663F' }} />
-                    </div>
-                  </div>
+                  <select
+                    value={viewDate.getFullYear()}
+                    onChange={(e) => handleYearSelect(parseInt(e.target.value))}
+                    className="border border-gray-300 rounded px-1 py-1 text-xs w-20"
+                  >
+                    {generateYears.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                
-                <Button
-                  variant="ghost"
-                  size="sm"
+
+                <button
                   onClick={goToNextMonth}
                   disabled={isNextDisabled}
-                  className="w-7 h-7 p-0 hover:bg-gray-100 rounded-full disabled:opacity-30 disabled:cursor-not-allowed"
-                  aria-label="Next month"
+                  className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
                 >
-                  <ChevronRight className="w-3 h-3" style={{ color: '#333333' }} />
-                </Button>
+                  ▶
+                </button>
               </div>
 
               {/* Weekday Headers */}
@@ -413,11 +365,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                 {weekdayLabels.map((label, index) => (
                   <div
                     key={index}
-                    className="h-6 flex items-center justify-center text-xs font-medium"
-                    style={{ 
-                      color: '#666666',
-                      fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
-                    }}
+                    className="h-6 flex items-center justify-center text-xs font-medium text-gray-600"
                   >
                     {label}
                   </div>
@@ -425,90 +373,55 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
               </div>
 
               {/* Calendar Grid */}
-              <div 
-                className="grid grid-cols-7 gap-1 mb-4"
-                role="grid"
-                aria-label="Calendar"
-              >
-                    {calendarDays.map((date, index) => {
-                      if (!date) {
-                        return <div key={index} className="h-10" />;
-                      }
+              <div className="grid grid-cols-7 gap-1 mb-3">
+                {calendarDays.map((date, index) => {
+                  if (!date) {
+                    return <div key={index} className="h-9" />;
+                  }
 
-                      const selectable = isDateSelectable(date);
-                      const todayDate = isToday(date);
-                      const selected = isSelected(date);
+                  const selectable = isDateSelectable(date);
+                  const todayDate = isToday(date);
+                  const selected = isSelected(date);
 
-                      return (
-                        <button
-                          key={index}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleDateSelect(date, e);
-                          }}
-                          onKeyDown={(e) => handleKeyDown(e, date)}
-                          disabled={!selectable}
-                          className={`
-                            h-8 w-8 rounded-full text-xs font-medium transition-all duration-200 relative
-                            ${!selectable 
-                              ? 'cursor-not-allowed opacity-30' 
-                              : 'cursor-pointer hover:scale-105 hover:bg-gray-100 active:scale-95'
-                            }
-                            ${todayDate && !selected 
-                              ? 'border-2' 
-                              : 'border-0'
-                            }
-                            focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2
-                          `}
-                          style={{
-                            backgroundColor: selectable ? 'transparent' : '#f5f5f5',
-                            color: selected ? '#ffffff' : selectable ? '#333333' : '#999999',
-                            borderColor: todayDate && !selected ? '#F0663F' : 'transparent',
-                            fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
-                          }}
-                          aria-label={`${date.getDate()}, ${getMonthName(date)}`}
-                          aria-selected={selected}
-                          aria-disabled={!selectable}
-                          role="gridcell"
-                          tabIndex={selectable ? 0 : -1}
-                        >
-                          <span className="relative z-10">{date.getDate()}</span>
-                          {/* 동그라미 선택 표시 */}
-                          {selected && (
-                            <div 
-                              className="absolute top-1/2 left-1/2 w-8 h-8 rounded-full shadow-lg transform -translate-x-1/2 -translate-y-1/2 scale-110 animate-in zoom-in duration-200"
-                              style={{
-                                background: 'linear-gradient(135deg, #F0663F 0%, #d45a2f 100%)',
-                                zIndex: 1
-                              }}
-                            />
-                          )}
-                        </button>
-                      );
-                    })}
+                  return (
+                    <button
+                      key={index}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDateSelect(date, e);
+                      }}
+                      disabled={!selectable}
+                      className={`
+                        h-9 w-full rounded text-sm font-medium border
+                        ${!selectable
+                          ? 'cursor-not-allowed opacity-30 bg-gray-100'
+                          : selected
+                            ? 'bg-orange-500 text-white border-orange-500'
+                            : todayDate
+                              ? 'bg-orange-100 text-orange-700 border-orange-400'
+                              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }
+                      `}
+                    >
+                      {date.getDate()}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex space-x-2 mb-3">
-                <Button
-                  variant="outline"
-                  className="flex-1 h-9 rounded-lg border-gray-300 hover:bg-gray-50 transition-colors text-sm"
-                  style={{
-                    fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
-                  }}
+              <div className="flex space-x-2">
+                <button
+                  className="flex-1 h-10 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm"
                   onClick={() => setIsOpen(false)}
                 >
-                  {language === 'ko' && '취소'}
-                  {language === 'ja' && 'キャンセル'}
-                  {language === 'zh' && '取消'}
-                  {language === 'en' && 'Cancel'}
-                </Button>
-                <Button
-                  className="flex-1 h-9 rounded-lg text-white text-sm shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  취소
+                </button>
+                <button
+                  className="flex-1 h-10 rounded text-white disabled:opacity-50 text-sm"
                   style={{
-                    background: selectedDate ? 'linear-gradient(135deg, #F0663F 0%, #d45a2f 100%)' : '#cccccc',
-                    fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
+                    backgroundColor: selectedDate ? '#F0663F' : '#cccccc',
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -517,67 +430,14 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                   }}
                   disabled={!selectedDate}
                 >
-                  {language === 'ko' && '확인'}
-                  {language === 'ja' && '確認'}
-                  {language === 'zh' && '确认'}
-                  {language === 'en' && 'Confirm'}
-                </Button>
+                  확인
+                </button>
               </div>
 
-              {/* Pet Age Info */}
-              <div 
-                className="p-2 rounded-lg text-xs text-center"
-                style={{ 
-                  backgroundColor: 'rgba(240, 102, 63, 0.1)',
-                  color: '#666666',
-                  fontFamily: 'Inter, "Noto Sans", system-ui, sans-serif'
-                }}
-              >
-                {language === 'ko' && '반려동물의 정확한 생년월일을 선택해주세요'}
-                {language === 'ja' && 'ペットの正確な生年月日を選択してください'}
-                {language === 'zh' && '请选择宠物的准确出生日期'}
-                {language === 'en' && 'Please select your pet\'s exact date of birth'}
-              </div>
-            </div>
-          </Card>
+          </div>
         </div>
       )}
 
-      <style>{`
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-          button[role="gridcell"] {
-            border: 1px solid black !important;
-          }
-          button[role="gridcell"][aria-selected="true"] {
-            background-color: black !important;
-            color: white !important;
-          }
-        }
-        
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-          button[role="gridcell"] {
-            transition: none !important;
-          }
-        }
-        
-        /* Improved focus styles */
-        button[role="gridcell"]:focus-visible {
-          outline: 2px solid #F0663F !important;
-          outline-offset: 2px;
-          z-index: 10;
-          position: relative;
-        }
-        
-        /* Prevent text selection on calendar */
-        [role="grid"] {
-          user-select: none;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-        }
-      `}</style>
     </div>
   );
 }

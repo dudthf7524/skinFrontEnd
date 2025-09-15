@@ -337,7 +337,7 @@ const SkinAIContent = () => {
 
               {/* 연결선 1 */}
               <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
-                <div className="w-24 sm:w-32 md:w-40 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
+                <div className="w-12 sm:w-20 md:w-28 lg:w-36 xl:w-44 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
                   <div className={`h-full transition-all duration-700 ease-out rounded-full ${
                     currentStep === "questionnaire"
                       ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
@@ -386,7 +386,7 @@ const SkinAIContent = () => {
 
               {/* 연결선 2 */}
               <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
-                <div className="w-24 sm:w-32 md:w-40 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
+                <div className="w-12 sm:w-20 md:w-28 lg:w-36 xl:w-44 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
                   <div className={`h-full transition-all duration-700 ease-out rounded-full ${
                     currentStep === "upload"
                       ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
