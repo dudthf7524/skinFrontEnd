@@ -36,10 +36,11 @@ interface QuestionnaireData {
   petBreed: string;
   customBreed?: string;
   weight: string;
-  mainSymptoms: string[];
+  pruritus: string; // '없음', '보통', '심함'
+  alopecia: boolean; // 탈모
+  odor: boolean; // 냄새
   affectedAreas: string[];
   ownerEmail?: string;
-  consentToUpdates?: boolean;
 }
 
 interface MedicalQuestionnaireProps {
@@ -132,10 +133,11 @@ export const MedicalQuestionnaire = React.memo(
         petBreed: "",
         customBreed: "",
         weight: "",
-        mainSymptoms: [],
+        pruritus: "",
+        alopecia: false,
+        odor: false,
         affectedAreas: [],
         ownerEmail: "",
-        consentToUpdates: false,
       },
     );
     const [showCustomBreed, setShowCustomBreed] = useState(false);
@@ -154,25 +156,25 @@ export const MedicalQuestionnaire = React.memo(
       [],
     );
 
-    const handleSymptomToggle = useCallback((symptom: string) => {
+    const handlePruritusChange = useCallback((value: string) => {
       setFormData((prev) => ({
         ...prev,
-        mainSymptoms: prev.mainSymptoms.includes(symptom)
-          ? prev.mainSymptoms.filter((s) => s !== symptom)
-          : [...prev.mainSymptoms, symptom],
+        pruritus: value,
       }));
     }, []);
 
-    const handleExclusiveSymptomToggle = useCallback((symptom: string, groupPrefix: string) => {
-      setFormData((prev) => {
-        // Remove all symptoms from the same group
-        const filteredSymptoms = prev.mainSymptoms.filter(s => !s.startsWith(groupPrefix));
-        // Add the new symptom
-        return {
-          ...prev,
-          mainSymptoms: [...filteredSymptoms, symptom],
-        };
-      });
+    const handleAlopeciaChange = useCallback((value: boolean) => {
+      setFormData((prev) => ({
+        ...prev,
+        alopecia: value,
+      }));
+    }, []);
+
+    const handleOdorChange = useCallback((value: boolean) => {
+      setFormData((prev) => ({
+        ...prev,
+        odor: value,
+      }));
     }, []);
 
     const handleAreaToggle = useCallback((area: string) => {
@@ -200,7 +202,7 @@ export const MedicalQuestionnaire = React.memo(
           );
         case 1:
           return (
-            formData.mainSymptoms.length > 0 &&
+            formData.pruritus !== "" &&
             formData.affectedAreas.length > 0
           );
         default:
@@ -422,31 +424,31 @@ export const MedicalQuestionnaire = React.memo(
                     </div>
                     <div className="space-y-2">
                       <div
-                        className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.mainSymptoms.includes("itchy_none")
+                        className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.pruritus === "없음"
                           ? "border-orange-400 bg-orange-50"
                           : "border-gray-200 hover:border-gray-300"
                           }`}
-                        onClick={() => handleExclusiveSymptomToggle("itchy_none", "itchy_")}
+                        onClick={() => handlePruritusChange("없음")}
                       >
-                        <p className="text-sm font-medium text-gray-800 mb-1">전혀 없음</p>
+                        <p className="text-sm font-medium text-gray-800 mb-1">없음</p>
                         <p className="text-xs text-gray-600">가려워하지 않아요</p>
                       </div>
                       <div
-                        className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.mainSymptoms.includes("itchy_moderate")
+                        className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.pruritus === "보통"
                           ? "border-orange-400 bg-orange-50"
                           : "border-gray-200 hover:border-gray-300"
                           }`}
-                        onClick={() => handleExclusiveSymptomToggle("itchy_moderate", "itchy_")}
+                        onClick={() => handlePruritusChange("보통")}
                       >
                         <p className="text-sm font-medium text-gray-800 mb-1">보통</p>
                         <p className="text-xs text-gray-600">가끔 긁거나 핥아요</p>
                       </div>
                       <div
-                        className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.mainSymptoms.includes("itchy_severe")
+                        className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.pruritus === "심함"
                           ? "border-orange-400 bg-orange-50"
                           : "border-gray-200 hover:border-gray-300"
                           }`}
-                        onClick={() => handleExclusiveSymptomToggle("itchy_severe", "itchy_")}
+                        onClick={() => handlePruritusChange("심함")}
                       >
                         <p className="text-sm font-medium text-gray-800 mb-1">심함</p>
                         <p className="text-xs text-gray-600">계속 긁고 핥아요</p>
@@ -463,8 +465,8 @@ export const MedicalQuestionnaire = React.memo(
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
-                        onClick={() => handleExclusiveSymptomToggle("odor_yes", "odor_")}
-                        className={`p-3 rounded-xl border-2 transition-all ${formData.mainSymptoms.includes("odor_yes")
+                        onClick={() => handleOdorChange(true)}
+                        className={`p-3 rounded-xl border-2 transition-all ${formData.odor === true
                           ? "bg-orange-50 border-orange-400 text-orange-800"
                           : "bg-white border-gray-200 hover:border-gray-300"
                           }`}
@@ -476,8 +478,8 @@ export const MedicalQuestionnaire = React.memo(
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleExclusiveSymptomToggle("odor_no", "odor_")}
-                        className={`p-3 rounded-xl border-2 transition-all ${formData.mainSymptoms.includes("odor_no")
+                        onClick={() => handleOdorChange(false)}
+                        className={`p-3 rounded-xl border-2 transition-all ${formData.odor === false
                           ? "bg-orange-50 border-orange-400 text-orange-800"
                           : "bg-white border-gray-200 hover:border-gray-300"
                           }`}
@@ -499,8 +501,8 @@ export const MedicalQuestionnaire = React.memo(
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
-                        onClick={() => handleExclusiveSymptomToggle("shedding_yes", "shedding_")}
-                        className={`p-3 rounded-xl border-2 transition-all ${formData.mainSymptoms.includes("shedding_yes")
+                        onClick={() => handleAlopeciaChange(true)}
+                        className={`p-3 rounded-xl border-2 transition-all ${formData.alopecia === true
                           ? "bg-orange-50 border-orange-400 text-orange-800"
                           : "bg-white border-gray-200 hover:border-gray-300"
                           }`}
@@ -512,8 +514,8 @@ export const MedicalQuestionnaire = React.memo(
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleExclusiveSymptomToggle("shedding_no", "shedding_")}
-                        className={`p-3 rounded-xl border-2 transition-all ${formData.mainSymptoms.includes("shedding_no")
+                        onClick={() => handleAlopeciaChange(false)}
+                        className={`p-3 rounded-xl border-2 transition-all ${formData.alopecia === false
                           ? "bg-orange-50 border-orange-400 text-orange-800"
                           : "bg-white border-gray-200 hover:border-gray-300"
                           }`}
@@ -526,62 +528,25 @@ export const MedicalQuestionnaire = React.memo(
                     </div>
                   </div>
 
-                  {/* 2-4. 체중 증가나 무기력함 */}
-                  <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-medium text-gray-800">체중이 늘거나 무기력해하나요?</span>
-                      <span className="text-xl">😴</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => handleExclusiveSymptomToggle("weight_lethargy_yes", "weight_lethargy_")}
-                        className={`p-3 rounded-xl border-2 transition-all ${formData.mainSymptoms.includes("weight_lethargy_yes")
-                          ? "bg-orange-50 border-orange-400 text-orange-800"
-                          : "bg-white border-gray-200 hover:border-gray-300"
-                          }`}
-                      >
-                        <div className="text-center">
-                          <div className="text-lg font-bold mb-1">O</div>
-                          <div className="text-xs">그런 증상이 있어요</div>
-                        </div>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleExclusiveSymptomToggle("weight_lethargy_no", "weight_lethargy_")}
-                        className={`p-3 rounded-xl border-2 transition-all ${formData.mainSymptoms.includes("weight_lethargy_no")
-                          ? "bg-orange-50 border-orange-400 text-orange-800"
-                          : "bg-white border-gray-200 hover:border-gray-300"
-                          }`}
-                      >
-                        <div className="text-center">
-                          <div className="text-lg font-bold mb-1">X</div>
-                          <div className="text-xs">그런 증상이 없어요</div>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
                 </div>
 
-                {formData.mainSymptoms.length > 0 && (
+                {formData.pruritus && (
                   <div className="mt-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl">
                     <p className="text-sm font-medium text-orange-800 mb-2">
-                      선택된 증상 ({formData.mainSymptoms.length}개)
+                      선택된 증상
                     </p>
                     <div className="flex flex-wrap gap-1">
-                      {formData.mainSymptoms.slice(0, 3).map((symptom, index) => (
-                        <Badge
-                          key={`${symptom}-${index}`}
-                          className="bg-orange-100 text-orange-700 border-orange-200 text-xs"
-                        >
-                          {symptom}
-                        </Badge>
-                      ))}
-                      {formData.mainSymptoms.length > 3 && (
+                      {formData.pruritus && (
                         <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs">
-                          +{formData.mainSymptoms.length - 3}개 더
+                          {formData.pruritus}
                         </Badge>
                       )}
+                      <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs">
+                        {formData.odor ? 'O' : 'X'} 냄새
+                      </Badge>
+                      <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs">
+                        {formData.alopecia ? 'O' : 'X'} 털빠짐
+                      </Badge>
                     </div>
                   </div>
                 )}

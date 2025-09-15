@@ -47,10 +47,11 @@ interface QuestionnaireData {
   petBreed: string;
   customBreed?: string;
   weight: string;
-  mainSymptoms: string[];
+  pruritus: string; // '없음', '보통', '심함'
+  alopecia: boolean; // 탈모
+  odor: boolean; // 냄새
   affectedAreas: string[];
   ownerEmail?: string;
-  consentToUpdates?: boolean;
 }
 
 const SkinAIContent = () => {
@@ -123,21 +124,44 @@ const SkinAIContent = () => {
   ];
 
   const handleQuestionnaireComplete = (data: QuestionnaireData) => {
+    console.log('문진표 완료 데이터:', data);
     setQuestionnaireData(data);
     setCurrentStep("upload");
   };
 
-  const uploadPhotoToBackend = async (file: File) => {
+  const uploadPhotoToBackend = async (originalFile: File, croppedFile?: File) => {
     try {
+      console.log('업로드 시 questionnaireData 상태:', questionnaireData);
+      
       const formData = new FormData();
-      formData.append('image', file);
-
-      // 문진표 데이터도 함께 전송
-      if (questionnaireData) {
-        formData.append('questionnaireData', JSON.stringify(questionnaireData));
+      formData.append('originalFile', originalFile);
+      if (croppedFile) {
+        formData.append('cropFile', croppedFile);
       }
 
-      const response = await fetch('/api/upload-photo', {
+      // 문진표 데이터를 개별 필드로 전송
+      if (questionnaireData) {
+        formData.append('petName', questionnaireData.petName);
+        formData.append('petBirthDate', questionnaireData.petBirthDate);
+        formData.append('petBreed', questionnaireData.petBreed);
+        formData.append('customBreed', questionnaireData.customBreed || '');
+        formData.append('weight', questionnaireData.weight);
+        formData.append('pruritus', questionnaireData.pruritus);
+        formData.append('alopecia', questionnaireData.alopecia.toString());
+        formData.append('odor', questionnaireData.odor.toString());
+        formData.append('affectedAreas', JSON.stringify(questionnaireData.affectedAreas));
+        formData.append('ownerEmail', questionnaireData.ownerEmail || '');
+        console.log('문진표 데이터 개별 필드로 추가됨:', questionnaireData);
+      } else {
+        console.warn('문진표 데이터가 없습니다!');
+      }
+      
+      console.log('FormData 내용:');
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      const response = await fetch('http://192.168.0.23:4000/upload/image', {
         method: 'POST',
         body: formData,
       });
@@ -155,12 +179,12 @@ const SkinAIContent = () => {
     }
   };
 
-  const handlePhotoUpload = async (file: File) => {
-    setUploadedFile(file);
+  const handlePhotoUpload = async (originalFile: File, croppedFile?: File) => {
+    setUploadedFile(croppedFile || originalFile);
     setIsLoading(true);
 
     try {
-      const uploadResult = await uploadPhotoToBackend(file);
+      const uploadResult = await uploadPhotoToBackend(originalFile, croppedFile);
 
       // 백엔드에서 진단 결과를 받아올 경우
       if (uploadResult.diagnosis) {
