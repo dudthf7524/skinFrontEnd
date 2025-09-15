@@ -190,11 +190,10 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
         <CardContent className="p-4 sm:p-6 lg:p-8">
           {!uploadedImage ? (
             <div
-              className={`border-3 border-dashed rounded-3xl p-6 sm:p-8 lg:p-12 text-center transition-all duration-500 cursor-pointer group ${
-                isDragOver
-                  ? 'border-orange-400 bg-gradient-to-br from-orange-50 via-amber-50 to-red-50 scale-[1.02] shadow-xl'
-                  : 'border-gray-300 hover:border-orange-400 hover:bg-gradient-to-br hover:from-orange-50 hover:via-amber-50 hover:to-red-50 hover:shadow-lg'
-              }`}
+              className={`border-3 border-dashed rounded-3xl p-6 sm:p-8 lg:p-12 text-center transition-all duration-500 cursor-pointer group ${isDragOver
+                ? 'border-orange-400 bg-gradient-to-br from-orange-50 via-amber-50 to-red-50 scale-[1.02] shadow-xl'
+                : 'border-gray-300 hover:border-orange-400 hover:bg-gradient-to-br hover:from-orange-50 hover:via-amber-50 hover:to-red-50 hover:shadow-lg'
+                }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -203,8 +202,8 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
               <div className="flex flex-col items-center space-y-4 sm:space-y-6">
                 {/* 애니메이션이 적용된 아이콘 */}
                 <div className="relative">
-                  <div 
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:scale-110" 
+                  <div
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:scale-110"
                     style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
                   >
                     <Camera className="w-8 h-8 sm:w-10 sm:h-10 text-white group-hover:animate-bounce" />
@@ -212,7 +211,7 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                   {/* 회전하는 링 */}
                   <div className="absolute -inset-2 rounded-3xl border-2 border-orange-200 opacity-0 group-hover:opacity-100 group-hover:animate-spin transition-all duration-300"></div>
                 </div>
-                
+
                 <div className="space-y-2 sm:space-y-3">
                   <p className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-orange-700 transition-colors">
                     사진을 드래그하거나 클릭하여 업로드
@@ -221,7 +220,7 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                     JPG, PNG 파일만 지원됩니다 (최대 10MB)
                   </p>
                 </div>
-                
+
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -233,7 +232,7 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                   <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
                   파일 선택하기
                 </Button>
-                
+
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -250,8 +249,8 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                 <img
                   src={croppedImage || uploadedImage}
                   alt={croppedImage ? "크롭된 반려동물 사진" : "업로드된 반려동물 사진"}
-                  className={croppedImage 
-                    ? "object-cover transition-transform duration-300 group-hover:scale-105 rounded-2xl shadow-lg" 
+                  className={croppedImage
+                    ? "object-cover transition-transform duration-300 group-hover:scale-105 rounded-2xl shadow-lg"
                     : "w-full h-56 sm:h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                   }
                   style={croppedImage ? { width: '224px', height: '224px' } : {}}
@@ -259,7 +258,7 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                 {!croppedImage && (
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10"></div>
                 )}
-                
+
                 {/* 이미지 오버레이 정보 */}
                 {!croppedImage && (
                   <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
@@ -270,17 +269,17 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                   </div>
                 )}
               </div>
-              
+
               {/* 크롭된 이미지 정보 - 흰박스 밖 */}
               {croppedImage && (
-                <div className="mt-4 text-center">
+                <div className="mt-4 mb-4 text-center w-full">
                   <div className="inline-block bg-white/90 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-lg">
                     <p className="text-sm font-medium text-gray-800">크롭 완료</p>
                     <p className="text-xs text-gray-600 mt-1">224x224 크기로 최적화됨</p>
                   </div>
                 </div>
               )}
-              
+
               {/* 삭제 버튼 */}
               <Button
                 variant="destructive"
@@ -290,7 +289,7 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
               >
                 <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
-              
+
               {/* 크롭 버튼 또는 진단하기 버튼 */}
               {!croppedImage ? (
                 <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border-2 border-blue-200 rounded-3xl shadow-lg">
@@ -317,8 +316,8 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                   </div>
                 </div>
               ) : (
-                <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-gradient-to-r from-emerald-50 via-green-50 to-teal-50 border-2 border-emerald-200 rounded-3xl shadow-lg">
-                  <div className="flex items-center justify-between">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="p-4 sm:p-6 bg-gradient-to-r from-emerald-50 via-green-50 to-teal-50 border-2 border-emerald-200 rounded-3xl shadow-lg">
                     <div className="flex items-center space-x-3 sm:space-x-4">
                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-emerald-400 to-green-500 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
                         <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -330,15 +329,15 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                         </p>
                       </div>
                     </div>
-                    <Button
-                      onClick={handleDiagnosis}
-                      className="text-white shadow-xl rounded-2xl px-4 sm:px-6 py-2 sm:py-3 font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105"
-                      style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
-                    >
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                      진단하기
-                    </Button>
                   </div>
+                  <Button
+                    onClick={handleDiagnosis}
+                    className="w-full text-white shadow-xl rounded-2xl px-4 sm:px-6 py-3 sm:py-4 font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105"
+                    style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
+                  >
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    진단하기
+                  </Button>
                 </div>
               )}
             </div>
@@ -389,11 +388,11 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                   <X className="w-5 h-5" />
                 </Button>
               </div>
-              
+
               <p className="text-sm text-gray-600 mb-4">
                 병변 부위를 정사각형 영역으로 선택해주세요. 최종 이미지는 224x224 크기로 변환됩니다.
               </p>
-              
+
               <div className="relative">
                 <ReactCrop
                   crop={crop}
@@ -412,7 +411,7 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
                   />
                 </ReactCrop>
               </div>
-              
+
               <div className="flex justify-end space-x-3 mt-6">
                 <Button
                   variant="outline"

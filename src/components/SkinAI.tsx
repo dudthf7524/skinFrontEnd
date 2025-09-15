@@ -132,7 +132,7 @@ const SkinAIContent = () => {
   const uploadPhotoToBackend = async (originalFile: File, croppedFile?: File) => {
     try {
       console.log('업로드 시 questionnaireData 상태:', questionnaireData);
-      
+
       const formData = new FormData();
       formData.append('originalFile', originalFile);
       if (croppedFile) {
@@ -155,10 +155,14 @@ const SkinAIContent = () => {
       } else {
         console.warn('문진표 데이터가 없습니다!');
       }
-      
-      console.log('FormData 내용:');
+
+      console.log('FormData 내용 : ', formData);
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
+      }
+
+      if (1 === 1) {
+        return;
       }
 
       const response = await fetch('http://192.168.0.23:4000/upload/image', {
@@ -297,89 +301,137 @@ const SkinAIContent = () => {
       {currentStep !== "complete" && (
         <div className="w-full px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex-shrink-0 relative z-10">
           <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 shadow-xl border border-white/30 max-w-2xl mx-auto">
-            <div className="flex items-center justify-center max-w-full">
-              {[
-                "questionnaire",
-                "upload",
-                "diagnosis",
-              ].map((step, index) => {
-                const isActive = currentStep === step;
-                const isCompleted =
-                  [
-                    "questionnaire",
-                    "upload",
-                    "diagnosis",
-                  ].indexOf(currentStep) > index;
-
-                const stepLabels = ["정보입력", "사진업로드", "진단결과"];
-
-                return (
+            <div className="flex items-center justify-between max-w-full">
+              {/* 단계 1: 정보입력 */}
+              <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    key={step}
-                    className="flex items-center flex-1 min-w-0"
+                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${
+                      currentStep === "questionnaire"
+                        ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
+                        : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0
+                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                    }`}
+                    style={
+                      currentStep === "questionnaire"
+                        ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
+                        : {}
+                    }
                   >
-                    <div className="relative flex flex-col items-center flex-shrink-0">
-                      <div
-                        className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${isActive
-                          ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
-                          : isCompleted
-                            ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                            : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                          }`}
-                        style={
-                          isActive
-                            ? {
-                              background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                            }
-                            : {}
-                        }
-                      >
-                        {isCompleted ? "✓" : index + 1}
-                      </div>
-
-                      {/* 단계 라벨 */}
-                      <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${isActive ? "text-orange-600" : isCompleted ? "text-emerald-600" : "text-gray-400"
-                        }`}>
-                        {stepLabels[index]}
-                      </div>
-
-                      {/* 활성 상태 애니메이션 */}
-                      {isActive && (
-                        <>
-                          <div
-                            className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20"
-                            style={{
-                              background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                            }}
-                          ></div>
-                          <div
-                            className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30"
-                            style={{
-                              background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                            }}
-                          ></div>
-                        </>
-                      )}
-                    </div>
-                    {index < 2 && (
-                      <div className="flex-1 h-0.5 sm:h-1 md:h-1.5 mx-1.5 sm:mx-2 md:mx-4 rounded-full overflow-hidden bg-gray-100 relative self-start mt-2.5 sm:mt-3 md:mt-4 min-w-[20px]">
-                        <div
-                          className={`h-full transition-all duration-700 ease-out rounded-full ${isCompleted
-                            ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
-                            : isActive
-                              ? "w-1/3 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
-                              : "w-0"
-                            }`}
-                        />
-                        {/* 진행 중 글리터 효과 */}
-                        {isActive && (
-                          <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
-                        )}
-                      </div>
-                    )}
+                    {["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0 ? "✓" : "1"}
                   </div>
-                );
-              })}
+                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${
+                    currentStep === "questionnaire" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0 ? "text-emerald-600" : "text-gray-400"
+                  }`}>
+                    정보입력
+                  </div>
+                  {currentStep === "questionnaire" && (
+                    <>
+                      <div className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                      <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* 연결선 1 */}
+              <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
+                <div className="w-24 sm:w-32 md:w-40 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
+                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${
+                    currentStep === "questionnaire"
+                      ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
+                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0
+                        ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
+                        : "w-0"
+                  }`} />
+                  {currentStep === "questionnaire" && (
+                    <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
+                  )}
+                </div>
+              </div>
+
+              {/* 단계 2: 사진업로드 */}
+              <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center flex-shrink-0">
+                  <div
+                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${
+                      currentStep === "upload"
+                        ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
+                        : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1
+                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                    }`}
+                    style={
+                      currentStep === "upload"
+                        ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
+                        : {}
+                    }
+                  >
+                    {["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1 ? "✓" : "2"}
+                  </div>
+                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${
+                    currentStep === "upload" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1 ? "text-emerald-600" : "text-gray-400"
+                  }`}>
+                    사진업로드
+                  </div>
+                  {currentStep === "upload" && (
+                    <>
+                      <div className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                      <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* 연결선 2 */}
+              <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
+                <div className="w-24 sm:w-32 md:w-40 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
+                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${
+                    currentStep === "upload"
+                      ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
+                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1
+                        ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
+                        : "w-0"
+                  }`} />
+                  {currentStep === "upload" && (
+                    <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
+                  )}
+                </div>
+              </div>
+
+              {/* 단계 3: 진단결과 */}
+              <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center flex-shrink-0">
+                  <div
+                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${
+                      currentStep === "diagnosis"
+                        ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
+                        : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2
+                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                    }`}
+                    style={
+                      currentStep === "diagnosis"
+                        ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
+                        : {}
+                    }
+                  >
+                    {["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2 ? "✓" : "3"}
+                  </div>
+                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${
+                    currentStep === "diagnosis" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2 ? "text-emerald-600" : "text-gray-400"
+                  }`}>
+                    진단결과
+                  </div>
+                  {currentStep === "diagnosis" && (
+                    <>
+                      <div className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                      <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -669,85 +669,96 @@ export const MedicalQuestionnaire = React.memo(
         {/* 향상된 진행 상태 */}
         <div className="mb-4 sm:mb-6 md:mb-8">
           <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 shadow-xl border border-white/30">
-            <div className="flex items-center justify-center">
-              {sections.map((section, index) => {
-                const Icon = section.icon;
-                const isActive = currentSection === index;
-                const isCompleted = currentSection > index;
-
-                const sectionLabels = ["기본정보", "증상입력"];
-
-                return (
+            <div className="flex items-center justify-between max-w-full">
+              {/* 단계 1: 기본정보 */}
+              <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    key={index}
-                    className="flex items-center justify-center flex-1"
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${
+                      currentSection === 0
+                        ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
+                        : currentSection > 0
+                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                    }`}
+                    style={
+                      currentSection === 0
+                        ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
+                        : {}
+                    }
                   >
-                    <div className="relative flex flex-col items-center">
-                      <div
-                        className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${isActive
-                          ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
-                          : isCompleted
-                            ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                            : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                          }`}
-                        style={
-                          isActive
-                            ? {
-                              background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                            }
-                            : {}
-                        }
-                      >
-                        {isCompleted ? (
-                          <CheckCircle className="w-6 h-6" />
-                        ) : (
-                          <Icon className="w-6 h-6" />
-                        )}
-                      </div>
-
-                      {/* 단계 라벨 */}
-                      <div className={`mt-3 text-xs font-bold transition-all duration-300 ${isActive ? "text-orange-600" : isCompleted ? "text-emerald-600" : "text-gray-400"
-                        }`}>
-                        {sectionLabels[index]}
-                      </div>
-
-                      {/* 활성 상태 애니메이션 */}
-                      {isActive && (
-                        <>
-                          <div
-                            className="absolute top-0 left-0 w-12 h-12 rounded-2xl animate-ping opacity-20"
-                            style={{
-                              background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                            }}
-                          ></div>
-                          <div
-                            className="absolute top-1 left-1 w-10 h-10 rounded-xl animate-pulse opacity-30"
-                            style={{
-                              background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                            }}
-                          ></div>
-                        </>
-                      )}
-                    </div>
-                    {index < sections.length - 1 && (
-                      <div className="flex-1 h-1.5 mx-6 rounded-full overflow-hidden bg-gray-100 relative self-start mt-6">
-                        <div
-                          className={`h-full transition-all duration-700 ease-out rounded-full ${isCompleted
-                            ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
-                            : isActive
-                              ? "w-1/3 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
-                              : "w-0"
-                            }`}
-                        />
-                        {/* 진행 중 글리터 효과 */}
-                        {isActive && (
-                          <div className="absolute top-0 left-0 h-full w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
-                        )}
-                      </div>
+                    {currentSection > 0 ? (
+                      <CheckCircle className="w-6 h-6" />
+                    ) : (
+                      <Heart className="w-6 h-6" />
                     )}
                   </div>
-                );
-              })}
+                  <div className={`mt-3 text-xs font-bold transition-all duration-300 ${
+                    currentSection === 0 ? "text-orange-600" : currentSection > 0 ? "text-emerald-600" : "text-gray-400"
+                  }`}>
+                    기본정보
+                  </div>
+                  {currentSection === 0 && (
+                    <>
+                      <div className="absolute top-0 left-0 w-12 h-12 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                      <div className="absolute top-1 left-1 w-10 h-10 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* 연결선 */}
+              <div className="flex items-center justify-center self-start mt-6">
+                <div className="w-80 sm:w-96 md:w-[28rem] h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
+                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${
+                    currentSection === 0
+                      ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
+                      : currentSection > 0
+                        ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
+                        : "w-0"
+                  }`} />
+                  {currentSection === 0 && (
+                    <div className="absolute top-0 left-0 h-full w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
+                  )}
+                </div>
+              </div>
+
+              {/* 단계 2: 증상입력 */}
+              <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center flex-shrink-0">
+                  <div
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${
+                      currentSection === 1
+                        ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
+                        : currentSection > 1
+                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                    }`}
+                    style={
+                      currentSection === 1
+                        ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
+                        : {}
+                    }
+                  >
+                    {currentSection > 1 ? (
+                      <CheckCircle className="w-6 h-6" />
+                    ) : (
+                      <AlertCircle className="w-6 h-6" />
+                    )}
+                  </div>
+                  <div className={`mt-3 text-xs font-bold transition-all duration-300 ${
+                    currentSection === 1 ? "text-orange-600" : currentSection > 1 ? "text-emerald-600" : "text-gray-400"
+                  }`}>
+                    증상입력
+                  </div>
+                  {currentSection === 1 && (
+                    <>
+                      <div className="absolute top-0 left-0 w-12 h-12 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                      <div className="absolute top-1 left-1 w-10 h-10 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
             <div className="mt-3 text-center">
 
