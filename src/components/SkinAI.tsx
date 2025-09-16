@@ -129,18 +129,18 @@ const SkinAIContent = () => {
     setCurrentStep("upload");
   };
 
-  const uploadPhotoToBackend = async (originalFile: File, croppedFile?: File) => {
+  const uploadPhotoToBackend = async (original: File, croped?: File) => {
     try {
       console.log('업로드 시 questionnaireData 상태:', questionnaireData);
 
       const formData = new FormData();
-      formData.append('originalFile', originalFile);
-      if (croppedFile) {
-        formData.append('cropFile', croppedFile);
-      }
+
+
+      const userName = "kimsinwoo";
 
       // 문진표 데이터를 개별 필드로 전송
       if (questionnaireData) {
+        formData.append('userName', userName);
         formData.append('petName', questionnaireData.petName);
         formData.append('petBirthDate', questionnaireData.petBirthDate);
         formData.append('petBreed', questionnaireData.petBreed);
@@ -155,15 +155,17 @@ const SkinAIContent = () => {
       } else {
         console.warn('문진표 데이터가 없습니다!');
       }
+      formData.append('original', original, "original.png");
+      if (croped) {
+        formData.append('croped', croped, "croped.png");
+      }
 
       console.log('FormData 내용 : ', formData);
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
 
-      if (1 === 1) {
-        return;
-      }
+
 
       const response = await fetch('http://192.168.0.23:4000/upload/image', {
         method: 'POST',
@@ -183,13 +185,13 @@ const SkinAIContent = () => {
     }
   };
 
-  const handlePhotoUpload = async (originalFile: File, croppedFile?: File) => {
-    setUploadedFile(croppedFile || originalFile);
+  const handlePhotoUpload = async (original: File, croped?: File) => {
+    setUploadedFile(croped || original);
     setIsLoading(true);
 
     try {
-      const uploadResult = await uploadPhotoToBackend(originalFile, croppedFile);
-
+      const uploadResult = await uploadPhotoToBackend(original, croped);
+      console.log("uploadResult", uploadResult);
       // 백엔드에서 진단 결과를 받아올 경우
       if (uploadResult.diagnosis) {
         setDiagnosis(uploadResult.diagnosis);
@@ -306,13 +308,12 @@ const SkinAIContent = () => {
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${
-                      currentStep === "questionnaire"
-                        ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
-                        : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0
-                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                    }`}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${currentStep === "questionnaire"
+                      ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
+                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0
+                        ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                        : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                      }`}
                     style={
                       currentStep === "questionnaire"
                         ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
@@ -321,9 +322,8 @@ const SkinAIContent = () => {
                   >
                     {["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0 ? "✓" : "1"}
                   </div>
-                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${
-                    currentStep === "questionnaire" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0 ? "text-emerald-600" : "text-gray-400"
-                  }`}>
+                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${currentStep === "questionnaire" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0 ? "text-emerald-600" : "text-gray-400"
+                    }`}>
                     정보입력
                   </div>
                   {currentStep === "questionnaire" && (
@@ -338,13 +338,12 @@ const SkinAIContent = () => {
               {/* 연결선 1 */}
               <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
                 <div className="w-12 sm:w-20 md:w-28 lg:w-36 xl:w-44 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
-                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${
-                    currentStep === "questionnaire"
-                      ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
-                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0
-                        ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
-                        : "w-0"
-                  }`} />
+                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${currentStep === "questionnaire"
+                    ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
+                    : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0
+                      ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
+                      : "w-0"
+                    }`} />
                   {currentStep === "questionnaire" && (
                     <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
                   )}
@@ -355,13 +354,12 @@ const SkinAIContent = () => {
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${
-                      currentStep === "upload"
-                        ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
-                        : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1
-                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                    }`}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${currentStep === "upload"
+                      ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
+                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1
+                        ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                        : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                      }`}
                     style={
                       currentStep === "upload"
                         ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
@@ -370,9 +368,8 @@ const SkinAIContent = () => {
                   >
                     {["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1 ? "✓" : "2"}
                   </div>
-                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${
-                    currentStep === "upload" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1 ? "text-emerald-600" : "text-gray-400"
-                  }`}>
+                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${currentStep === "upload" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1 ? "text-emerald-600" : "text-gray-400"
+                    }`}>
                     사진업로드
                   </div>
                   {currentStep === "upload" && (
@@ -387,13 +384,12 @@ const SkinAIContent = () => {
               {/* 연결선 2 */}
               <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
                 <div className="w-12 sm:w-20 md:w-28 lg:w-36 xl:w-44 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
-                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${
-                    currentStep === "upload"
-                      ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
-                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1
-                        ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
-                        : "w-0"
-                  }`} />
+                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${currentStep === "upload"
+                    ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
+                    : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1
+                      ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
+                      : "w-0"
+                    }`} />
                   {currentStep === "upload" && (
                     <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
                   )}
@@ -404,13 +400,12 @@ const SkinAIContent = () => {
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${
-                      currentStep === "diagnosis"
-                        ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
-                        : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2
-                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                    }`}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-bold transition-all duration-500 ${currentStep === "diagnosis"
+                      ? "text-white shadow-xl scale-110 ring-2 sm:ring-4 ring-orange-200/50"
+                      : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2
+                        ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                        : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                      }`}
                     style={
                       currentStep === "diagnosis"
                         ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
@@ -419,9 +414,8 @@ const SkinAIContent = () => {
                   >
                     {["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2 ? "✓" : "3"}
                   </div>
-                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${
-                    currentStep === "diagnosis" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2 ? "text-emerald-600" : "text-gray-400"
-                  }`}>
+                  <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${currentStep === "diagnosis" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2 ? "text-emerald-600" : "text-gray-400"
+                    }`}>
                     진단결과
                   </div>
                   {currentStep === "diagnosis" && (
