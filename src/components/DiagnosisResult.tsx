@@ -7,6 +7,7 @@ import { AlertTriangle, CheckCircle, Info } from 'lucide-react';
 
 interface DiagnosisData {
   condition: string;
+  predictClass?: string;
   confidence: number;
   severity: 'low' | 'medium' | 'high';
   description: string;
@@ -17,9 +18,10 @@ interface DiagnosisData {
 interface DiagnosisResultProps {
   diagnosis: DiagnosisData;
   onContinue: () => void;
+  onBack?: () => void;
 }
 
-export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps) {
+export function DiagnosisResult({ diagnosis, onContinue, onBack }: DiagnosisResultProps) {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'low': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
@@ -60,6 +62,22 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
         </div>
       </div>
 
+      {/* 예측 클래스 */}
+      {diagnosis.predictClass && (
+        <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
+          <CardHeader className="pb-4 sm:pb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50">
+            <CardTitle className="flex items-center">
+              <span className="text-lg sm:text-xl font-bold text-gray-900">🔍 피부 상태 분류</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0 p-4 sm:p-6">
+            <div className="p-4 sm:p-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 rounded-2xl border-2 border-blue-200">
+              <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3">{diagnosis.predictClass}</h3>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* 주요 진단 결과 */}
       <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
         <CardHeader className="pb-4 sm:pb-6 bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50">
@@ -78,7 +96,7 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
               <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">{diagnosis.condition}</h3>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{diagnosis.description}</p>
             </div>
-            
+
             <div className="bg-white/60 p-4 sm:p-5 rounded-2xl border border-orange-100">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-sm sm:text-base font-bold text-gray-800">AI 신뢰도</span>
@@ -86,10 +104,10 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
               </div>
               <div className="relative">
                 <div className="h-3 sm:h-4 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full rounded-full transition-all duration-1000 ease-out" 
-                    style={{ 
-                      width: `${diagnosis.confidence}%`, 
+                  <div
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{
+                      width: `${diagnosis.confidence}%`,
                       background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)',
                       boxShadow: '0 0 20px rgba(240, 102, 63, 0.4)'
                     }}
@@ -101,8 +119,8 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
         </CardContent>
       </Card>
 
-      {/* 응급도 안내 */}
-      <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-xl rounded-3xl overflow-hidden">
+      {/* 응급도 안내 - 주석처리 */}
+      {/* <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-xl rounded-3xl overflow-hidden">
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center space-x-4 sm:space-x-5">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-orange-400 to-red-500 shadow-lg flex-shrink-0">
@@ -116,10 +134,10 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
-      {/* 권장사항 */}
-      <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-xl rounded-3xl overflow-hidden">
+      {/* 권장사항 - 주석처리 */}
+      {/* <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-xl rounded-3xl overflow-hidden">
         <CardHeader className="pb-3 sm:pb-4 bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50">
           <CardTitle className="flex items-center space-x-3 text-gray-900">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-lg" style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}>
@@ -140,7 +158,7 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
             ))}
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* 주의사항 */}
       <div className="p-4 sm:p-6 bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50 border-2 border-orange-200 rounded-3xl shadow-lg">
@@ -157,13 +175,27 @@ export function DiagnosisResult({ diagnosis, onContinue }: DiagnosisResultProps)
         </div>
       </div>
 
-      <Button
-        onClick={onContinue}
-        className="w-full h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105"
-        style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
-      >
-        <span className="text-base sm:text-lg">다음 단계로 진행하기 →</span>
-      </Button>
+      <div className="space-y-3 sm:space-y-4">
+        <Button
+          onClick={onContinue}
+          className="w-full h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105"
+          style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
+        >
+          <span className="text-base sm:text-lg">다음 단계로 진행하기 →</span>
+        </Button>
+
+        {/* 이전 버튼 */}
+        {onBack && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onBack}
+            className="w-full h-10 sm:h-12 bg-white/70 border-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg text-orange-600"
+          >
+            이전 단계로
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

@@ -7,9 +7,10 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 interface PhotoUploadProps {
   onPhotoUploaded: (originalFile: File, croppedFile?: File) => void;
+  onBack?: () => void;
 }
 
-export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
+export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [showCropModal, setShowCropModal] = useState(false);
@@ -432,6 +433,20 @@ export function PhotoUpload({ onPhotoUploaded }: PhotoUploadProps) {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* 이전 버튼 */}
+      {onBack && (
+        <div className="mt-6">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onBack}
+            className="w-full h-10 sm:h-12 bg-white/70 border-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg text-orange-600"
+          >
+            이전 단계로
+          </Button>
         </div>
       )}
     </div>

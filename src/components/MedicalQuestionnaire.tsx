@@ -45,6 +45,7 @@ interface QuestionnaireData {
 
 interface MedicalQuestionnaireProps {
   onComplete: (data: QuestionnaireData) => void;
+  onBack?: () => void;
 }
 
 const dogBreedKeys = [
@@ -123,6 +124,7 @@ const getAffectedAreaCategories = (t: (key: string) => string) => [
 export const MedicalQuestionnaire = React.memo(
   function MedicalQuestionnaire({
     onComplete,
+    onBack,
   }: MedicalQuestionnaireProps) {
     const { t } = useLanguage();
     const [currentSection, setCurrentSection] = useState(0);
@@ -792,18 +794,19 @@ export const MedicalQuestionnaire = React.memo(
         </Card>
 
         {/* 향상된 네비게이션 버튼 */}
-        <div className="flex space-x-3 sm:space-x-4">
-          {currentSection > 0 && (
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex space-x-3 sm:space-x-4">
+            {currentSection > 0 && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handlePrevious}
+                className="flex-1 h-12 sm:h-14 bg-white/70 border-2 border-gray-200 hover:bg-gray-50 hover:border-gray-300 rounded-2xl font-bold transition-all duration-300 hover:shadow-lg"
+              >
+                {t("previous")}
+              </Button>
+            )}
             <Button
-              type="button"
-              variant="outline"
-              onClick={handlePrevious}
-              className="flex-1 h-12 sm:h-14 bg-white/70 border-2 border-gray-200 hover:bg-gray-50 hover:border-gray-300 rounded-2xl font-bold transition-all duration-300 hover:shadow-lg"
-            >
-              {t("previous")}
-            </Button>
-          )}
-          <Button
             onClick={handleNext}
             disabled={!isCurrentSectionValid}
             className="flex-1 h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:scale-105"
@@ -825,6 +828,19 @@ export const MedicalQuestionnaire = React.memo(
               </div>
             )}
           </Button>
+          </div>
+
+          {/* 홈으로 돌아가기 버튼 */}
+          {onBack && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onBack}
+              className="w-full h-10 sm:h-12 bg-white/70 border-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg text-orange-600"
+            >
+              홈으로 돌아가기
+            </Button>
+          )}
         </div>
       </div>
     );

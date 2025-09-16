@@ -3,14 +3,13 @@ import { PhotoUpload } from "./PhotoUpload";
 import { MedicalQuestionnaire } from "./MedicalQuestionnaire";
 import { DiagnosisResult } from "./DiagnosisResult";
 import { ResultShare } from "./ResultShare";
-import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Heart, ArrowLeft, Stethoscope } from "lucide-react";
-import { LanguageProvider, useLanguage } from "./LanguageContext";
-import { LanguageToggle } from "./LanguageToggle";
+import { Stethoscope } from "lucide-react";
+import { useLanguage } from "./LanguageContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import axios from "axios";
 
 type Step =
   | "questionnaire"
@@ -34,6 +33,7 @@ interface Hospital {
 
 interface DiagnosisData {
   condition: string;
+  predictClass?: string;
   confidence: number;
   severity: "low" | "medium" | "high";
   description: string;
@@ -167,16 +167,24 @@ const SkinAIContent = () => {
 
 
 
-      const response = await fetch('http://192.168.0.23:4000/upload/image', {
-        method: 'POST',
-        body: formData,
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.post(`${apiBaseUrl}/upload/image`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        validateStatus: function (status) {
+          // 모든 상태 코드를 성공으로 처리하여 catch로 가지 않게 함
+          return status < 500;
+        }
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // 403 상태 코드면 403을 반환
+      if (response.status === 403) {
+        console.log('사진 업로드 결과: 403 (사람 이미지 감지)');
+        return 403;
       }
 
-      const result = await response.json();
+      const result = response.data;
       console.log('사진 업로드 성공:', result);
       return result;
     } catch (error) {
@@ -192,20 +200,45 @@ const SkinAIContent = () => {
     try {
       const uploadResult = await uploadPhotoToBackend(original, croped);
       console.log("uploadResult", uploadResult);
-      // 백엔드에서 진단 결과를 받아올 경우
-      if (uploadResult.diagnosis) {
-        setDiagnosis(uploadResult.diagnosis);
-      } else {
-        // 백엔드에서 진단 결과가 없으면 모의 데이터 사용
-        setDiagnosis(mockDiagnosis);
+
+      // 403 상태 코드 확인 (사람 이미지 감지)
+      if (uploadResult === 403 || (typeof uploadResult === 'object' && uploadResult.status === 403)) {
+        setIsLoading(false);
+        alert('사람 이미지로 판단되었습니다.\n사진을 다시 선택해주세요.');
+        return;
       }
 
-      setIsLoading(false);
-      setCurrentStep("diagnosis");
-    } catch (error) {
+      // 백엔드 응답을 DiagnosisData 형태로 변환
+      if (uploadResult.data) {
+        const backendData = uploadResult.data;
+        const diagnosisData: DiagnosisData = {
+          condition: backendData.disease_name || "진단 결과 없음",
+          predictClass: backendData.predict_class || "",
+          confidence: Math.round((backendData.confidence || 0) * 100),
+          severity: "medium", // 백엔드에서 제공하지 않으므로 기본값
+          description: backendData.description || "설명이 없습니다.",
+          recommendations: [], // 빈 배열로 설정
+          urgency: "normal", // 기본값
+        };
+        setDiagnosis(diagnosisData);
+        setIsLoading(false);
+        setCurrentStep("diagnosis");
+      } else {
+        // 백엔드에서 데이터가 없으면 모의 데이터 사용
+        setDiagnosis(mockDiagnosis);
+        setIsLoading(false);
+        setCurrentStep("diagnosis");
+      }
+    } catch (error: any) {
       console.error('업로드 중 오류 발생:', error);
       setIsLoading(false);
-      alert('사진 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
+
+      // 403 에러 (사람 이미지 감지) 처리
+      if (error.response && error.response.status === 403) {
+        alert('사람 이미지로 판단되었습니다.\n사진을 다시 선택해주세요.');
+      } else {
+        alert('사진 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -235,6 +268,10 @@ const SkinAIContent = () => {
     }
   };
 
+  const goHome = () => {
+    navigate('/');
+  };
+
   const getStepTitle = () => {
     switch (currentStep) {
       case "questionnaire":
@@ -251,53 +288,6 @@ const SkinAIContent = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/30 to-red-50 flex flex-col relative">
       <Navbar currentPage="diagnosis" />
-      <header className="bg-white/85 backdrop-blur-xl border-b border-orange-100/50 flex-shrink-0 relative z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              {(currentStep === "upload" || currentStep === "diagnosis") && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={goBack}
-                  className="hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-all duration-200 p-2 mr-2"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                </Button>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/')}
-                className="hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-all duration-200 p-2 mr-2"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  style={{
-                    background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)",
-                  }}
-                >
-                  <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight">
-                    {t("appTitle")}
-                  </h1>
-                  <p className="text-xs sm:text-sm text-gray-600 font-medium">
-                    {t("appSubtitle")}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              {currentStep === "questionnaire" && <LanguageToggle />}
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* 향상된 진행 상태 표시 */}
       {currentStep !== "complete" && (
@@ -435,11 +425,11 @@ const SkinAIContent = () => {
       <main className="flex-1 relative z-10 px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8">
         <div className={`w-full mx-auto ${currentStep === "complete" ? "max-w-4xl" : "max-w-2xl"}`}>
           {currentStep === "questionnaire" && (
-            <MedicalQuestionnaire onComplete={handleQuestionnaireComplete} />
+            <MedicalQuestionnaire onComplete={handleQuestionnaireComplete} onBack={goHome} />
           )}
 
           {currentStep === "upload" && !isLoading && (
-            <PhotoUpload onPhotoUploaded={handlePhotoUpload} />
+            <PhotoUpload onPhotoUploaded={handlePhotoUpload} onBack={goBack} />
           )}
 
           {currentStep === "upload" && isLoading && (
@@ -502,10 +492,11 @@ const SkinAIContent = () => {
             <DiagnosisResult
               diagnosis={diagnosis}
               onContinue={handleDiagnosisComplete}
+              onBack={goBack}
             />
           )}
 
-          {currentStep === "complete" && (
+          {currentStep === "complete" && diagnosis && questionnaireData && (
             <ResultShare
               hospitals={mockHospitals}
               diagnosis={diagnosis}
@@ -534,9 +525,5 @@ const SkinAIContent = () => {
 };
 
 export default function SkinAI() {
-  return (
-    <LanguageProvider>
-      <SkinAIContent />
-    </LanguageProvider>
-  );
+  return <SkinAIContent />;
 }

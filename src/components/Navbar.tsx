@@ -1,13 +1,67 @@
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, X, Globe } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useLanguage, Language } from './LanguageContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
 
 interface NavbarProps {
     currentPage?: string;
 }
 
-export default function Navbar({ currentPage = "home" }: NavbarProps) {
+const languages = [
+  { code: 'ko' as Language, name: '한국어', flag: '🇰🇷' },
+  { code: 'en' as Language, name: 'English', flag: '🇺🇸' },
+  { code: 'ja' as Language, name: '日本語', flag: '🇯🇵' },
+  { code: 'zh' as Language, name: '中文', flag: '🇨🇳' },
+];
+
+const LanguageToggle: React.FC = () => {
+  const { language, setLanguage } = useLanguage();
+  const currentLanguage = languages.find(lang => lang.code === language);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 px-2 bg-white/50 backdrop-blur-sm border border-white/30 hover:bg-white/70 rounded-lg"
+        >
+          <Globe className="w-4 h-4 mr-1" />
+          <span className="text-sm">{currentLanguage?.flag}</span>
+          <span className="text-xs ml-1 hidden sm:inline">
+            {currentLanguage?.code.toUpperCase()}
+          </span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-[140px] bg-white border border-gray-200 shadow-lg">
+        {languages.map((lang) => (
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => setLanguage(lang.code)}
+            className={`cursor-pointer ${
+              language === lang.code ? 'bg-orange-50 text-orange-900' : ''
+            }`}
+          >
+            <span className="mr-2">{lang.flag}</span>
+            <span className="text-sm">{lang.name}</span>
+            {language === lang.code && (
+              <span className="ml-auto text-orange-600">✓</span>
+            )}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
     const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,13 +77,6 @@ export default function Navbar({ currentPage = "home" }: NavbarProps) {
         navigate('/search ');
     }
 
-    function handleNavigation(page: string) {
-        if (page === "diagnosis") {
-            handleSkinAiPage();
-        } else if (page === "home") {
-            navigate('/');
-        }
-    }
 
     return (
         <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -88,7 +135,13 @@ export default function Navbar({ currentPage = "home" }: NavbarProps) {
 
                     {/* Right side buttons */}
                     <div className="flex items-center space-x-4">
-                        {localStorage.getItem("user") ? (
+                        {/* 번역 버튼 */}
+                        <div className="hidden sm:flex">
+                            <LanguageToggle />
+                        </div>
+
+                        {/* 로그인/진단하기 버튼 주석처리 */}
+                        {/* {localStorage.getItem("user") ? (
                             <div>프로필</div>
                         ) : (
                             <>
@@ -108,7 +161,7 @@ export default function Navbar({ currentPage = "home" }: NavbarProps) {
                                     지금 진단하기
                                 </Button>
                             </>
-                        )}
+                        )} */}
 
                         {/* Mobile menu button */}
                         <Button
@@ -180,8 +233,18 @@ export default function Navbar({ currentPage = "home" }: NavbarProps) {
                             병원 찾기
                         </button>
 
-                        {/* Mobile CTA buttons */}
+                        {/* Mobile 번역 버튼 */}
                         <div className="pt-2 border-t border-gray-100 mt-2">
+                            <div className="px-3 py-2">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm font-medium text-gray-700">언어 선택</span>
+                                    <LanguageToggle />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Mobile CTA buttons 주석처리 */}
+                        {/* <div className="pt-2 border-t border-gray-100 mt-2">
                             <Button
                                 size="sm"
                                 className="w-full justify-start px-3 py-2 mt-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-base font-medium"
@@ -192,10 +255,14 @@ export default function Navbar({ currentPage = "home" }: NavbarProps) {
                             >
                                 지금 진단하기
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             )}
         </nav>
     );
+};
+
+export default function Navbar(props: NavbarProps) {
+    return <NavbarContent {...props} />;
 }
