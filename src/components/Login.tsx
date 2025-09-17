@@ -5,6 +5,7 @@ import naver from "../assets/img/naver.jpg";
 import google from "../assets/img/Google__G__logo.svg.webp";
 import apple from "../assets/img/apple.png";
 import cancle_icon from "../assets/img/cancle_icon.png";
+import AppleLogin from "./AppleLogin";
 
 interface propsType {
   setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,7 +27,7 @@ export default function LoginPage({ setLoginModal }: propsType) {
       const fetchToken = async () => {
         try {
           const res = await fetch(
-            `http://localhost:4000/auth/${type}/callback?code=${code}`
+            `${import.meta.env.VITE_API_BASE_URL}/auth/${type}/callback?code=${code}`
           );
           console.log(res)
           window.location.href = "/login";
@@ -41,7 +42,7 @@ export default function LoginPage({ setLoginModal }: propsType) {
   const handleLogin = (type: "kakao" | "google" | "naver" | "apple") => {
     localStorage.clear()
     localStorage.setItem('loginType', type)
-    window.location.href = `http://localhost:4000/auth/login?provider=${type}`;
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/login?provider=${type}`;
   };
 
   return (
@@ -81,12 +82,7 @@ export default function LoginPage({ setLoginModal }: propsType) {
             >
               <img src={google} alt="google" />
             </div>
-            <div
-              className={style.sns_login_button}
-              onClick={() => handleLogin("apple")}
-            >
-              <img src={apple} alt="apple" />
-            </div>
+            <AppleLogin />
           </div>
         </div>
       </div>
