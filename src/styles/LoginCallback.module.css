@@ -1,0 +1,70 @@
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.hero_section {
+    width: 100%;
+    position: fixed
+}
+
+/* skeletonUi.module.css */
+
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    border-radius: 6px;
+  }
+  
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.6s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  /* 원형 */
+  .circle {
+    border-radius: 50%;
+  }
+  
+  /* 텍스트 라인 */
+  .textLine {
+    height: 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+  }
+  
+  /* 이름 줄 */
+  .nameLine {
+    height: 16px;
+    width: 70px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+  }
+  
+  /* 인사말 줄 */
+  .greetingLine {
+    height: 12px;
+    width: 50px;
+    border-radius: 6px;
+  }
+  

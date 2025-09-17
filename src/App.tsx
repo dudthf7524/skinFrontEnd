@@ -5,6 +5,7 @@ import SkinAI from "./components/SkinAI";
 import { DiseaseInfoPage } from "./components/DiseaseInfoPage";
 import { VetFinderPage } from "./components/VetFinderPage";
 import { LanguageProvider } from "./components/LanguageContext";
+import LoginCallback from "./components/LoginCallback";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/skinai" element={<SkinAI />} />
           <Route path="/info" element={< DiseaseInfoPage />} />
           <Route path="/search" element={< VetFinderPage />} />
+          <Route path="/login" element={<LoginCallback />} />
         </Routes>
       </Router>
     </LanguageProvider>

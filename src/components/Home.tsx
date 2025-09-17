@@ -2,13 +2,27 @@ import { Award, Badge, Brain, Camera, Heart, Hospital, MapPin, Menu, Quote, Shie
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
+import ProfileBar from "./ProfileBar";
+import LoginPage from "./Login";
 
 export default function Home() {
     const navigate = useNavigate()
+    const [loginModal, setLoginModal] = useState(false);
+
+    console.log("loginModal", loginModal);
 
     function handleSkinAiPage() {
         navigate('/skinai')
     }
+
+    const handleNavigation = (page: Page) => {
+        console.log(page);
+        setCurrentPage(page);
+        // In a real app, you'd use React Router here
+        if (page === "home") {
+            document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
     const steps = [
         {
@@ -77,7 +91,7 @@ export default function Home() {
     const [currentPage, setCurrentPage] = useState<Page>("home");
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
- 
+
 
     function handleInfoPage() {
         navigate('/info');
@@ -86,6 +100,15 @@ export default function Home() {
     function handleSearchPage() {
         navigate('/search ');
     }
+
+    const handlerLoginClick = () => {
+        if (loginModal === true) {
+            setLoginModal(false);
+        } else {
+            setLoginModal(true);
+        }
+    };
+
 
     return (
         <div className="min-h-screen bg-white">
@@ -105,7 +128,6 @@ export default function Home() {
                                 <p className="text-xs text-gray-500">SkinCare AI</p>
                             </div>
                         </div>
-
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center space-x-8">
                             <button
@@ -153,7 +175,7 @@ export default function Home() {
                             ) : (
                                 <>
                                     <button
-                                        // onClick={() => handlerLoginClick()}
+                                        onClick={() => handlerLoginClick()}
                                         className={`transition-colors ${currentPage === "login"
                                             ? "text-[var(--talktail-orange)]"
                                             : "text-gray-700 hover:text-[var(--talktail-orange)]"
@@ -187,7 +209,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-
+                {loginModal && <LoginPage setLoginModal={setLoginModal} />}
                 {/* Mobile Navigation Menu */}
                 {isMobileMenuOpen && (
                     <div className="md:hidden border-t border-gray-100 bg-white">
