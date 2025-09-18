@@ -577,7 +577,7 @@ export function ResultShare({ hospitals = [], diagnosis, questionnaireData, onCo
       </Card>
 
       {/* 결과 공유하기 - 주석처리 */}
-      {/* <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
+      <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
         <CardHeader className="pb-4 sm:pb-6 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50">
           <CardTitle className="flex items-center space-x-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
@@ -663,7 +663,7 @@ export function ResultShare({ hospitals = [], diagnosis, questionnaireData, onCo
             </div>
           </div>
         </CardContent>
-      </Card> */}
+      </Card>
 
       <div className="flex space-x-3 sm:space-x-4">
         <Button

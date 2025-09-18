@@ -28,9 +28,6 @@ const AppleLogin = () => {
 
   const loginWithApple = async (e: React.MouseEvent) => {
     e.preventDefault();
-
-    console.log('sign in with apple');
-
     window.AppleID.auth.init({
       clientId: import.meta.env.VITE_APPLE_CLIENT_ID,
       scope: import.meta.env.VITE_APPLE_SCOPE,

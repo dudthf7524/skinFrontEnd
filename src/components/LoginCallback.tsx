@@ -11,47 +11,50 @@ type Page = "home" | "diagnosis" | "diseases" | "vets" | "login" | "record";
 
 export default function LoginCallback() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
-    const navigate = useNavigate();
-    const [statusText, setStatusText] = useState<string>("로그인 처리 중...");
+  const navigate = useNavigate();
+  const [statusText, setStatusText] = useState<string>("로그인 처리 중...");
 
-    const handleCallback = async (code: string, type: string) => {
-      try {
-        setStatusText("로그인 처리 중...");
+  const handleCallback = async (code: string, type: string) => {
+    try {
+      setStatusText("로그인 처리 중...");
 
-        const res = await axios.get(
-          `http://localhost:4000/auth/${type}/callback?code=${code}`
-        );
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/${type}/callback?code=${code}`
+      );
 
-        if (res.status === 200) {
-          // JWT 토큰 저장
-          localStorage.setItem("token", res.data.token);
+      console.log("res", res)
 
-          // 사용자 정보 저장
-          localStorage.setItem("user", JSON.stringify(res.data.user));
+      if (res.status === 200) {
+        // JWT 토큰 저장
+        localStorage.setItem("token", res.data.token);
 
-          setStatusText("로그인 성공! 페이지 이동 중...");
-          console.log("로그인 성공:", res.data);
+        // 사용자 정보 저장
+        localStorage.setItem("user", JSON.stringify(res.data.user));
 
-          // 홈 페이지로 이동
-          navigate("/");
-        } else {
-          setStatusText(`로그인 실패: 서버 응답 ${res.status}`);
-        }
-      } catch (err: any) {
-        console.error("로그인 실패:", err);
-        setStatusText(`로그인 오류: ${err.response?.data?.message || err.message}`);
+        setStatusText("로그인 성공! 페이지 이동 중...");
+        console.log("로그인 성공:", res.data);
+
+        // 홈 페이지로 이동
+        navigate("/");
+      } else {
+        setStatusText(`로그인 실패: 서버 응답 ${res.status}`);
       }
-    };
+    } catch (err: any) {
+      console.error("로그인 실패:", err);
+      setStatusText(`로그인 오류: ${err.response?.data?.message || err.message}`);
+    }
+  };
 
-    useEffect(() => {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      const type = localStorage.getItem("loginType") || "kakao"; // 로그인 타입
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    console.log("params", params);
+    const code = params.get("code");
+    const type = localStorage.getItem("loginType") || "kakao"; // 로그인 타입
 
-      if (code) {
-        handleCallback(code, type);
-      }
-    }, []);
+    if (code) {
+      handleCallback(code, type);
+    }
+  }, []);
 
   return (
     <div className={style.container} id="home">
