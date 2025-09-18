@@ -8,9 +8,6 @@ import LoginPage from "./Login";
 export default function Home() {
     const navigate = useNavigate()
     const [loginModal, setLoginModal] = useState(false);
-
-    console.log("loginModal", loginModal);
-
     function handleSkinAiPage() {
         navigate('/skinai')
     }
@@ -18,7 +15,6 @@ export default function Home() {
     const handleNavigation = (page: Page) => {
         console.log(page);
         setCurrentPage(page);
-        // In a real app, you'd use React Router here
         if (page === "home") {
             document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
         }
@@ -86,7 +82,7 @@ export default function Home() {
             description: "사진 업로드만으로 30초 내 결과",
         },
     ];
-    type Page = "home" | "diagnosis" | "diseases" | "vets" | "login" | "record";
+    type Page = "home" | "skinai" | "info" | "search" | "login";
 
     const [currentPage, setCurrentPage] = useState<Page>("home");
 
@@ -118,7 +114,6 @@ export default function Home() {
                         {/* Logo */}
                         <div
                             className="flex items-center space-x-2 cursor-pointer"
-                        // onClick={() => handleNavigation("home")}
                         >
                             <div className="w-10 h-10 bg-[var(--talktail-orange)] rounded-full flex items-center justify-center">
                                 <Heart className="w-6 h-6 text-white" />
@@ -131,7 +126,6 @@ export default function Home() {
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center space-x-8">
                             <button
-                                // onClick={() => handleNavigation("home")}
                                 className={`transition-colors ${currentPage === "home"
                                     ? "text-[var(--talktail-orange)]"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)]"
@@ -141,7 +135,7 @@ export default function Home() {
                             </button>
                             <button
                                 onClick={() => handleSkinAiPage()}
-                                className={`transition-colors ${currentPage === "diagnosis"
+                                className={`transition-colors ${currentPage === "skinai"
                                     ? "text-[var(--talktail-orange)]"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                     }`}
@@ -150,7 +144,7 @@ export default function Home() {
                             </button>
                             <button
                                 onClick={() => handleInfoPage()}
-                                className={`transition-colors ${currentPage === "diseases"
+                                className={`transition-colors ${currentPage === "info"
                                     ? "text-[var(--talktail-orange)]"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                     }`}
@@ -159,7 +153,7 @@ export default function Home() {
                             </button>
                             <button
                                 onClick={() => handleSearchPage()}
-                                className={`transition-colors ${currentPage === "vets"
+                                className={`transition-colors ${currentPage === "search"
                                     ? "text-[var(--talktail-orange)]"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                     }`}
@@ -171,7 +165,7 @@ export default function Home() {
                         {/* Right side buttons */}
                         <div className="flex items-center space-x-4">
                             {localStorage.getItem("user") ? (
-                                <ProfileBar handleNavigation={handleNavigation} />
+                                <ProfileBar />
                             ) : (
                                 <>
                                     <button
@@ -186,7 +180,6 @@ export default function Home() {
                                     <Button
                                         size="sm"
                                         className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
-                                    // onClick={() => handleNavigation("diagnosis")}
                                     >
                                         지금 진단하기
                                     </Button>
@@ -215,10 +208,6 @@ export default function Home() {
                     <div className="md:hidden border-t border-gray-100 bg-white">
                         <div className="px-4 py-2 space-y-1">
                             <button
-                                // onClick={() => {
-                                //     handleNavigation("home");
-                                //     setIsMobileMenuOpen(false);
-                                // }}
                                 className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "home"
                                     ? "text-[var(--talktail-orange)] bg-orange-50"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
@@ -236,10 +225,6 @@ export default function Home() {
                                 AI 진단
                             </button>
                             <button
-                                // onClick={() => {
-                                //     handleNavigation("diseases");
-                                //     setIsMobileMenuOpen(false);
-                                // }}
                                 className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "diseases"
                                     ? "text-[var(--talktail-orange)] bg-orange-50"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
@@ -248,10 +233,6 @@ export default function Home() {
                                 질병 정보
                             </button>
                             <button
-                                // onClick={() => {
-                                //     handleNavigation("vets");
-                                //     setIsMobileMenuOpen(false);
-                                // }}
                                 className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "vets"
                                     ? "text-[var(--talktail-orange)] bg-orange-50"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
@@ -262,16 +243,9 @@ export default function Home() {
 
                             {/* Mobile CTA buttons */}
                             <div className="pt-2 border-t border-gray-100 mt-2">
-                                {/* <Button variant="ghost" size="sm" className="hidden md:flex">
-                                    로그인
-                                </Button> */}
                                 <Button
                                     size="sm"
                                     className="w-full justify-start px-3 py-2 mt-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-base font-medium"
-                                // onClick={() => {
-                                //     handleNavigation("diagnosis");
-                                //     setIsMobileMenuOpen(false);
-                                // }}
                                 >
                                     지금 진단하기
                                 </Button>
@@ -425,30 +399,17 @@ export default function Home() {
                         {steps.map((step, index) => (
                             <div key={index} className="relative">
                                 <div className="p-8 text-center h-full border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-gray-50">
-                                    {/* Step number */}
                                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                                         <div className="w-8 h-8 bg-[var(--talktail-orange)] text-white rounded-full flex items-center justify-center font-bold">
                                             {index + 1}
                                         </div>
                                     </div>
-
-                                    {/* Icon */}
                                     <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center ${step.color}`}>
                                         <step.icon className="w-8 h-8" />
                                     </div>
-
-                                    {/* Content */}
                                     <h3 className="text-xl font-bold text-gray-900 mb-4">{step.title}</h3>
                                     <p className="text-gray-600 leading-relaxed">{step.description}</p>
                                 </div>
-
-                                {/* Arrow between steps */}
-                                {index < steps.length - 1 && (
-                                    <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                                        <div className="w-8 h-0.5 bg-[var(--talktail-orange)]"></div>
-                                        <div className="absolute -right-1 -top-1 w-0 h-0 border-l-4 border-l-[var(--talktail-orange)] border-t-2 border-t-transparent border-b-2 border-b-transparent"></div>
-                                    </div>
-                                )}
                             </div>
                         ))}
                     </div>
@@ -550,7 +511,7 @@ export default function Home() {
                     <Button
                         size="lg"
                         className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
-                        onClick={() => handleNavigation("diagnosis")}
+                        onClick={() => handleSkinAiPage()}
                     >
                         무료 진단 받기
                     </Button>
@@ -558,7 +519,7 @@ export default function Home() {
                         size="lg"
                         variant="outline"
                         className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
-                        onClick={() => handleNavigation("diseases")}
+                        onClick={() => handleInfoPage()}
                     >
                         질병 정보 보기
                     </Button>

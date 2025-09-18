@@ -20,7 +20,7 @@ interface propsType {
 
 interface detailType {
   img: string
-  name: string  
+  name: string
   description: string
   symptoms: string[]
   severity: string
@@ -167,7 +167,7 @@ export function DiseaseInfoPage() {
         return <Badge variant="outline">{prevalence}</Badge>;
     }
   };
-  
+
   const handlerDetail = (
     img: string,
     name: string,
@@ -193,7 +193,7 @@ export function DiseaseInfoPage() {
     } else {
       document.body.style.overflow = "auto";
     }
-  
+
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -201,8 +201,9 @@ export function DiseaseInfoPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[var(--talktail-gray)] to-white ">
-      
-     <Navbar/>
+
+      <Navbar currentPage="info" />
+
       {isDetailModal && detailData && (
         <DiseaseInfoDetailModal
           img={detailData.img}

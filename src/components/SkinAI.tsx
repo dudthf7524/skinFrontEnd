@@ -287,7 +287,7 @@ const SkinAIContent = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/30 to-red-50 flex flex-col relative">
-      <Navbar currentPage="diagnosis" />
+      <Navbar currentPage="skinai" />
 
       {/* 향상된 진행 상태 표시 */}
       {currentStep !== "complete" && (

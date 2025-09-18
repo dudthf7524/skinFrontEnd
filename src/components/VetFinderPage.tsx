@@ -77,7 +77,7 @@ export function VetFinderPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[var(--talktail-gray)] to-white">
-      <Navbar />
+      <Navbar currentPage="search" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">병원 찾기</h1>
@@ -121,8 +121,8 @@ export function VetFinderPage() {
                   <Badge
                     key={filter.id}
                     className={`cursor-pointer transition-all ${selectedFilters.includes(filter.id)
-                        ? filter.color
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      ? filter.color
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                       }`}
                     onClick={() => toggleFilter(filter.id)}
                   >
@@ -156,8 +156,8 @@ export function VetFinderPage() {
                             </div>
                             <Badge
                               className={`text-xs ${clinic.isOpen
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-red-100 text-red-800"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
                                 }`}
                             >
                               {clinic.isOpen ? "영업중" : "영업종료"}
@@ -236,8 +236,8 @@ export function VetFinderPage() {
                             </div>
                             <Badge
                               className={`text-xs ${clinic.isOpen
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-red-100 text-red-800"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
                                 }`}
                             >
                               {clinic.isOpen ? "영업중" : "영업종료"}

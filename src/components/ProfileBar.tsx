@@ -1,11 +1,11 @@
 import { useState, useRef } from "react";
 import ProfileImage from "./ui/profileImage"
 
-interface propsType {
-    handleNavigation: (page: string) => void;
-}
+// interface propsType {
+//     handleNavigation: (page: string) => void;
+// }
 
-export default function ProfileBar({ handleNavigation }: propsType) {
+export default function ProfileBar() {
     // localStorage에서 user 정보를 가져오고, JSON 파싱
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
@@ -24,7 +24,7 @@ export default function ProfileBar({ handleNavigation }: propsType) {
     }
 
     const handlerClickProfile = () => {
-        handleNavigation("record");
+        // handleNavigation("record");
     }
 
     // 드롭다운 상태 및 타이머 ref
@@ -36,16 +36,16 @@ export default function ProfileBar({ handleNavigation }: propsType) {
     const handleMouseEnter = () => {
         if (hideTimer.current) {
             clearTimeout(hideTimer.current);
-            hideTimr.current = null;
+            // hideTimr.current = null;
         }
         setShowLogout(true);
     };
 
     // 드롭다운을 약간의 딜레이 후 숨김
     const handleMouseLeave = () => {
-        hideTimer.current = setTimeout(() => {
-            setShowLogout(false);
-        }, 120); // 120ms 딜레이 (너무 짧으면 200~300ms로 조정 가능)
+        // hideTimer.current = setTimeout(() => {
+        //     setShowLogout(false);
+        // }, 120); // 120ms 딜레이 (너무 짧으면 200~300ms로 조정 가능)
     };
 
     // 로그아웃 처리 함수
