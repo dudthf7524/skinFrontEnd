@@ -42,25 +42,25 @@ const AppleLogin = () => {
       const res = await window.AppleID.auth.signIn();
       console.log("res", res);
 
-      const payload = {
-        code: res?.authorization?.code,
-        id_token: res?.authorization?.id_token,
-        state: res?.authorization?.state,
-        // 최초 1회만 내려오는 user(이름/이메일)는 참고용으로 같이 보낼 수 있음
-        user: res?.user ?? null,
-        // nonce, // 우리가 요청 시 생성했던 nonce도 함께 전달(서버 검증용)
-      };
+      // const payload = {
+      //   code: res?.authorization?.code,
+      //   id_token: res?.authorization?.id_token,
+      //   state: res?.authorization?.state,
+      //   // 최초 1회만 내려오는 user(이름/이메일)는 참고용으로 같이 보낼 수 있음
+      //   user: res?.user ?? null,
+      //   // nonce, // 우리가 요청 시 생성했던 nonce도 함께 전달(서버 검증용)
+      // };
 
-      console.log("payload", payload);
+      // console.log("payload", payload);
 
-      const resp = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/apple/callback`,
-        payload,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true, // 서버가 httpOnly 쿠키를 심어줄 수 있게
-        }
-      );
+      // const resp = await axios.post(
+      //   `${import.meta.env.VITE_API_BASE_URL}/auth/apple/callback`,
+      //   payload,
+      //   {
+      //     headers: { "Content-Type": "application/json" },
+      //     withCredentials: true, // 서버가 httpOnly 쿠키를 심어줄 수 있게
+      //   }
+      // );
     } catch (error) {
       console.log(error);
     }

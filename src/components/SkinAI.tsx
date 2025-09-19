@@ -272,19 +272,6 @@ const SkinAIContent = () => {
     navigate('/');
   };
 
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "questionnaire":
-        return "1단계: 반려동물 정보 및 문진표 작성";
-      case "upload":
-        return "2단계: 사진 업로드";
-      case "diagnosis":
-        return "3단계: 진단결과 확인";
-      case "complete":
-        return "4단계: 정보 공유 및 주변병원 찾기";
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/30 to-red-50 flex flex-col relative">
       <Navbar currentPage="skinai" />
@@ -292,7 +279,7 @@ const SkinAIContent = () => {
       {/* 향상된 진행 상태 표시 */}
       {currentStep !== "complete" && (
         <div className="w-full px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex-shrink-0 relative z-10">
-          <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 shadow-xl border border-white/30 max-w-2xl mx-auto">
+          <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 md:px-10 shadow-xl border border-white/30 max-w-2xl mx-auto">
             <div className="flex items-center justify-between max-w-full">
               {/* 단계 1: 정보입력 */}
               <div className="flex flex-col items-center">
@@ -316,17 +303,17 @@ const SkinAIContent = () => {
                     }`}>
                     정보입력
                   </div>
-                  {currentStep === "questionnaire" && (
+                  {/* {currentStep === "questionnaire" && (
                     <>
                       <div className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                       <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </div>
 
               {/* 연결선 1 */}
-              <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
+              {/* <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
                 <div className="w-12 sm:w-20 md:w-28 lg:w-36 xl:w-44 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
                   <div className={`h-full transition-all duration-700 ease-out rounded-full ${currentStep === "questionnaire"
                     ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
@@ -338,7 +325,7 @@ const SkinAIContent = () => {
                     <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* 단계 2: 사진업로드 */}
               <div className="flex flex-col items-center">
@@ -372,7 +359,7 @@ const SkinAIContent = () => {
               </div>
 
               {/* 연결선 2 */}
-              <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
+              {/* <div className="flex items-center justify-center self-start mt-2.5 sm:mt-3 md:mt-4">
                 <div className="w-12 sm:w-20 md:w-28 lg:w-36 xl:w-44 h-0.5 sm:h-1 md:h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
                   <div className={`h-full transition-all duration-700 ease-out rounded-full ${currentStep === "upload"
                     ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
@@ -384,7 +371,7 @@ const SkinAIContent = () => {
                     <div className="absolute top-0 left-0 h-full w-4 sm:w-6 md:w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* 단계 3: 진단결과 */}
               <div className="flex flex-col items-center">

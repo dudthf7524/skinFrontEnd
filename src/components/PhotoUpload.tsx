@@ -65,15 +65,25 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
   }, []);
 
   const handleFileSelect = (file: File) => {
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUploadedImage(e.target?.result as string);
-        setOriginalFile(file);
-        setShowCropModal(true);
-      };
-      reader.readAsDataURL(file);
+    if (!file || !file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
     }
+
+    // 10MB 크기 제한 체크
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > maxSize) {
+      alert('파일 크기가 10MB를 초과합니다. 더 작은 파일을 선택해주세요.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setUploadedImage(e.target?.result as string);
+      setOriginalFile(file);
+      setShowCropModal(true);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,7 +186,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
     <div className="w-full max-w-full">
       <div className="mb-4 sm:mb-6 md:mb-8 text-center px-2">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-orange-700 bg-clip-text text-transparent mb-2 sm:mb-3 md:mb-4 leading-tight">
-          피부 상태 사진 업로드 📸
+          피부 상태 사진 업로드
         </h2>
         <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-2 sm:mb-3 md:mb-4">
           문제가 있는 피부 부위의 선명한 사진을 업로드해 주세요

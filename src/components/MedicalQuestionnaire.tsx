@@ -26,9 +26,12 @@ import {
   CheckCircle,
   ChevronRight,
   Search,
+  Scale,
+  PawPrint,
 } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
 import { DateInput } from "./DateInput";
+import PetList from "../data/PetList";
 
 interface QuestionnaireData {
   petName: string;
@@ -48,50 +51,8 @@ interface MedicalQuestionnaireProps {
   onBack?: () => void;
 }
 
-const dogBreedKeys = [
-  "goldenRetriever",
-  "labradorRetriever",
-  "germanShepherd",
-  "beagle",
-  "bulldog",
-  "poodle",
-  "shibaInu",
-  "jindo",
-  "maltese",
-  "pomeranian",
-  "chihuahua",
-  "cockerSpaniel",
-  "shihTzu",
-  "bichonFrise",
-  "yorkshireTerrier",
-  "dachshund",
-  "husky",
-  "rottweiler",
-  "doberman",
-  "saintBernard",
-  "borderCollie",
-  "welshCorgi",
-  "papillon",
-  "spitz",
-];
-
-const catBreedKeys = [
-  "persian",
-  "russianBlue",
-  "siamese",
-  "maineCoon",
-  "britishShorthair",
-  "americanShorthair",
-  "bengal",
-  "abyssinian",
-  "scottishFold",
-  "ragdoll",
-  "norwegianForest",
-  "turkishAngora",
-  "siamCat",
-  "highlandFold",
-  "sphinx",
-];
+// PetList.js에서 가져온 강아지 품종 데이터 사용
+const dogBreeds = PetList.specis;
 
 const getAffectedAreaCategories = (t: (key: string) => string) => [
   {
@@ -144,8 +105,17 @@ export const MedicalQuestionnaire = React.memo(
     );
     const [showCustomBreed, setShowCustomBreed] = useState(false);
     const [selectedAreaCategory, setSelectedAreaCategory] = useState("");
+    const [breedSearch, setBreedSearch] = useState("");
     console.log(formData)
     const affectedAreaCategories = useMemo(() => getAffectedAreaCategories(t), [t]);
+
+    // 검색어로 필터링된 품종 목록
+    const filteredBreeds = useMemo(() => {
+      if (!breedSearch.trim()) return dogBreeds;
+      return dogBreeds.filter(breed =>
+        breed.toLowerCase().includes(breedSearch.toLowerCase())
+      );
+    }, [breedSearch]);
     const sections = useMemo(() => [
       { title: t("step1Title"), icon: Heart },
       { title: t("step2Title"), icon: AlertCircle },
@@ -292,13 +262,13 @@ export const MedicalQuestionnaire = React.memo(
                     className="h-11 bg-white/50 backdrop-blur-sm border-gray-200 rounded-xl"
                   />
                   <p className="text-sm text-gray-600 mt-2 bg-orange-50 px-3 py-2 rounded-lg border border-orange-200">
-                    💡 {t("dateFormat")}
+                    {t("dateFormat")}
                   </p>
                 </div>
 
                 <div>
                   <Label className="text-sm sm:text-base font-bold text-gray-800 mb-2 sm:mb-3 block flex items-center space-x-2">
-                    <span className="text-orange-500">⚖️</span>
+                    <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
                     <span>{t("weight")} {t("required")}</span>
                   </Label>
                   <Input
@@ -314,9 +284,8 @@ export const MedicalQuestionnaire = React.memo(
 
               <div>
                 <Label className="text-sm sm:text-base font-bold text-gray-800 mb-2 sm:mb-3 flex items-center space-x-2">
+                  <PawPrint className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
                   <span>{t("breed")} {t("required")}</span>
-                  <span className="text-lg sm:text-xl">🐕</span>
-                  <span className="text-lg sm:text-xl">🐱</span>
                 </Label>
                 <Select
                   value={formData.petBreed}
@@ -334,34 +303,39 @@ export const MedicalQuestionnaire = React.memo(
                     <SelectValue placeholder={t("breedPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent className="max-h-60 bg-white">
-                    <div className="p-2">
-                      <p className="text-xs font-medium text-gray-500 mb-2 px-2">
-                        {t("dogCategory")}
-                      </p>
-                      {dogBreedKeys.map((breedKey) => (
-                        <SelectItem
-                          key={breedKey}
-                          value={t(breedKey)}
-                          className="text-sm"
-                        >
-                          {t(breedKey)}
-                        </SelectItem>
-                      ))}
+                    {/* 검색 입력창 */}
+                    <div className="p-2 border-b">
+                      <div className="relative">
+                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+                        <Input
+                          placeholder="품종 검색..."
+                          value={breedSearch}
+                          onChange={(e) => setBreedSearch(e.target.value)}
+                          className="pl-8 h-8 text-sm"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
                     </div>
-                    <div className="p-2 border-t">
-                      <p className="text-xs font-medium text-gray-500 mb-2 px-2">
-                        {t("catCategory")}
-                      </p>
-                      {catBreedKeys.map((breedKey) => (
-                        <SelectItem
-                          key={breedKey}
-                          value={t(breedKey)}
-                          className="text-sm"
-                        >
-                          {t(breedKey)}
-                        </SelectItem>
-                      ))}
+
+                    {/* 품종 목록 */}
+                    <div className="p-2 max-h-48 overflow-y-auto">
+                      {filteredBreeds.length > 0 ? (
+                        filteredBreeds.map((breed, index) => (
+                          <SelectItem
+                            key={index}
+                            value={breed}
+                            className="text-sm"
+                          >
+                            {breed}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className="text-sm text-gray-500 text-center py-2">
+                          검색 결과가 없습니다.
+                        </div>
+                      )}
                     </div>
+
                     <div className="p-2 border-t">
                       <SelectItem
                         value="other"
@@ -413,7 +387,6 @@ export const MedicalQuestionnaire = React.memo(
                 </div>
                 <p className="text-sm text-gray-600 mb-3 flex items-center">
                   {t("symptomsDescription")}
-                  <span className="ml-1">😯</span>
                 </p>
 
                 {/* New Symptom Questions based on user requirements */}
@@ -422,7 +395,6 @@ export const MedicalQuestionnaire = React.memo(
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-medium text-gray-800">반려동물이 가려워하나요?</span>
-                      <span className="text-xl">😟</span>
                     </div>
                     <div className="space-y-2">
                       <div
@@ -462,7 +434,6 @@ export const MedicalQuestionnaire = React.memo(
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-medium text-gray-800">피부에서 냄새가 나나요?</span>
-                      <span className="text-xl">👃</span>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <button
@@ -498,7 +469,6 @@ export const MedicalQuestionnaire = React.memo(
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-medium text-gray-800">털이 많이 빠지나요?</span>
-                      <span className="text-xl">🪶</span>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <button
@@ -575,7 +545,15 @@ export const MedicalQuestionnaire = React.memo(
                   </Label>
                   <Select
                     value={selectedAreaCategory}
-                    onValueChange={setSelectedAreaCategory}
+                    onValueChange={(value) => {
+                      setSelectedAreaCategory(value);
+                      // 새로운 카테고리로 변경할 때, 이전 카테고리의 소분류들을 제거
+                      const newCategorySubAreas = affectedAreaCategories.find(cat => cat.value === value)?.subAreas || [];
+                      setFormData(prev => ({
+                        ...prev,
+                        affectedAreas: prev.affectedAreas.filter(area => newCategorySubAreas.includes(area))
+                      }));
+                    }}
                   >
                     <SelectTrigger className="h-11 bg-white/70 backdrop-blur-sm border-gray-200 rounded-xl">
                       <SelectValue placeholder={t("selectAreaPlaceholder")} />
@@ -670,19 +648,18 @@ export const MedicalQuestionnaire = React.memo(
 
         {/* 향상된 진행 상태 */}
         <div className="mb-4 sm:mb-6 md:mb-8">
-          <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 shadow-xl border border-white/30">
+          <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 md:px-10 shadow-xl border border-white/30">
             <div className="flex items-center justify-between max-w-full">
               {/* 단계 1: 기본정보 */}
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${
-                      currentSection === 0
-                        ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
-                        : currentSection > 0
-                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                    }`}
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${currentSection === 0
+                      ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
+                      : currentSection > 0
+                        ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                        : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                      }`}
                     style={
                       currentSection === 0
                         ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
@@ -695,47 +672,38 @@ export const MedicalQuestionnaire = React.memo(
                       <Heart className="w-6 h-6" />
                     )}
                   </div>
-                  <div className={`mt-3 text-xs font-bold transition-all duration-300 ${
-                    currentSection === 0 ? "text-orange-600" : currentSection > 0 ? "text-emerald-600" : "text-gray-400"
-                  }`}>
+                  <div className={`mt-3 text-xs font-bold transition-all duration-300 ${currentSection === 0 ? "text-orange-600" : currentSection > 0 ? "text-emerald-600" : "text-gray-400"
+                    }`}>
                     기본정보
                   </div>
-                  {currentSection === 0 && (
-                    <>
-                      <div className="absolute top-0 left-0 w-12 h-12 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
-                      <div className="absolute top-1 left-1 w-10 h-10 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
-                    </>
-                  )}
                 </div>
               </div>
 
               {/* 연결선 */}
-              <div className="flex items-center justify-center self-start mt-6">
+              {/* <div className="flex items-center justify-center self-start mt-6">
                 <div className="w-16 sm:w-32 md:w-48 lg:w-64 xl:w-80 h-1.5 rounded-full overflow-hidden bg-gray-100 relative">
-                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${
-                    currentSection === 0
+                  <div className={`h-full transition-all duration-700 ease-out rounded-full ${currentSection === 0
                       ? "w-1/2 bg-gradient-to-r from-orange-400 to-orange-500 animate-pulse"
                       : currentSection > 0
                         ? "w-full bg-gradient-to-r from-emerald-400 to-green-500"
                         : "w-0"
-                  }`} />
+                    }`} />
                   {currentSection === 0 && (
                     <div className="absolute top-0 left-0 h-full w-8 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* 단계 2: 증상입력 */}
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${
-                      currentSection === 1
-                        ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
-                        : currentSection > 1
-                          ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
-                          : "bg-gray-100 text-gray-400 border-2 border-gray-200"
-                    }`}
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${currentSection === 1
+                      ? "text-white shadow-xl scale-110 ring-4 ring-orange-200/50"
+                      : currentSection > 1
+                        ? "bg-gradient-to-r from-emerald-400 to-green-500 text-white shadow-lg scale-105"
+                        : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                      }`}
                     style={
                       currentSection === 1
                         ? { background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }
@@ -748,9 +716,8 @@ export const MedicalQuestionnaire = React.memo(
                       <AlertCircle className="w-6 h-6" />
                     )}
                   </div>
-                  <div className={`mt-3 text-xs font-bold transition-all duration-300 ${
-                    currentSection === 1 ? "text-orange-600" : currentSection > 1 ? "text-emerald-600" : "text-gray-400"
-                  }`}>
+                  <div className={`mt-3 text-xs font-bold transition-all duration-300 ${currentSection === 1 ? "text-orange-600" : currentSection > 1 ? "text-emerald-600" : "text-gray-400"
+                    }`}>
                     증상입력
                   </div>
                   {currentSection === 1 && (
@@ -807,40 +774,28 @@ export const MedicalQuestionnaire = React.memo(
               </Button>
             )}
             <Button
-            onClick={handleNext}
-            disabled={!isCurrentSectionValid}
-            className="flex-1 h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:scale-105"
-            style={{
-              background: isCurrentSectionValid
-                ? "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)"
-                : "linear-gradient(135deg, #cccccc 0%, #999999 100%)",
-            }}
-          >
-            {currentSection === sections.length - 1 ? (
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <span className="text-base sm:text-lg">{t("complete")}</span>
-                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <span className="text-base sm:text-lg">{t("next")}</span>
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-            )}
-          </Button>
-          </div>
-
-          {/* 홈으로 돌아가기 버튼 */}
-          {onBack && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onBack}
-              className="w-full h-10 sm:h-12 bg-white/70 border-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg text-orange-600"
+              onClick={handleNext}
+              disabled={!isCurrentSectionValid}
+              className="flex-1 h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:scale-105"
+              style={{
+                background: isCurrentSectionValid
+                  ? "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)"
+                  : "linear-gradient(135deg, #cccccc 0%, #999999 100%)",
+              }}
             >
-              홈으로 돌아가기
+              {currentSection === sections.length - 1 ? (
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <span className="text-base sm:text-lg">{t("complete")}</span>
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <span className="text-base sm:text-lg">{t("next")}</span>
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+              )}
             </Button>
-          )}
+          </div>
         </div>
       </div>
     );

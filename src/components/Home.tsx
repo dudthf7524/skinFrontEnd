@@ -1,9 +1,10 @@
-import { Award, Badge, Brain, Camera, Heart, Hospital, MapPin, Menu, Quote, Shield, Sparkles, Star, Upload, Users, X } from "lucide-react";
+import { Award, Badge, Brain, Camera, Heart, Hospital, LogIn, MapPin, Menu, Quote, Shield, Sparkles, Star, Upload, Users, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import ProfileBar from "./ProfileBar";
 import LoginPage from "./Login";
+import Navbar from "./Navbar";
 
 export default function Home() {
     const navigate = useNavigate()
@@ -46,7 +47,7 @@ export default function Home() {
             name: "김민지",
             pet: "골든리트리버 멍멍이",
             content:
-                "우리 멍멍이 피부 문제를 빠르게 발견할 수 있어서 정말 도움이 되었어요. AI 진단이 정말 정확했습니다!",
+                "우리 멍멍이 피부 문제를 빠르게 발견할 수 있어서 정말 도움이 되었어요. AI 분석이 정말 정확했습니다!",
             rating: 5,
         },
         {
@@ -140,7 +141,7 @@ export default function Home() {
                                     : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                     }`}
                             >
-                                AI 진단
+                                AI 분석
                             </button>
                             <button
                                 onClick={() => handleInfoPage()}
@@ -168,7 +169,7 @@ export default function Home() {
                                 <ProfileBar />
                             ) : (
                                 <>
-                                    <button
+                                    {/* <button
                                         onClick={() => handlerLoginClick()}
                                         className={`transition-colors ${currentPage === "login"
                                             ? "text-[var(--talktail-orange)]"
@@ -176,13 +177,20 @@ export default function Home() {
                                             }`}
                                     >
                                         로그인
-                                    </button>
+                                    </button> */}
                                     <Button
+                                        onClick={() => handlerLoginClick()}
+                                        size="sm"
+                                        className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
+                                    >
+                                        로그인
+                                    </Button>
+                                    {/* <Button
                                         size="sm"
                                         className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
                                     >
                                         지금 진단하기
-                                    </Button>
+                                    </Button> */}
                                 </>
                             )}
 
@@ -217,15 +225,15 @@ export default function Home() {
                             </button>
                             <button
                                 onClick={() => handleSkinAiPage()}
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "diagnosis"
+                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "skinai"
                                     ? "text-[var(--talktail-orange)] bg-orange-50"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                     }`}
                             >
-                                AI 진단
+                                AI 분석
                             </button>
                             <button
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "diseases"
+                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "info"
                                     ? "text-[var(--talktail-orange)] bg-orange-50"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                     }`}
@@ -233,7 +241,7 @@ export default function Home() {
                                 질병 정보
                             </button>
                             <button
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "vets"
+                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "search"
                                     ? "text-[var(--talktail-orange)] bg-orange-50"
                                     : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                     }`}
@@ -255,128 +263,139 @@ export default function Home() {
                 )}
             </nav>
 
-            <section className="bg-gradient-to-br from-[var(--talktail-beige)] to-white py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        {/* Left side - Text content */}
-                        <div className="space-y-8">
-                            <div className="space-y-4">
+            {/* <Navbar/> */}
+
+            <section className="bg-gradient-to-br from-[var(--talktail-beige)] to-white py-5 lg:py-10 flex items-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                    <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+                        {/* Mobile Layout - Full Width */}
+                        <div className="lg:hidden space-y-6">
+                            <div className="space-y-4 text-center">
+                                {/* <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
+                                    <Sparkles className="w-4 h-4 mr-2 text-[var(--talktail-orange)]" />
+                                    AI 피부 질병 스크리닝 서비스
+                                </div> */}
+                                <div className="text-lg sm:text-3xl font-bold text-gray-900 leading-tight">
+                                    반려동물 피부 건강을 AI로 진단하세요
+                                </div>
+                                <p className="hidden sm:block text-sm text-gray-600 leading-relaxed">
+                                    반려동물의 피부 사진을 업로드하거나 AI
+                                    <br />
+                                    진단을 즉시 시작하세요
+                                </p>
+                            </div>
+
+                            <div className="flex justify-center">
+                                <div className="bg-gradient-to-br from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] rounded-2xl p-4 shadow-xl max-w-xs w-full">
+                                    <div className="bg-white rounded-xl p-4 relative overflow-hidden">
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <div className="text-xs font-medium">AI 분석 중...</div>
+                                                <div className="w-4 h-4 bg-[var(--talktail-orange)] rounded-full animate-pulse"></div>
+                                            </div>
+                                            <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
+                                                <div className="text-4xl">🐕</div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
+                                                    <span className="text-xs">습진 (Eczema)</span>
+                                                    <span className="text-xs font-medium text-green-600">85%</span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-2 bg-yellow-50 rounded-lg">
+                                                    <span className="text-xs">알레르기</span>
+                                                    <span className="text-xs font-medium text-yellow-600">12%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-2 px-4">
+                                <button
+                                    onClick={() => handlerLoginClick()}
+                                    className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-3 py-2 text-sm font-medium rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
+                                >
+                                    <Camera className="w-3 h-3 mr-1" />
+                                    지금 바로 체험하기
+                                </button>
+
+                                <button
+                                    onClick={() => handlerLoginClick()}
+                                    className="w-full border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-3 py-2 text-sm font-medium rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
+                                >
+                                    <LogIn className="w-3 h-3 mr-1" />
+                                    로그인
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Desktop Layout - Left side - Text content */}
+                        <div className="hidden lg:block space-y-8">
+                            <div className="space-y-4 text-left">
                                 <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
                                     <Sparkles className="w-4 h-4 mr-2 text-[var(--talktail-orange)]" />
                                     AI 피부 질병 스크리닝 서비스
                                 </div>
-                                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                                    AI와 웨어러블로
+                                <div className="text-5xl font-bold text-gray-900 leading-tight">
+                                    반려동물 피부 건강을
                                     <br />
-                                    <span className="text-[var(--talktail-orange)]">
-                                        반려동물 건강을
-                                    </span>
+                                    AI로 진단하세요
+                                </div>
+                                <p className="text-lg text-gray-600 leading-relaxed">
+                                    반려동물의 피부 사진을 업로드하거나 AI
                                     <br />
-                                    지켜보세요
-                                </h1>
-                                <p className="text-xl text-gray-600 leading-relaxed">
-                                    간편한 사진 업로드로 반려동물의 피부 질병을 빠르게 확인하고,
-                                    <br />
-                                    전문 수의사와 연결해보세요.
+                                    진단을 즉시 시작하세요
                                 </p>
                             </div>
 
                             <div className="flex flex-col gap-6">
-                                {/* 메인 진단 버튼 - 크고 눈에 띄게 */}
-                                <button onClick={() => handleSkinAiPage()} className="w-full">
-                                    <Button
-                                        size="lg"
-                                        className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-                                    >
-                                        <Camera className="w-6 h-6 mr-3" />
-                                        지금 바로 진단하기
-                                    </Button>
+                                <button
+                                    onClick={() => handlerLoginClick()}
+                                    className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-6 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                                >
+                                    <Camera className="w-5 h-5 mr-3" />
+                                    지금 바로 체험하기
                                 </button>
 
-                                {/* 서브 버튼 */}
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <Button
-                                        variant="outline"
-                                        size="lg"
-                                        className="border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-8 py-4 text-lg rounded-xl font-semibold transition-all duration-300"
-                                    >
-                                        <MapPin className="w-5 h-5 mr-2" />
-                                        병원 찾기
-                                    </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="lg"
-                                        className="text-gray-600 hover:text-[var(--talktail-orange)] hover:bg-[var(--talktail-mint)] px-8 py-4 text-lg rounded-xl font-semibold transition-all duration-300"
-                                    >
-                                        서비스 소개
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {/* Stats */}
-                            <div className="grid grid-cols-3 gap-8 pt-8">
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-[var(--talktail-orange)]">
-                                        10,000+
-                                    </div>
-                                    <div className="text-sm text-gray-600">누적 진단</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-[var(--talktail-orange)]">
-                                        95%
-                                    </div>
-                                    <div className="text-sm text-gray-600">정확도</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-[var(--talktail-orange)]">
-                                        500+
-                                    </div>
-                                    <div className="text-sm text-gray-600">제휴 병원</div>
-                                </div>
+                                {/* <button
+                                    onClick={() => handlerLoginClick()}
+                                    className="w-full border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-6 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                                >
+                                    <LogIn className="w-5 h-5 mr-3" />
+                                    로그인
+                                </button> */}
                             </div>
                         </div>
 
-                        {/* Right side - Illustration */}
-                        <div className="relative">
+                        {/* Desktop Layout - Right side - Illustration */}
+                        <div className="hidden lg:block relative">
                             <div className="bg-gradient-to-br from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] rounded-3xl p-8 shadow-2xl">
                                 <div className="bg-white rounded-2xl p-6 relative overflow-hidden">
-                                    {/* Mock phone interface */}
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-sm font-medium">AI 분석 중...</div>
                                             <div className="w-6 h-6 bg-[var(--talktail-orange)] rounded-full animate-pulse"></div>
                                         </div>
-
-                                        {/* Mock pet image */}
                                         <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
                                             <div className="text-6xl">🐕</div>
                                         </div>
-
-                                        {/* Mock results */}
                                         <div className="space-y-2">
                                             <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                                                 <span className="text-sm">습진 (Eczema)</span>
-                                                <span className="text-sm font-medium text-green-600">
-                                                    85%
-                                                </span>
+                                                <span className="text-sm font-medium text-green-600">85%</span>
                                             </div>
                                             <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
                                                 <span className="text-sm">알레르기</span>
-                                                <span className="text-sm font-medium text-yellow-600">
-                                                    12%
-                                                </span>
+                                                <span className="text-sm font-medium text-yellow-600">12%</span>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Floating elements */}
                                     <div className="absolute -top-2 -right-2 w-8 h-8 bg-[var(--talktail-mint)] rounded-full flex items-center justify-center">
                                         <Sparkles className="w-4 h-4 text-[var(--talktail-orange)]" />
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Decorative elements */}
                             <div className="absolute -top-8 -left-8 w-16 h-16 bg-[var(--talktail-mint)] rounded-full opacity-60"></div>
                             <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-[var(--talktail-orange)] rounded-full opacity-40"></div>
                         </div>
@@ -513,7 +532,7 @@ export default function Home() {
                         className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
                         onClick={() => handleSkinAiPage()}
                     >
-                        무료 진단 받기
+                        무료 체험 하기
                     </Button>
                     <Button
                         size="lg"
@@ -521,7 +540,7 @@ export default function Home() {
                         className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
                         onClick={() => handleInfoPage()}
                     >
-                        질병 정보 보기
+                        로그인
                     </Button>
                 </div>
             </section>
@@ -567,7 +586,7 @@ export default function Home() {
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        AI 진단
+                                        AI 분석
                                     </a>
                                 </li>
                                 <li>

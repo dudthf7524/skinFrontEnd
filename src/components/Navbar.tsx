@@ -9,6 +9,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import ProfileBar from "./ProfileBar";
 
 interface NavbarProps {
     currentPage?: string;
@@ -76,6 +77,9 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
         navigate('/search ');
     }
 
+    function handlerecordPage() {
+        navigate('/record ');
+    }
 
     return (
         <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -110,7 +114,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                 }`}
                         >
-                            AI 진단
+                            AI 분석
                         </button>
                         <button
                             onClick={() => handleInfoPage()}
@@ -130,6 +134,15 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         >
                             병원 찾기
                         </button>
+                        <button
+                            onClick={() => handlerecordPage()}
+                            className={`transition-colors ${currentPage === "record"
+                                ? "text-[var(--talktail-orange)]"
+                                : "text-gray-700 hover:text-[var(--talktail-orange)]"
+                                }`}
+                        >
+                            내 기록
+                        </button>
                     </div>
 
                     {/* Right side buttons */}
@@ -141,25 +154,15 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
 
                         {/* 로그인/진단하기 버튼 주석처리 */}
                         {/* {localStorage.getItem("user") ? (
-                            <div>프로필</div>
+                            <ProfileBar />
                         ) : (
-                            <>
-                                <button
-                                    className={`transition-colors ${currentPage === "login"
-                                        ? "text-[var(--talktail-orange)]"
-                                        : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                        }`}
-                                >
-                                    로그인
-                                </button>
-                                <Button
-                                    size="sm"
-                                    className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
-                                    onClick={() => handleNavigation("diagnosis")}
-                                >
-                                    지금 진단하기
-                                </Button>
-                            </>
+                            <Button
+                                // onClick={() => handlerLoginClick()}
+                                size="sm"
+                                className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
+                            >
+                                로그인
+                            </Button>
                         )} */}
 
                         {/* Mobile menu button */}
@@ -205,7 +208,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                 }`}
                         >
-                            AI 진단
+                            AI 분석
                         </button>
                         <button
                             onClick={() => {

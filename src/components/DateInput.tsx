@@ -102,22 +102,37 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
 
   // Get month name
   const getMonthName = (date: Date): string => {
-    const year = date.getFullYear();
     const month = date.getMonth();
-    
+
     switch (language) {
       case 'ko':
-        return `${year}년 ${month + 1}월`;
+        return `${month + 1}월`;
       case 'ja':
-        return `${year}年${month + 1}月`;
+        return `${month + 1}月`;
       case 'zh':
-        return `${year}年${month + 1}月`;
+        return `${month + 1}月`;
       case 'en':
       default:
         return date.toLocaleDateString('en-US', {
-          year: 'numeric',
           month: 'long'
         });
+    }
+  };
+
+  // Get year name
+  const getYearName = (date: Date): string => {
+    const year = date.getFullYear();
+
+    switch (language) {
+      case 'ko':
+        return `${year}년`;
+      case 'ja':
+        return `${year}年`;
+      case 'zh':
+        return `${year}年`;
+      case 'en':
+      default:
+        return `${year}`;
     }
   };
 
@@ -201,6 +216,15 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   }, []);
 
+  // 년도 네비게이션 핸들러 추가
+  const goToPreviousYear = useCallback(() => {
+    setViewDate(prev => new Date(prev.getFullYear() - 1, prev.getMonth(), 1));
+  }, []);
+
+  const goToNextYear = useCallback(() => {
+    setViewDate(prev => new Date(prev.getFullYear() + 1, prev.getMonth(), 1));
+  }, []);
+
 
 
   // 연도 선택
@@ -208,18 +232,51 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     setViewDate(prev => new Date(year, prev.getMonth(), 1));
   }, []);
 
+  // 월 선택
+  const handleMonthSelect = useCallback((month: number) => {
+    setViewDate(prev => new Date(prev.getFullYear(), month, 1));
+  }, []);
+
   // 연도 목록 생성 (1900년부터 현재 연도까지)
   const generateYears = useMemo(() => {
     const startYear = 1900;
     const endYear = today.getFullYear();
     const years = [];
-    
+
     for (let year = endYear; year >= startYear; year--) {
       years.push(year);
     }
-    
+
     return years;
   }, [today]);
+
+  // 월 목록 생성
+  const generateMonths = useMemo(() => {
+    const months = [];
+    for (let month = 0; month < 12; month++) {
+      const date = new Date(viewDate.getFullYear(), month, 1);
+      let monthName = '';
+
+      switch (language) {
+        case 'ko':
+          monthName = `${month + 1}월`;
+          break;
+        case 'ja':
+          monthName = `${month + 1}月`;
+          break;
+        case 'zh':
+          monthName = `${month + 1}月`;
+          break;
+        case 'en':
+        default:
+          monthName = date.toLocaleDateString('en-US', { month: 'long' });
+          break;
+      }
+
+      months.push({ value: month, label: monthName });
+    }
+    return months;
+  }, [language, viewDate]);
 
   // Check if navigation should be disabled
   const isPreviousDisabled = useMemo(() => {
@@ -326,38 +383,68 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
 
               {/* Month/Year Navigation */}
               <div className="flex items-center justify-between mb-3">
-                <button
-                  onClick={goToPreviousMonth}
-                  disabled={isPreviousDisabled}
-                  className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
-                >
-                  ◀
-                </button>
-
-                <div className="text-center flex-1">
-                  <div className="text-sm font-medium mb-1">
-                    {getMonthName(viewDate)}
-                  </div>
-                  <select
-                    value={viewDate.getFullYear()}
-                    onChange={(e) => handleYearSelect(parseInt(e.target.value))}
-                    className="border border-gray-300 rounded px-1 py-1 text-xs w-20"
+                <div className="flex items-center space-x-1">
+                  <button
+                    onClick={goToPreviousYear}
+                    className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
+                    title="이전 년도"
                   >
-                    {generateYears.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
+                    &lt;&lt;
+                  </button>
+                  <button
+                    onClick={goToPreviousMonth}
+                    disabled={isPreviousDisabled}
+                    className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
+                    title="이전 월"
+                  >
+                    &lt;
+                  </button>
                 </div>
 
-                <button
-                  onClick={goToNextMonth}
-                  disabled={isNextDisabled}
-                  className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
-                >
-                  ▶
-                </button>
+                <div className="text-center flex-1">
+                  <div className="text-sm font-medium flex items-center justify-center">
+                    <select
+                      value={viewDate.getFullYear()}
+                      onChange={(e) => handleYearSelect(parseInt(e.target.value))}
+                      className="bg-transparent border-0 outline-0 cursor-pointer pr-0 pl-1 py-1 text-sm font-medium appearance-none"
+                      style={{
+                        backgroundImage: 'none',
+                        WebkitAppearance: 'none',
+                        MozAppearance: 'none'
+                      }}
+                    >
+                      {generateYears.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="text-sm font-medium">년</span>
+                    <span className="mx-2"></span>
+                    <span className="text-sm font-medium">
+                      {viewDate.getMonth() + 1}
+                    </span>
+                    <span className="text-sm font-medium">월</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-1">
+                  <button
+                    onClick={goToNextMonth}
+                    disabled={isNextDisabled}
+                    className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
+                    title="다음 월"
+                  >
+                    &gt;
+                  </button>
+                  <button
+                    onClick={goToNextYear}
+                    className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
+                    title="다음 년도"
+                  >
+                    &gt;&gt;
+                  </button>
+                </div>
               </div>
 
               {/* Weekday Headers */}
