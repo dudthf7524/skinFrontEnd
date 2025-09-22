@@ -350,6 +350,18 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
     }
   };
 
+  // 인앱 브라우저 감지 함수
+  const isInAppBrowser = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.includes('kakaotalk') ||
+           userAgent.includes('line') ||
+           userAgent.includes('wechat') ||
+           userAgent.includes('facebook') ||
+           userAgent.includes('instagram') ||
+           userAgent.includes('naver') ||
+           userAgent.includes('daum');
+  };
+
   const handleSaveAsImage = async () => {
     console.log('resultCardRef.current:', resultCardRef.current);
     console.log('예측 클래스 존재:', !!diagnosis.predictClass);
@@ -359,17 +371,25 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
       return;
     }
 
+    // 인앱 브라우저에서 Chrome으로 이동 안내
+    if (isInAppBrowser()) {
+      const isConfirmed = confirm('📱 인앱 브라우저에서는 이미지 저장이 제한될 수 있습니다.\n\nChrome, Safari 등의 일반 브라우저에서 열기를 권장합니다.\n\n그래도 시도하시겠습니까?');
+      if (!isConfirmed) {
+        return;
+      }
+    }
+
     setIsCapturing(true);
 
     try {
       console.log('html2canvas 시작...');
       const canvas = await html2canvas(resultCardRef.current, {
-        scale: 2,
+        scale: isInAppBrowser() ? 1 : 2, // 인앱 브라우저에서는 낮은 해상도 사용
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         removeContainer: false,
-        logging: true,
+        logging: false, // 인앱 브라우저에서는 로깅 비활성화
         width: resultCardRef.current.scrollWidth,
         height: resultCardRef.current.scrollHeight,
       });
@@ -377,7 +397,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
       console.log('캔버스 생성 완료:', canvas.width, 'x', canvas.height);
 
       // File System Access API를 지원하는 브라우저에서 저장 위치 선택
-      if ('showSaveFilePicker' in window) {
+      if ('showSaveFilePicker' in window && !isInAppBrowser()) {
         try {
           const fileHandle = await (window as any).showSaveFilePicker({
             suggestedName: `${questionnaireData?.petName || '반려동물'}_진단결과_${new Date().toLocaleDateString('ko-KR').replace(/\./g, '')}.png`,
@@ -402,19 +422,51 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
           }
         }
       } else {
-        // 기존 방식 (자동 다운로드)
-        const link = document.createElement('a');
-        link.download = `${questionnaireData?.petName || '반려동물'}_진단결과_${new Date().toLocaleDateString('ko-KR').replace(/\./g, '')}.png`;
-        link.href = canvas.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // 기존 방식 (자동 다운로드) - 인앱 브라우저 호환
+        try {
+          const dataUrl = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.download = `${questionnaireData?.petName || '반려동물'}_진단결과_${new Date().toLocaleDateString('ko-KR').replace(/\./g, '')}.png`;
+          link.href = dataUrl;
 
-        alert('📷 분석 결과가 다운로드 폴더에 저장되었습니다!\n\n💡 저장 위치를 선택하려면 Chrome 브라우저에서 설정 > 다운로드 > "다운로드하기 전에 각 파일의 저장 위치 묻기"를 활성화하세요.');
+          // 인앱 브라우저에서는 target="_blank" 추가
+          if (isInAppBrowser()) {
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+          }
+
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          if (isInAppBrowser()) {
+            alert('📷 이미지가 새 탭에서 열렸습니다!\n\n💡 이미지를 길게 눌러서 "이미지 저장"을 선택하거나, Chrome/Safari 브라우저에서 다시 시도해주세요.');
+          } else {
+            alert('📷 분석 결과가 다운로드 폴더에 저장되었습니다!\n\n💡 저장 위치를 선택하려면 Chrome 브라우저에서 설정 > 다운로드 > "다운로드하기 전에 각 파일의 저장 위치 묻기"를 활성화하세요.');
+          }
+        } catch (downloadError) {
+          console.error('다운로드 오류:', downloadError);
+          // 대체 방법: 새 창에서 이미지 열기
+          const dataUrl = canvas.toDataURL('image/png');
+          const newWindow = window.open('', '_blank');
+          if (newWindow) {
+            newWindow.document.write(`
+              <html>
+                <head><title>진단 결과 이미지</title></head>
+                <body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f5f5f5;">
+                  <img src="${dataUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" alt="진단 결과"/>
+                </body>
+              </html>
+            `);
+            alert('📷 이미지가 새 탭에서 열렸습니다!\n\n💡 이미지를 길게 눌러서 저장하거나, 우클릭하여 "이미지 저장"을 선택하세요.');
+          } else {
+            throw downloadError;
+          }
+        }
       }
     } catch (error) {
       console.error('이미지 저장 중 오류:', error);
-      alert('⚠️ 이미지 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+      alert('⚠️ 이미지 저장 중 오류가 발생했습니다.\n\n💡 Chrome, Safari 등의 일반 브라우저에서 다시 시도해주세요.');
     } finally {
       setIsCapturing(false);
     }
@@ -716,18 +768,18 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
               <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>이메일로 구독 하기</span>
             </Label>
-            <div className="flex space-x-2 sm:space-x-3">
+            <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
               <Input
                 type="email"
                 value={shareEmail}
                 onChange={(e) => setShareEmail(e.target.value)}
                 placeholder="이메일 주소를 입력하세요"
-                className="flex-1 h-11 sm:h-12 bg-white/70 backdrop-blur-sm border-2 border-orange-200 rounded-xl text-sm sm:text-base font-medium focus:border-orange-400"
+                className="w-full h-11 sm:h-12 bg-white/70 backdrop-blur-sm border-2 border-orange-200 rounded-xl text-sm sm:text-base font-medium focus:border-orange-400"
               />
               <Button
                 onClick={handleEmailShare}
                 disabled={!shareEmail || isSharing}
-                className="h-11 sm:h-12 text-white px-4 sm:px-6 rounded-xl font-bold"
+                className="w-full sm:w-auto h-11 sm:h-12 text-white px-4 sm:px-6 rounded-xl font-bold"
                 style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
               >
                 {isSharing ? (
@@ -735,7 +787,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                 ) : (
                   <>
                     <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    <span className="hidden sm:inline">구독</span>
+                    <span>구독</span>
                   </>
                 )}
               </Button>

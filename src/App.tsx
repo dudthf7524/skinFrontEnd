@@ -8,6 +8,8 @@ import { LanguageProvider } from "./components/LanguageContext";
 import LoginCallback from "./components/LoginCallback";
 import { LoginPage } from "./components/LoginPage";
 import { MyRecordsPage } from "./components/MyRecordsPage";
+import { AdminListPage } from "./components/AdminListPage";
+import { AdminDetailPage } from "./components/AdminDetailPage";
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/login" element={<LoginCallback />} />
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/record" element={<MyRecordsPage />} />
+          <Route path="/admin/list" element={<AdminListPage />} />
+          <Route path="/admin/detail/:id" element={<AdminDetailPage />} />
         </Routes>
       </Router>
     </LanguageProvider>
