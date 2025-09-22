@@ -139,34 +139,7 @@ export function AdminDetailPage() {
     setLoading(false);
   }, [id]);
 
-  const getSeverityBadge = (severity: string) => {
-    switch (severity) {
-      case 'high':
-        return <Badge className="bg-red-100 text-red-800">높음</Badge>;
-      case 'medium':
-        return <Badge className="bg-yellow-100 text-yellow-800">중간</Badge>;
-      case 'low':
-        return <Badge className="bg-green-100 text-green-800">낮음</Badge>;
-      default:
-        return <Badge variant="outline">{severity}</Badge>;
-    }
-  };
-
-  const getUrgencyIcon = (urgency: string) => {
-    switch (urgency) {
-      case 'emergency': return <AlertTriangle className="w-5 h-5 text-red-600" />;
-      case 'urgent': return <AlertTriangle className="w-5 h-5 text-orange-600" />;
-      default: return <CheckCircle className="w-5 h-5 text-emerald-600" />;
-    }
-  };
-
-  const getUrgencyMessage = (urgency: string) => {
-    switch (urgency) {
-      case 'emergency': return '즉시 응급실 방문이 필요합니다';
-      case 'urgent': return '빠른 시일 내 병원 방문을 권장합니다';
-      default: return '정기적인 관리가 필요합니다';
-    }
-  };
+  
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
