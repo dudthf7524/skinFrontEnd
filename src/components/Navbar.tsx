@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useLanguage, Language } from './LanguageContext';
+import kakaoIcon from "../assets/img/kakaotalk.png";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -32,25 +33,28 @@ const LanguageToggle: React.FC = () => {
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 px-2 bg-white/50 backdrop-blur-sm border border-white/30 hover:bg-white/70 rounded-lg"
+                    className="h-8 px-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg text-gray-700 text-sm font-normal shadow-sm"
                 >
-                    <Globe className="w-4 h-4 mr-1" />
-                    {/* <span className="text-sm">{currentLanguage?.flag}</span> */}
-                    <span className="text-xs ml-1 hidden sm:inline">
+                    <Globe className="w-4 h-4 mr-1.5" />
+                    <span className="text-sm">
                         {currentLanguage?.code.toUpperCase()}
                     </span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[140px] bg-white border border-gray-200 shadow-lg">
+            <DropdownMenuContent align="end" className="min-w-[140px] bg-white border border-gray-200 shadow-lg rounded-lg p-1">
                 {languages.map((lang) => (
                     <DropdownMenuItem
                         key={lang.code}
                         onClick={() => setLanguage(lang.code)}
-                        className={`cursor-pointer ${language === lang.code ? 'bg-orange-50 text-orange-900' : ''
-                            }`}
+                        className={`cursor-pointer rounded-md px-3 py-2 text-sm ${
+                            language === lang.code
+                                ? 'bg-orange-50 text-orange-900'
+                                : 'text-gray-700 hover:bg-gray-50'
+                        }`}
                     >
-                        <span className="mr-2">{lang.flag}</span>
-                        <span className="text-sm">{lang.name}</span>
+                        <span className="text-sm font-medium">
+                            {lang.code.toUpperCase()} {lang.name}
+                        </span>
                         {language === lang.code && (
                             <span className="ml-auto text-orange-600">✓</span>
                         )}
@@ -63,6 +67,7 @@ const LanguageToggle: React.FC = () => {
 
 const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
     const navigate = useNavigate();
+    const { t } = useLanguage();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     function handleSkinAiPage() {
@@ -105,7 +110,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                 }`}
                         >
-                            홈
+                            {t('home')}
                         </button>
                         <button
                             onClick={() => handleSkinAiPage()}
@@ -114,7 +119,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                 }`}
                         >
-                            AI 분석
+                            {t('aiAnalysis')}
                         </button>
                         <button
                             onClick={() => handleInfoPage()}
@@ -123,7 +128,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                 }`}
                         >
-                            질병 정보
+                            {t('diseaseInfo')}
                         </button>
                         <button
                             onClick={() => handleSearchPage()}
@@ -132,9 +137,9 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)]"
                                 }`}
                         >
-                            병원 찾기
+                            {t('hospitalSearch')}
                         </button>
-                        <button
+                        {/* <button
                             onClick={() => handlerecordPage()}
                             className={`transition-colors ${currentPage === "record"
                                 ? "text-[var(--talktail-orange)]"
@@ -142,7 +147,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 }`}
                         >
                             내 기록
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* Right side buttons */}
@@ -196,7 +201,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                 }`}
                         >
-                            홈
+                            {t('home')}
                         </button>
                         <button
                             onClick={() => {
@@ -208,7 +213,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                 }`}
                         >
-                            AI 분석
+                            {t('aiAnalysis')}
                         </button>
                         <button
                             onClick={() => {
@@ -220,7 +225,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                 }`}
                         >
-                            질병 정보
+                            {t('diseaseInfo')}
                         </button>
                         <button
                             onClick={() => {
@@ -232,14 +237,14 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
                                 }`}
                         >
-                            병원 찾기
+                            {t('hospitalSearch')}
                         </button>
 
                         {/* Mobile 번역 버튼 */}
                         <div className="pt-2 border-t border-gray-100 mt-2">
                             <div className="px-3 py-2">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium text-gray-700">언어 선택</span>
+                                    <span className="text-sm font-medium text-gray-700">{t('languageSelect')}</span>
                                     <LanguageToggle />
                                 </div>
                             </div>

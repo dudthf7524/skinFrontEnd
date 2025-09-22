@@ -34,7 +34,57 @@ const translations = {
     emailCheck: "이메일을 확인하시고, 반려동물 건강 관리에 도움이 되는 추가 정보도 받아보세요.",
     aiSolution: "✨ GPTOnline.ai에서 제공하는 스마트 AI 솔루션으로 더 나은 반려동물 케어를 경험하세요",
     newDiagnosis: "새로운 진단 시작하기",
-    disclaimer: "💡 펫케어 AI는 참고용이며, 정확한 진단은 수의사와 상담하세요.",
+    disclaimer: "펫케어 AI는 참고용이며, 정확한 진단은 수의사와 상담하세요.",
+
+    // Navbar.tsx
+    home: "홈",
+    aiAnalysis: "AI 분석",
+    diseaseInfo: "질병 정보",
+    hospitalSearch: "병원 찾기",
+    myRecord: "내 기록",
+    login: "로그인",
+    diagnoseNow: "지금 진단하기",
+    languageSelect: "언어 선택",
+
+    // DiseaseInfoPage.tsx
+    skinDiseaseInfo: "피부 질병 정보",
+    skinDiseaseDescription: "반려동물에게 흔한 피부 질병들에 대해 알아보세요",
+    consultVetNote: "정확한 진단은 전문 수의사와 상담하세요",
+    mainSymptoms: "주요 증상",
+    viewDetails: "자세히 보기",
+    severity: "심각도",
+    prevalence: "발생빈도",
+    high: "높음",
+    medium: "중간",
+    low: "낮음",
+    common: "흔함",
+    normal: "보통",
+    rare: "드뭄",
+
+    // Disease names and descriptions
+    papulesPlaquesName: "구진,플라크",
+    papulesPlaquesDesc: "알레르기, 박테리아 감염으로 인하여 발생할 수 있는 질병 입니다.",
+    papulesPlaquesSymptoms: ["가려움", "붉어짐(발적)", "털빠짐", "각질 및 비듬", "진물 및 딱지"],
+
+    epithelialCollarsName: "상피성잔고리(비듬, 각질)",
+    epithelialCollarsDesc: "곰팡이 감염에 의하여 대부분 발생하는 질병이며 비듬, 각질등과 관련한 질환의 일부로 나타날 수 있습니다.",
+    epithelialCollarsSymptoms: ["가려움", "딱지", "건조함", "고리 모양의 붉은 반점"],
+
+    lichenificationName: "태선화, 과다색소침착",
+    lichenificationDesc: "곰팡이 감염으로 인하여 발생한 질환",
+    lichenificationSymptoms: ["냄새 및 악취취", "털 빠짐", "귀가 붉어짐", "검은색 귀지가 나옴옴", "가려움"],
+
+    pustulesAcneName: "농포, 여드름",
+    pustulesAcneDesc: "세균 감염, 면역력 저하, 개인 위생 소홀로 인하여서 발생하는 질병 입니다.",
+    pustulesAcneSymptoms: ["붉은 발적과 부기", "좁쌀 모양의 종기", "고름", "털빠짐", "가려움"],
+
+    erosionUlcerName: "미란, 궤양",
+    erosionUlcerDesc: "외상, 알레르기, 바이러스 감염으로 발생하는 질병 입니다.",
+    erosionUlcerSymptoms: ["눈곱 및 눈물 증가", "눈 비비기 및 자극", "각막 혼탁", "눈 충혈"],
+
+    nodulesName: "결절, 종괴",
+    nodulesDesc: "피부 및 피하 조직 문제, 장기 종양, 노령성 변화로 인하여서 발생하는 질병 입니다.",
+    nodulesSymptoms: ["피부 멍울", "호흡곤란", "절뚝거림", "체중 감소", "식욕부진"],
     
     // MedicalQuestionnaire.tsx
     step1Title: "Step 1. 반려동물 정보",
@@ -57,7 +107,7 @@ const translations = {
     otherBreed: "🔍 기타 (직접 입력)",
     customBreedPlaceholder: "품종을 직접 입력하세요",
     customBreedHelper: "예: 믹스견, 고양이 믹스, 특별한 품종명 등",
-    mainSymptoms: "주요 증상 (Main Symptoms)",
+    // mainSymptoms: "주요 증상 (Main Symptoms)",
     symptomsDescription: "해당되는 증상을 모두 선택해 주세요",
     selectedSymptoms: "선택된 증상 ({count}개)",
     moreSymptoms: "+{count}개 더",
@@ -191,7 +241,57 @@ const translations = {
     emailCheck: "Please check your email for additional information to help with pet health care.",
     aiSolution: "✨ Experience better pet care with smart AI solutions from GPTOnline.ai",
     newDiagnosis: "Start New Diagnosis",
-    disclaimer: "💡 Pet Care AI is for reference only. Please consult a veterinarian for accurate diagnosis.",
+    disclaimer: " Pet Care AI is for reference only. Please consult a veterinarian for accurate diagnosis.",
+
+    // Navbar.tsx
+    home: "Home",
+    aiAnalysis: "AI Analysis",
+    diseaseInfo: "Disease Info",
+    hospitalSearch: "Find Hospital",
+    myRecord: "My Record",
+    login: "Login",
+    diagnoseNow: "Diagnose Now",
+    languageSelect: "Language Selection",
+
+    // DiseaseInfoPage.tsx
+    skinDiseaseInfo: "Skin Disease Information",
+    skinDiseaseDescription: "Learn about common skin diseases in pets",
+    consultVetNote: "Consult a professional veterinarian for accurate diagnosis",
+    mainSymptoms: "Main Symptoms",
+    viewDetails: "View Details",
+    severity: "Severity",
+    prevalence: "Prevalence",
+    high: "High",
+    medium: "Medium",
+    low: "Low",
+    common: "Common",
+    normal: "Normal",
+    rare: "Rare",
+
+    // Disease names and descriptions
+    papulesPlaquesName: "Papules, Plaques",
+    papulesPlaquesDesc: "Diseases that can occur due to allergies and bacterial infections.",
+    papulesPlaquesSymptoms: ["Itching", "Redness", "Hair loss", "Scaling and dandruff", "Discharge and scabs"],
+
+    epithelialCollarsName: "Epithelial Collars (Dandruff, Scaling)",
+    epithelialCollarsDesc: "A disease mostly caused by fungal infections and can appear as part of diseases related to dandruff and scaling.",
+    epithelialCollarsSymptoms: ["Itching", "Scabs", "Dryness", "Ring-shaped red spots"],
+
+    lichenificationName: "Lichenification, Hyperpigmentation",
+    lichenificationDesc: "Disease caused by fungal infection",
+    lichenificationSymptoms: ["Odor and bad smell", "Hair loss", "Red ears", "Black ear discharge", "Itching"],
+
+    pustulesAcneName: "Pustules, Acne",
+    pustulesAcneDesc: "Disease caused by bacterial infection, decreased immunity, and poor personal hygiene.",
+    pustulesAcneSymptoms: ["Red inflammation and swelling", "Small boils", "Pus", "Hair loss", "Itching"],
+
+    erosionUlcerName: "Erosion, Ulcer",
+    erosionUlcerDesc: "Disease caused by trauma, allergies, and viral infections.",
+    erosionUlcerSymptoms: ["Increased eye discharge and tears", "Eye rubbing and irritation", "Corneal cloudiness", "Eye redness"],
+
+    nodulesName: "Nodules, Masses",
+    nodulesDesc: "Disease caused by skin and subcutaneous tissue problems, organ tumors, and aging changes.",
+    nodulesSymptoms: ["Skin lumps", "Difficulty breathing", "Limping", "Weight loss", "Loss of appetite"],
     
     // MedicalQuestionnaire.tsx
     step1Title: "Step 1. Pet Information",
@@ -214,7 +314,7 @@ const translations = {
     otherBreed: "🔍 Other (Custom Input)",
     customBreedPlaceholder: "Enter breed manually",
     customBreedHelper: "e.g., Mixed breed, Cat mix, Special breed name, etc.",
-    mainSymptoms: "Main Symptoms",
+    // mainSymptoms: "Main Symptoms",
     symptomsDescription: "Please select all applicable symptoms",
     selectedSymptoms: "Selected symptoms ({count})",
     moreSymptoms: "+{count} more",
@@ -348,7 +448,57 @@ const translations = {
     emailCheck: "メールを確認し、ペットの健康管理に役立つ追加情報もご覧ください。",
     aiSolution: "✨ GPTOnline.aiが提供するスマートAIソリューションで、より良いペットケアを体験してください",
     newDiagnosis: "新しい診断を開始",
-    disclaimer: "💡 ペットケアAIは参考用です。正確な診断は獣医師にご相談ください。",
+    disclaimer: " ペットケアAIは参考用です。正確な診断は獣医師にご相談ください。",
+
+    // Navbar.tsx
+    home: "ホーム",
+    aiAnalysis: "AI分析",
+    diseaseInfo: "疾病情報",
+    hospitalSearch: "病院検索",
+    myRecord: "記録",
+    login: "ログイン",
+    diagnoseNow: "今すぐ診断",
+    languageSelect: "言語選択",
+
+    // DiseaseInfoPage.tsx
+    skinDiseaseInfo: "皮膚疾患情報",
+    skinDiseaseDescription: "ペットによくある皮膚疾患について学びましょう",
+    consultVetNote: "正確な診断は専門獣医師にご相談ください",
+    mainSymptoms: "主な症状",
+    viewDetails: "詳細を見る",
+    severity: "重症度",
+    prevalence: "発生頻度",
+    high: "高い",
+    medium: "中程度",
+    low: "低い",
+    common: "よくある",
+    normal: "普通",
+    rare: "まれ",
+
+    // Disease names and descriptions
+    papulesPlaquesName: "丘疹、プラーク",
+    papulesPlaquesDesc: "アレルギーや細菌感染により発生する可能性のある疾患です。",
+    papulesPlaquesSymptoms: ["かゆみ", "赤み", "脱毛", "角質・フケ", "分泌物・かさぶた"],
+
+    epithelialCollarsName: "上皮環状物（フケ、角質）",
+    epithelialCollarsDesc: "真菌感染によってほとんど発生する疾患で、フケや角質などに関連する疾患の一部として現れることがあります。",
+    epithelialCollarsSymptoms: ["かゆみ", "かさぶた", "乾燥", "輪状の赤い斑点"],
+
+    lichenificationName: "苔癬化、過色素沈着",
+    lichenificationDesc: "真菌感染により発生した疾患",
+    lichenificationSymptoms: ["匂い・悪臭", "脱毛", "耳の赤み", "黒い耳垢", "かゆみ"],
+
+    pustulesAcneName: "膿疱、ニキビ",
+    pustulesAcneDesc: "細菌感染、免疫力低下、個人衛生の不備により発生する疾患です。",
+    pustulesAcneSymptoms: ["赤い炎症と腫れ", "小さなおでき", "膿", "脱毛", "かゆみ"],
+
+    erosionUlcerName: "びらん、潰瘍",
+    erosionUlcerDesc: "外傷、アレルギー、ウイルス感染により発生する疾患です。",
+    erosionUlcerSymptoms: ["目やに・涙の増加", "目をこする・刺激", "角膜の濁り", "目の充血"],
+
+    nodulesName: "結節、腫瘤",
+    nodulesDesc: "皮膚・皮下組織の問題、臓器腫瘍、老化による変化により発生する疾患です。",
+    nodulesSymptoms: ["皮膚のしこり", "呼吸困難", "跛行", "体重減少", "食欲不振"],
     
     // MedicalQuestionnaire.tsx
     step1Title: "ステップ1. ペット情報",
@@ -371,7 +521,7 @@ const translations = {
     otherBreed: "🔍 その他（直接入力）",
     customBreedPlaceholder: "品種を直接入力してください",
     customBreedHelper: "例：ミックス犬、猫ミックス、特別な品種名など",
-    mainSymptoms: "主な症状",
+    // mainSymptoms: "主な症状",
     symptomsDescription: "該当する症状をすべて選択してください",
     selectedSymptoms: "選択された症状 ({count}個)",
     moreSymptoms: "+{count}個以上",
@@ -505,8 +655,58 @@ const translations = {
     emailCheck: "请查看您的邮件，获取有助于宠物健康管理的额外信息。",
     aiSolution: "✨ 通过GPTOnline.ai提供的智能AI解决方案体验更好的宠物护理",
     newDiagnosis: "开始新诊断",
-    disclaimer: "💡 宠物护理AI仅供参考，准确诊断请咨询兽医。",
-    
+    disclaimer: " 宠物护理AI仅供参考，准确诊断请咨询兽医。",
+
+    // Navbar.tsx
+    home: "首页",
+    aiAnalysis: "AI分析",
+    diseaseInfo: "疾病信息",
+    hospitalSearch: "找医院",
+    myRecord: "我的记录",
+    login: "登录",
+    diagnoseNow: "立即诊断",
+    languageSelect: "语言选择",
+
+    // DiseaseInfoPage.tsx
+    skinDiseaseInfo: "皮肤疾病信息",
+    skinDiseaseDescription: "了解宠物常见皮肤疾病",
+    consultVetNote: "准确诊断请咨询专业兽医",
+    mainSymptoms: "主要症状",
+    viewDetails: "查看详情",
+    severity: "严重程度",
+    prevalence: "发生频率",
+    high: "高",
+    medium: "中等",
+    low: "低",
+    common: "常见",
+    normal: "一般",
+    rare: "罕见",
+
+    // Disease names and descriptions
+    papulesPlaquesName: "丘疹、斑块",
+    papulesPlaquesDesc: "由过敏、细菌感染引起的疾病。",
+    papulesPlaquesSymptoms: ["瘙痒", "发红", "脱毛", "鳞屑和皮屑", "分泌物和结痂"],
+
+    epithelialCollarsName: "上皮环状物（皮屑、鳞屑）",
+    epithelialCollarsDesc: "主要由真菌感染引起的疾病，可能作为与皮屑、鳞屑相关疾病的一部分出现。",
+    epithelialCollarsSymptoms: ["瘙痒", "结痂", "干燥", "环状红斑"],
+
+    lichenificationName: "苔藓化、色素沉着过度",
+    lichenificationDesc: "由真菌感染引起的疾病",
+    lichenificationSymptoms: ["异味和恶臭", "脱毛", "耳朵发红", "黑色耳垢", "瘙痒"],
+
+    pustulesAcneName: "脓疱、痤疮",
+    pustulesAcneDesc: "由细菌感染、免疫力下降、个人卫生不当引起的疾病。",
+    pustulesAcneSymptoms: ["红肿", "小疙瘩", "脓液", "脱毛", "瘙痒"],
+
+    erosionUlcerName: "糜烂、溃疡",
+    erosionUlcerDesc: "由外伤、过敏、病毒感染引起的疾病。",
+    erosionUlcerSymptoms: ["眼屎和眼泪增多", "揉眼和刺激", "角膜混浊", "眼部充血"],
+
+    nodulesName: "结节、肿块",
+    nodulesDesc: "由皮肤和皮下组织问题、器官肿瘤、老化变化引起的疾病。",
+    nodulesSymptoms: ["皮肤肿块", "呼吸困难", "跛行", "体重减轻", "食欲不振"],
+
     // MedicalQuestionnaire.tsx
     step1Title: "步骤1. 宠物信息",
     step2Title: "步骤2. 症状和部位输入",
@@ -528,7 +728,7 @@ const translations = {
     otherBreed: "🔍 其他（直接输入）",
     customBreedPlaceholder: "请直接输入品种",
     customBreedHelper: "例如：混种犬、猫混种、特殊品种名称等",
-    mainSymptoms: "主要症状",
+    // mainSymptoms: "主要症状",
     symptomsDescription: "请选择所有适用的症状",
     selectedSymptoms: "选择的症状 ({count}个)",
     moreSymptoms: "+还有{count}个",

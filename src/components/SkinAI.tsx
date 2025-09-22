@@ -59,6 +59,7 @@ const SkinAIContent = () => {
   const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<Step>("questionnaire");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [questionnaireData, setQuestionnaireData] = useState<QuestionnaireData | null>(null);
   const [diagnosis, setDiagnosis] = useState<DiagnosisData | null>(null);
   const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
@@ -194,7 +195,13 @@ const SkinAIContent = () => {
   };
 
   const handlePhotoUpload = async (original: File, croped?: File) => {
-    setUploadedFile(croped || original);
+    const fileToUse = croped || original;
+    setUploadedFile(fileToUse);
+
+    // 이미지 URL 생성 (미리보기용)
+    const imageUrl = URL.createObjectURL(fileToUse);
+    setUploadedImageUrl(imageUrl);
+
     setIsLoading(true);
 
     try {
@@ -243,12 +250,20 @@ const SkinAIContent = () => {
   };
 
   const handleDiagnosisComplete = () => {
-    setCurrentStep("complete");
+    // 새로운 AI 분석을 위해 모든 상태 초기화하고 첫 번째 단계로 이동
+    setCurrentStep("questionnaire");
+    setUploadedFile(null);
+    setUploadedImageUrl(null);
+    setQuestionnaireData(null);
+    setDiagnosis(null);
+    setSelectedHospital(null);
+    setIsLoading(false);
   };
 
   const handleRestart = () => {
     setCurrentStep("questionnaire");
     setUploadedFile(null);
+    setUploadedImageUrl(null);
     setQuestionnaireData(null);
     setDiagnosis(null);
     setSelectedHospital(null);
@@ -480,6 +495,9 @@ const SkinAIContent = () => {
               diagnosis={diagnosis}
               onContinue={handleDiagnosisComplete}
               onBack={goBack}
+              uploadedImage={uploadedImageUrl}
+              hospitals={mockHospitals}
+              questionnaireData={questionnaireData}
             />
           )}
 

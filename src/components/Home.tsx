@@ -1,14 +1,100 @@
 import { Award, Badge, Brain, Camera, Heart, Hospital, LogIn, MapPin, Menu, Quote, Shield, Sparkles, Star, Upload, Users, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
 import ProfileBar from "./ProfileBar";
 import LoginPage from "./Login";
 import Navbar from "./Navbar";
+import result1 from "../assets/img/result1.png";
+import result2 from "../assets/img/result2.png";
+import result3 from "../assets/img/result3.png";
 
 export default function Home() {
     const navigate = useNavigate()
     const [loginModal, setLoginModal] = useState(false);
+
+    // 슬라이더 관련 상태
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [translateX, setTranslateX] = useState(0);
+    const sliderRef = useRef<HTMLDivElement>(null);
+
+    const images = [result1, result2, result3];
+    const totalSlides = images.length;
+
+    // 자동 슬라이드 기능 (5초마다)
+    useEffect(() => {
+        if (!isDragging) {
+            const interval = setInterval(() => {
+                setCurrentSlide((prev) => (prev + 1) % totalSlides);
+            }, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [totalSlides, isDragging]);
+
+    // 슬라이드 이동 함수
+    const goToSlide = (index: number) => {
+        setCurrentSlide(index);
+    };
+
+    // 터치/마우스 이벤트 핸들러
+    const handleStart = (clientX: number) => {
+        setIsDragging(true);
+        setStartX(clientX);
+        setTranslateX(0);
+    };
+
+    const handleMove = (clientX: number) => {
+        if (!isDragging) return;
+        const deltaX = clientX - startX;
+        setTranslateX(deltaX);
+    };
+
+    const handleEnd = () => {
+        if (!isDragging) return;
+        setIsDragging(false);
+
+        const threshold = 50; // 50px 이상 드래그해야 슬라이드 변경
+        if (Math.abs(translateX) > threshold) {
+            if (translateX > 0) {
+                // 오른쪽으로 드래그 - 이전 슬라이드
+                setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+            } else {
+                // 왼쪽으로 드래그 - 다음 슬라이드
+                setCurrentSlide((prev) => (prev + 1) % totalSlides);
+            }
+        }
+        setTranslateX(0);
+    };
+
+    // 마우스 이벤트
+    const handleMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault();
+        handleStart(e.clientX);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        handleMove(e.clientX);
+    };
+
+    const handleMouseUp = () => {
+        handleEnd();
+    };
+
+    // 터치 이벤트
+    const handleTouchStart = (e: React.TouchEvent) => {
+        handleStart(e.touches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        handleMove(e.touches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        handleEnd();
+    };
+
     function handleSkinAiPage() {
         navigate('/skinai')
     }
@@ -98,6 +184,10 @@ export default function Home() {
         navigate('/search ');
     }
 
+    function handleLoginPage() {
+        navigate('/signin ');
+    }
+
     const handlerLoginClick = () => {
         if (loginModal === true) {
             setLoginModal(false);
@@ -109,173 +199,19 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-white">
-            <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        {/* Logo */}
-                        <div
-                            className="flex items-center space-x-2 cursor-pointer"
-                        >
-                            <div className="w-10 h-10 bg-[var(--talktail-orange)] rounded-full flex items-center justify-center">
-                                <Heart className="w-6 h-6 text-white" />
-                            </div>
-                            <div>
-                                <h1 className="text-xl font-bold text-gray-900">Talktail</h1>
-                                <p className="text-xs text-gray-500">SkinCare AI</p>
-                            </div>
-                        </div>
-                        {/* Desktop Navigation */}
-                        <div className="hidden md:flex items-center space-x-8">
-                            <button
-                                className={`transition-colors ${currentPage === "home"
-                                    ? "text-[var(--talktail-orange)]"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                    }`}
-                            >
-                                홈
-                            </button>
-                            <button
-                                onClick={() => handleSkinAiPage()}
-                                className={`transition-colors ${currentPage === "skinai"
-                                    ? "text-[var(--talktail-orange)]"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                    }`}
-                            >
-                                AI 분석
-                            </button>
-                            <button
-                                onClick={() => handleInfoPage()}
-                                className={`transition-colors ${currentPage === "info"
-                                    ? "text-[var(--talktail-orange)]"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                    }`}
-                            >
-                                질병 정보
-                            </button>
-                            <button
-                                onClick={() => handleSearchPage()}
-                                className={`transition-colors ${currentPage === "search"
-                                    ? "text-[var(--talktail-orange)]"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                    }`}
-                            >
-                                병원 찾기
-                            </button>
-                        </div>
 
-                        {/* Right side buttons */}
-                        <div className="flex items-center space-x-4">
-                            {localStorage.getItem("user") ? (
-                                <ProfileBar />
-                            ) : (
-                                <>
-                                    {/* <button
-                                        onClick={() => handlerLoginClick()}
-                                        className={`transition-colors ${currentPage === "login"
-                                            ? "text-[var(--talktail-orange)]"
-                                            : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                            }`}
-                                    >
-                                        로그인
-                                    </button> */}
-                                    <Button
-                                        onClick={() => handlerLoginClick()}
-                                        size="sm"
-                                        className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
-                                    >
-                                        로그인
-                                    </Button>
-                                    {/* <Button
-                                        size="sm"
-                                        className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
-                                    >
-                                        지금 진단하기
-                                    </Button> */}
-                                </>
-                            )}
-
-                            {/* Mobile menu button */}
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="md:hidden p-2"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            >
-                                {isMobileMenuOpen ? (
-                                    <X className="h-6 w-6" />
-                                ) : (
-                                    <Menu className="h-6 w-6" />
-                                )}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-                {loginModal && <LoginPage setLoginModal={setLoginModal} />}
-                {/* Mobile Navigation Menu */}
-                {isMobileMenuOpen && (
-                    <div className="md:hidden border-t border-gray-100 bg-white">
-                        <div className="px-4 py-2 space-y-1">
-                            <button
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "home"
-                                    ? "text-[var(--talktail-orange)] bg-orange-50"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
-                                    }`}
-                            >
-                                홈
-                            </button>
-                            <button
-                                onClick={() => handleSkinAiPage()}
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "skinai"
-                                    ? "text-[var(--talktail-orange)] bg-orange-50"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
-                                    }`}
-                            >
-                                AI 분석
-                            </button>
-                            <button
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "info"
-                                    ? "text-[var(--talktail-orange)] bg-orange-50"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
-                                    }`}
-                            >
-                                질병 정보
-                            </button>
-                            <button
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === "search"
-                                    ? "text-[var(--talktail-orange)] bg-orange-50"
-                                    : "text-gray-700 hover:text-[var(--talktail-orange)] hover:bg-gray-50"
-                                    }`}
-                            >
-                                병원 찾기
-                            </button>
-
-                            {/* Mobile CTA buttons */}
-                            <div className="pt-2 border-t border-gray-100 mt-2">
-                                <Button
-                                    size="sm"
-                                    className="w-full justify-start px-3 py-2 mt-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-base font-medium"
-                                >
-                                    지금 진단하기
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </nav>
-
-            {/* <Navbar/> */}
+            <Navbar />
 
             <section className="bg-gradient-to-br from-[var(--talktail-beige)] to-white py-5 lg:py-10 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                     <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
-                        {/* Mobile Layout - Full Width */}
                         <div className="lg:hidden space-y-6">
                             <div className="space-y-4 text-center">
-                                {/* <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
+                                <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
                                     <Sparkles className="w-4 h-4 mr-2 text-[var(--talktail-orange)]" />
                                     AI 피부 질병 스크리닝 서비스
-                                </div> */}
-                                <div className="text-lg sm:text-3xl font-bold text-gray-900 leading-tight">
+                                </div>
+                                <div className="text-xl sm:text-3xl font-bold text-gray-900 leading-tight">
                                     반려동물 피부 건강을 AI로 진단하세요
                                 </div>
                                 <p className="hidden sm:block text-sm text-gray-600 leading-relaxed">
@@ -285,18 +221,69 @@ export default function Home() {
                                 </p>
                             </div>
 
-                            <div className="flex justify-center">
-                                <div className="bg-gradient-to-br from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] rounded-2xl p-4 shadow-xl max-w-xs w-full">
+                            <div className="flex justify-center px-2">
+                                <div className="bg-gradient-to-br from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] rounded-2xl p-3 shadow-xl max-w-sm w-full">
                                     <div className="bg-white rounded-xl p-4 relative overflow-hidden">
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
                                                 <div className="text-xs font-medium">AI 분석 중...</div>
                                                 <div className="w-4 h-4 bg-[var(--talktail-orange)] rounded-full animate-pulse"></div>
                                             </div>
-                                            <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
-                                                <div className="text-4xl">🐕</div>
+
+                                            <div className="relative">
+                                                <div
+                                                    ref={sliderRef}
+                                                    className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing select-none"
+                                                    onMouseDown={handleMouseDown}
+                                                    onMouseMove={isDragging ? handleMouseMove : undefined}
+                                                    onMouseUp={handleMouseUp}
+                                                    onMouseLeave={handleMouseUp}
+                                                    onTouchStart={handleTouchStart}
+                                                    onTouchMove={handleTouchMove}
+                                                    onTouchEnd={handleTouchEnd}
+                                                >
+                                                    <div
+                                                        className="flex transition-transform duration-700 ease-in-out h-full"
+                                                        style={{
+                                                            transform: `translateX(${-currentSlide * 100 + (isDragging ? (translateX / sliderRef.current?.offsetWidth || 1) * 100 : 0)}%)`
+                                                        }}
+                                                    >
+                                                        {images.map((image, index) => (
+                                                            <div key={index} className="w-full h-full flex-shrink-0">
+                                                                <img
+                                                                    src={image}
+                                                                    alt={`AI 분석 결과 ${index + 1}`}
+                                                                    className="w-full h-full object-cover"
+                                                                    draggable={false}
+                                                                    style={{
+                                                                        imageRendering: 'high-quality',
+                                                                        imageRendering: '-webkit-optimize-contrast',
+                                                                        backfaceVisibility: 'hidden',
+                                                                        WebkitBackfaceVisibility: 'hidden',
+                                                                        transform: 'translateZ(0)',
+                                                                        WebkitTransform: 'translateZ(0)'
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex justify-center space-x-1 mt-2">
+                                                    {images.map((_, index) => (
+                                                        <button
+                                                            key={index}
+                                                            onClick={() => goToSlide(index)}
+                                                            className={`w-2 h-2 rounded-full transition-all duration-200 ${currentSlide === index
+                                                                ? 'bg-[var(--talktail-orange)] w-4'
+                                                                : 'bg-gray-300 hover:bg-gray-400'
+                                                                }`}
+                                                        />
+                                                    ))}
+                                                </div>
                                             </div>
-                                            <div className="space-y-2">
+
+                                            {/* <div className="space-y-2">
                                                 <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
                                                     <span className="text-xs">습진 (Eczema)</span>
                                                     <span className="text-xs font-medium text-green-600">85%</span>
@@ -305,7 +292,7 @@ export default function Home() {
                                                     <span className="text-xs">알레르기</span>
                                                     <span className="text-xs font-medium text-yellow-600">12%</span>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -313,24 +300,23 @@ export default function Home() {
 
                             <div className="flex flex-col gap-2 px-4">
                                 <button
-                                    onClick={() => handlerLoginClick()}
+                                    onClick={() => handleSkinAiPage()}
                                     className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-3 py-2 text-sm font-medium rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
                                 >
                                     <Camera className="w-3 h-3 mr-1" />
                                     지금 바로 체험하기
                                 </button>
 
-                                <button
-                                    onClick={() => handlerLoginClick()}
+                                {/* <button
+                                    onClick={() => handleLoginPage()}
                                     className="w-full border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-3 py-2 text-sm font-medium rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
                                 >
                                     <LogIn className="w-3 h-3 mr-1" />
                                     로그인
-                                </button>
+                                </button> */}
                             </div>
                         </div>
 
-                        {/* Desktop Layout - Left side - Text content */}
                         <div className="hidden lg:block space-y-8">
                             <div className="space-y-4 text-left">
                                 <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
@@ -351,7 +337,7 @@ export default function Home() {
 
                             <div className="flex flex-col gap-6">
                                 <button
-                                    onClick={() => handlerLoginClick()}
+                                    onClick={() => handleSkinAiPage()}
                                     className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-6 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
                                 >
                                     <Camera className="w-5 h-5 mr-3" />
@@ -359,7 +345,7 @@ export default function Home() {
                                 </button>
 
                                 {/* <button
-                                    onClick={() => handlerLoginClick()}
+                                    onClick={() => handleLoginPage()}
                                     className="w-full border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-6 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
                                 >
                                     <LogIn className="w-5 h-5 mr-3" />
@@ -368,7 +354,6 @@ export default function Home() {
                             </div>
                         </div>
 
-                        {/* Desktop Layout - Right side - Illustration */}
                         <div className="hidden lg:block relative">
                             <div className="bg-gradient-to-br from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] rounded-3xl p-8 shadow-2xl">
                                 <div className="bg-white rounded-2xl p-6 relative overflow-hidden">
@@ -377,10 +362,58 @@ export default function Home() {
                                             <div className="text-sm font-medium">AI 분석 중...</div>
                                             <div className="w-6 h-6 bg-[var(--talktail-orange)] rounded-full animate-pulse"></div>
                                         </div>
-                                        <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                                            <div className="text-6xl">🐕</div>
+
+                                        <div className="relative">
+                                            <div
+                                                className="aspect-square bg-gray-100 rounded-xl overflow-hidden cursor-grab active:cursor-grabbing select-none"
+                                                onMouseDown={handleMouseDown}
+                                                onMouseMove={isDragging ? handleMouseMove : undefined}
+                                                onMouseUp={handleMouseUp}
+                                                onMouseLeave={handleMouseUp}
+                                                onTouchStart={handleTouchStart}
+                                                onTouchMove={handleTouchMove}
+                                                onTouchEnd={handleTouchEnd}
+                                            >
+                                                <div
+                                                    className="flex transition-transform duration-700 ease-in-out h-full"
+                                                    style={{
+                                                        transform: `translateX(${-currentSlide * 100 + (isDragging ? (translateX / sliderRef.current?.offsetWidth || 1) * 100 : 0)}%)`
+                                                    }}
+                                                >
+                                                    {images.map((image, index) => (
+                                                        <div key={index} className="w-full h-full flex-shrink-0">
+                                                            <img
+                                                                src={image}
+                                                                alt={`AI 분석 결과 ${index + 1}`}
+                                                                className="w-full h-full object-cover"
+                                                                draggable={false}
+                                                                style={{
+                                                                    imageRendering: 'crisp-edges',
+                                                                    WebkitImageRendering: 'crisp-edges',
+                                                                    msImageRendering: 'crisp-edges',
+                                                                    imageRendering: '-webkit-optimize-contrast'
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex justify-center space-x-2 mt-3">
+                                                {images.map((_, index) => (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => goToSlide(index)}
+                                                        className={`w-3 h-3 rounded-full transition-all duration-200 ${currentSlide === index
+                                                            ? 'bg-[var(--talktail-orange)] w-6'
+                                                            : 'bg-gray-300 hover:bg-gray-400'
+                                                            }`}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
-                                        <div className="space-y-2">
+
+                                        {/* <div className="space-y-2">
                                             <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                                                 <span className="text-sm">습진 (Eczema)</span>
                                                 <span className="text-sm font-medium text-green-600">85%</span>
@@ -389,7 +422,7 @@ export default function Home() {
                                                 <span className="text-sm">알레르기</span>
                                                 <span className="text-sm font-medium text-yellow-600">12%</span>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="absolute -top-2 -right-2 w-8 h-8 bg-[var(--talktail-mint)] rounded-full flex items-center justify-center">
                                         <Sparkles className="w-4 h-4 text-[var(--talktail-orange)]" />
@@ -433,7 +466,6 @@ export default function Home() {
                         ))}
                     </div>
 
-                    {/* Call to action */}
                     <div className="text-center mt-16">
                         <div className="inline-flex items-center px-6 py-3 bg-[var(--talktail-beige)] rounded-full text-[var(--talktail-orange)] font-medium">
                             💡 평균 분석 시간: 30초 이내
@@ -534,14 +566,14 @@ export default function Home() {
                     >
                         무료 체험 하기
                     </Button>
-                    <Button
+                    {/* <Button
                         size="lg"
                         variant="outline"
                         className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
-                        onClick={() => handleInfoPage()}
+                        onClick={() => handleLoginPage()}
                     >
                         로그인
-                    </Button>
+                    </Button> */}
                 </div>
             </section>
 

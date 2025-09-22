@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { DiseaseInfoDetailModal } from "./DiseaselnfoDetailModal";
 import { useState, useEffect } from "react";
+import { useLanguage } from "./LanguageContext";
 import Navbar from "./Navbar";
 
 interface propsType {
@@ -28,143 +29,123 @@ interface detailType {
 }
 
 export function DiseaseInfoPage() {
+  const { t } = useLanguage();
   const [isDetailModal, setIsDetailModal] = useState<boolean>(false)
   const [detailData, setDetailData] = useState<detailType>()
 
   const diseaseCategories = [
     {
       id: "1",
-      name: "구진,플라크",
+      name: t('papulesPlaquesName'),
       icon: Thermometer,
       color: "bg-red-50 border-red-200 text-red-700",
       iconColor: "text-red-600",
-      description:
-        "알레르기, 박테리아 감염으로 인하여 발생할 수 있는 질병 입니다.",
-      symptoms: [
-        "가려움",
-        "붉어짐(발적)",
-        "털빠짐",
-        "각질 및 비듬",
-        "진물 및 딱지",
-      ],
-      severity: "중간",
-      prevalence: "높음",
+      description: t('papulesPlaquesDesc'),
+      symptoms: Array.isArray(t('papulesPlaquesSymptoms')) ? t('papulesPlaquesSymptoms') : ["가려움", "붉어짐(발적)", "털빠짐", "각질 및 비듬", "진물 및 딱지"],
+      severity: t('medium'),
+      prevalence: t('high'),
     },
     {
       id: "2",
-      name: "상피성잔고리(비듬, 각질)",
+      name: t('epithelialCollarsName'),
       icon: Bug,
       color: "bg-yellow-50 border-yellow-200 text-yellow-700",
       iconColor: "text-yellow-600",
-      description:
-        "곰팡이 감염에 의하여 대부분 발생하는 질병이며 비듬, 각질등과 관련한 질환의 일부로 나타날 수 있습니다.",
-      symptoms: ["가려움", "딱지", "건조함", "고리 모양의 붉은 반점"],
-      severity: "중간",
-      prevalence: "높음",
+      description: t('epithelialCollarsDesc'),
+      symptoms: Array.isArray(t('epithelialCollarsSymptoms')) ? t('epithelialCollarsSymptoms') : ["가려움", "딱지", "건조함", "고리 모양의 붉은 반점"],
+      severity: t('medium'),
+      prevalence: t('high'),
     },
     {
       id: "3",
-      name: "태선화, 과다색소침착",
+      name: t('lichenificationName'),
       icon: Zap,
       color: "bg-orange-50 border-orange-200 text-orange-700",
       iconColor: "text-orange-600",
-      description: "곰팡이 감염으로 인하여 발생한 질환",
-      symptoms: [
-        "냄새 및 악취취",
-        "털 빠짐",
-        "귀가 붉어짐",
-        "검은색 귀지가 나옴옴",
-        "가려움",
-      ],
-      severity: "낮음",
-      prevalence: "중간",
+      description: t('lichenificationDesc'),
+      symptoms: Array.isArray(t('lichenificationSymptoms')) ? t('lichenificationSymptoms') : ["냄새 및 악취취", "털 빠짐", "귀가 붉어짐", "검은색 귀지가 나옴옴", "가려움"],
+      severity: t('low'),
+      prevalence: t('medium'),
     },
     {
       id: "4",
-      name: "농포, 여드름",
+      name: t('pustulesAcneName'),
       icon: AlertTriangle,
       color: "bg-yellow-50 border-yellow-200 text-yellow-700",
       iconColor: "text-yellow-600",
-      description:
-        "세균 감염, 면역력 저하, 개인 위생 소홀로 인하여서 발생하는 질병 입니다.",
-      symptoms: [
-        "붉은 발적과 부기",
-        "좁쌀 모양의 종기",
-        "고름",
-        "털빠짐",
-        "가려움",
-      ],
-      severity: "높음",
-      prevalence: "높음",
+      description: t('pustulesAcneDesc'),
+      symptoms: Array.isArray(t('pustulesAcneSymptoms')) ? t('pustulesAcneSymptoms') : ["붉은 발적과 부기", "좁쌀 모양의 종기", "고름", "털빠짐", "가려움"],
+      severity: t('high'),
+      prevalence: t('high'),
     },
     {
       id: "5",
-      name: "미란, 궤양",
+      name: t('erosionUlcerName'),
       icon: Heart,
       color: "bg-orange-50 border-orange-200 text-orange-700",
       iconColor: "text-orange-600",
-      description: "외상, 알레르기, 바이러스 감염으로 발생하는 질병 입니다.",
-      symptoms: [
-        "눈곱 및 눈물 증가",
-        "눈 비비기 및 자극",
-        "각막 혼탁",
-        "눈 충혈",
-      ],
-      severity: "높음",
-      prevalence: "높음",
+      description: t('erosionUlcerDesc'),
+      symptoms: Array.isArray(t('erosionUlcerSymptoms')) ? t('erosionUlcerSymptoms') : ["눈곱 및 눈물 증가", "눈 비비기 및 자극", "각막 혼탁", "눈 충혈"],
+      severity: t('high'),
+      prevalence: t('high'),
     },
     {
       id: "6",
-      name: "결절, 종괴",
+      name: t('nodulesName'),
       icon: CircleMinus,
       color: "bg-yellow-50 border-yellow-200 text-yellow-700",
       iconColor: "text-yellow-600",
-      description:
-        "피부 및 피하 조직 문제, 장기 종양, 노령성 변화로 인하여서 발생하는 질병 입니다.",
-      symptoms: ["피부 멍울", "호흡곤란", "절뚝거림", "체중 감소", "식욕부진"],
-      severity: "높음",
-      prevalence: "높음",
+      description: t('nodulesDesc'),
+      symptoms: Array.isArray(t('nodulesSymptoms')) ? t('nodulesSymptoms') : ["피부 멍울", "호흡곤란", "절뚝거림", "체중 감소", "식욕부진"],
+      severity: t('high'),
+      prevalence: t('high'),
     },
   ];
 
   const getSeverityBadge = (severity: string) => {
-    switch (severity) {
-      case "높음":
-        return <Badge className="bg-red-100 text-red-800">높음</Badge>;
-      case "중간":
-        return <Badge className="bg-yellow-100 text-yellow-800">중간</Badge>;
-      case "낮음":
-        return <Badge className="bg-green-100 text-green-800">낮음</Badge>;
-      default:
-        return <Badge variant="outline">{severity}</Badge>;
+    const highKeywords = [t('high'), "높음", "High", "高い", "高"];
+    const mediumKeywords = [t('medium'), "중간", "Medium", "中程度", "中等"];
+    const lowKeywords = [t('low'), "낮음", "Low", "低い", "低"];
+
+    if (highKeywords.includes(severity)) {
+      return <Badge className="bg-red-100 text-red-800">{t('high')}</Badge>;
+    } else if (mediumKeywords.includes(severity)) {
+      return <Badge className="bg-yellow-100 text-yellow-800">{t('medium')}</Badge>;
+    } else if (lowKeywords.includes(severity)) {
+      return <Badge className="bg-green-100 text-green-800">{t('low')}</Badge>;
+    } else {
+      return <Badge variant="outline">{severity}</Badge>;
     }
   };
 
   const getPrevalenceBadge = (prevalence: string) => {
-    switch (prevalence) {
-      case "높음":
-        return (
-          <Badge variant="outline" className="border-red-200 text-red-700">
-            흔함
-          </Badge>
-        );
-      case "중간":
-        return (
-          <Badge
-            variant="outline"
-            className="border-yellow-200 text-yellow-700"
-          >
-            보통
-          </Badge>
-        );
-      case "낮음":
-        return (
-          <Badge variant="outline" className="border-green-200 text-green-700">
-            드뭄
-          </Badge>
-        );
-      default:
-        return <Badge variant="outline">{prevalence}</Badge>;
+    const highKeywords = [t('high'), "높음", "High", "高い", "高"];
+    const mediumKeywords = [t('medium'), "중간", "Medium", "中程度", "中等"];
+    const lowKeywords = [t('low'), "낮음", "Low", "低い", "低"];
+
+    if (highKeywords.includes(prevalence)) {
+      return (
+        <Badge variant="outline" className="border-red-200 text-red-700">
+          {t('common')}
+        </Badge>
+      );
+    } else if (mediumKeywords.includes(prevalence)) {
+      return (
+        <Badge
+          variant="outline"
+          className="border-yellow-200 text-yellow-700"
+        >
+          {t('normal')}
+        </Badge>
+      );
+    } else if (lowKeywords.includes(prevalence)) {
+      return (
+        <Badge variant="outline" className="border-green-200 text-green-700">
+          {t('rare')}
+        </Badge>
+      );
+    } else {
+      return <Badge variant="outline">{prevalence}</Badge>;
     }
   };
 
@@ -218,15 +199,15 @@ export function DiseaseInfoPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            피부 질병 정보
+            {t('skinDiseaseInfo')}
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            반려동물에게 흔한 피부 질병들에 대해 알아보세요
+            {t('skinDiseaseDescription')}
           </p>
 
           <div className="inline-flex items-center px-6 py-3 bg-blue-50 border border-blue-200 rounded-full text-blue-700">
             <Info className="w-4 h-4 mr-2" />
-            정확한 진단은 전문 수의사와 상담하세요
+            {t('consultVetNote')}
           </div>
         </div>
 
@@ -253,7 +234,7 @@ export function DiseaseInfoPage() {
 
               <div className="space-y-3">
                 <div>
-                  <h4 className="font-medium mb-2">주요 증상</h4>
+                  <h4 className="font-medium mb-2">{t('diseaseMainSymptoms')}</h4>
                   <div className="space-y-1">
                     {disease.symptoms.map((symptom, index) => (
                       <div key={index} className="text-sm flex items-center">
@@ -269,7 +250,7 @@ export function DiseaseInfoPage() {
                     className="w-full mt-4 border-current text-current hover:bg-white/50"
                     size="sm"
                   >
-                    자세히 보기
+                    {t('viewDetails')}
                   </Button>
                 </button>
               </div>
@@ -277,8 +258,7 @@ export function DiseaseInfoPage() {
           ))}
         </div>
 
-        {/* Emergency notice */}
-        <div className="mt-12 p-6 bg-red-50 border border-red-200 rounded-xl">
+        {/* <div className="mt-12 p-6 bg-red-50 border border-red-200 rounded-xl">
           <div className="flex items-start space-x-4">
             <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
             <div>
@@ -299,7 +279,7 @@ export function DiseaseInfoPage() {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
