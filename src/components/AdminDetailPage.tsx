@@ -217,8 +217,10 @@ export function AdminDetailPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             목록으로 돌아가기
           </Button>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">문진표 상세보기</h1>
-          <p className="text-gray-600">접수일: {formatDate(data.createdAt)}</p>
+          <div className="p-7 bg-white rounded-2xl border border-gray-200 shadow-xl">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">문진표 상세보기</h1>
+            <p className="text-gray-600">접수일: {formatDate(data.createdAt)}</p>
+          </div>
         </div>
 
         <div className="space-y-6">
