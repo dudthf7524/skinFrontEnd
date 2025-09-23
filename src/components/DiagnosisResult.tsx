@@ -311,7 +311,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
         user_email: shareEmail,
       };
 
-      const response = await axios.post(`${apiBaseUrl}/email`, emailData, {
+      const response = await axios.post(`${apiBaseUrl}/email/send`, emailData, {
         headers: {
           'Content-Type': 'application/json',
         }
