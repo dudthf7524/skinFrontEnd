@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { Progress } from './ui/progress';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { AlertTriangle, CheckCircle, Info, MapPin, Share2, Mail, Link, Copy, Navigation, Star, Clock, Activity, Map, Phone, Download, Camera } from 'lucide-react';
+import { AlertTriangle, CheckCircle, MapPin, Share2, Mail, Navigation, Star, Clock, Activity, Map, Phone, Download, Camera } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
+import { useLanguage } from './LanguageContext';
 
 interface DiagnosisData {
   condition: string;
@@ -64,6 +64,7 @@ const containerStyle = {
 };
 
 export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, hospitals = [], questionnaireData }: DiagnosisResultProps) {
+  const { t } = useLanguage();
   const [shareEmail, setShareEmail] = useState('');
   const [isSharing, setIsSharing] = useState(false);
   const [showMap, setShowMap] = useState(false);
@@ -85,30 +86,6 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
     libraries: ["places"],
     language: "ko"
   });
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'low': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      case 'medium': return 'bg-orange-50 text-orange-700 border-orange-200';
-      case 'high': return 'bg-red-50 text-red-700 border-red-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getUrgencyIcon = (urgency: string) => {
-    switch (urgency) {
-      case 'emergency': return <AlertTriangle className="w-5 h-5 text-red-600" />;
-      case 'urgent': return <AlertTriangle className="w-5 h-5 text-orange-600" />;
-      default: return <CheckCircle className="w-5 h-5 text-emerald-600" />;
-    }
-  };
-
-  const getUrgencyMessage = (urgency: string) => {
-    switch (urgency) {
-      case 'emergency': return '즉시 응급실 방문이 필요합니다';
-      case 'urgent': return '빠른 시일 내 병원 방문을 권장합니다';
-      default: return '정기적인 관리가 필요합니다';
-    }
-  };
 
   function getDistanceKm(
     placeLat: number,
@@ -148,7 +125,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
           setIsLoadingLocation(false);
         },
         (err) => {
-          console.error("위치 가져오기 실패:", err);
+          console.error("Failed to get location:", err);
           setIsLoadingLocation(false);
           setHasLocationPermission(false);
           // 위치 권한이 없을 경우 서울 시청으로 기본값 설정
@@ -316,13 +293,14 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
           'Content-Type': 'application/json',
         }
       });
+      console.log(response);
 
       setIsSharing(false);
-      alert(`🎉 진단 결과가 ${shareEmail}로 전송되었습니다!\n\n전송 내용:\n- ${questionnaireData?.petName || '반려동물'}의 진단 결과\n- AI 분석 리포트\n- 추천 병원 정보\n- 관리 가이드`);
+      alert(`🎉 ${t('diagnosis_emailSentSuccess', { email: shareEmail })}`);
     } catch (error) {
       console.error('이메일 전송 실패:', error);
       setIsSharing(false);
-      alert('이메일 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+      alert(t('diagnosis_emailSentError'));
     }
   };
 
@@ -339,9 +317,19 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
 
   const handleHospitalContact = (hospital: Hospital, action: 'call' | 'navigate') => {
     if (action === 'call') {
-      alert(`📞 ${hospital.name}에 전화를 거시겠습니까?\n\n전화번호: ${hospital.phone}\n운영시간: ${hospital.openHours}\n예상 대기시간: ${hospital.estimatedWaitTime}`);
+      alert(`📞 ${t('diagnosis_hospitalContactCall', {
+        hospitalName: hospital.name,
+        phone: hospital.phone,
+        openHours: hospital.openHours,
+        waitTime: hospital.estimatedWaitTime
+      })}`);
     } else if (action === 'navigate') {
-      alert(`🗺️ ${hospital.name}로 길찾기를 시작합니다.\n\n주소: ${hospital.address}\n거리: ${hospital.distance}\n예상 소요시간: 도보 ${parseInt(hospital.distance) * 12}분`);
+      alert(`🗺️ ${t('diagnosis_hospitalContactNavigate', {
+        hospitalName: hospital.name,
+        address: hospital.address,
+        distance: hospital.distance,
+        walkTime: parseInt(hospital.distance) * 12
+      })}`);
     }
   };
 
@@ -362,13 +350,13 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
     console.log('예측 클래스 존재:', !!diagnosis.predictClass);
 
     if (!resultCardRef.current) {
-      alert('⚠️ 저장할 영역을 찾을 수 없습니다. 페이지를 새로고침 후 다시 시도해주세요.');
+      alert(`⚠️ ${t('diagnosis_saveImageError')}`);
       return;
     }
 
     // 인앱 브라우저에서 Chrome으로 이동 안내
     if (isInAppBrowser()) {
-      const isConfirmed = confirm('📱 인앱 브라우저에서는 이미지 저장이 제한될 수 있습니다.\n\nChrome, Safari 등의 일반 브라우저에서 열기를 권장합니다.\n\n그래도 시도하시겠습니까?');
+      const isConfirmed = confirm(`📱 ${t('diagnosis_inAppBrowserWarning')}`);
       if (!isConfirmed) {
         return;
       }
@@ -407,7 +395,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
             if (blob) {
               await writable.write(blob);
               await writable.close();
-              alert('📷 분석 결과가 선택한 위치에 저장되었습니다!');
+              alert(`📷 ${t('diagnosis_imageSavedSuccess')}`);
             }
           }, 'image/png');
         } catch (err) {
@@ -435,9 +423,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
           document.body.removeChild(link);
 
           if (isInAppBrowser()) {
-            alert('📷 이미지가 새 탭에서 열렸습니다!\n\n💡 이미지를 길게 눌러서 "이미지 저장"을 선택하거나, Chrome/Safari 브라우저에서 다시 시도해주세요.');
+            alert(`📷 ${t('diagnosis_imageOpenedInNewTab')}`);
           } else {
-            alert('📷 분석 결과가 다운로드 폴더에 저장되었습니다!\n\n💡 저장 위치를 선택하려면 Chrome 브라우저에서 설정 > 다운로드 > "다운로드하기 전에 각 파일의 저장 위치 묻기"를 활성화하세요.');
+            alert(`📷 ${t('diagnosis_imageDownloadedSuccess')}`);
           }
         } catch (downloadError) {
           console.error('다운로드 오류:', downloadError);
@@ -453,7 +441,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                 </body>
               </html>
             `);
-            alert('📷 이미지가 새 탭에서 열렸습니다!\n\n💡 이미지를 길게 눌러서 저장하거나, 우클릭하여 "이미지 저장"을 선택하세요.');
+            alert(`📷 ${t('diagnosis_imageOpenedInNewTab')}`);
           } else {
             throw downloadError;
           }
@@ -461,7 +449,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
       }
     } catch (error) {
       console.error('이미지 저장 중 오류:', error);
-      alert('⚠️ 이미지 저장 중 오류가 발생했습니다.\n\n💡 Chrome, Safari 등의 일반 브라우저에서 다시 시도해주세요.');
+      alert(`⚠️ ${t('diagnosis_imageSaveGeneralError')}`);
     } finally {
       setIsCapturing(false);
     }
@@ -476,19 +464,19 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
         <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
           <CardHeader className="pb-4 sm:pb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50">
             <CardTitle className="flex items-center">
-              <span className="text-lg sm:text-xl font-bold text-gray-900">🔍 분석결과</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">🔍 {t('diagnosis_analysisResult')}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="">
             <div className="text-left mb-4">
-              <span className="text-lg sm:text-xl font-bold text-gray-900">피부 상태 분류</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">{t('diagnosis_skinConditionClassification')}</span>
             </div>
 
             {uploadedImage && (
               <div className="flex items-center justify-center mb-4">
                 <img
                   src={uploadedImage}
-                  alt="업로드된 피부 사진"
+                  alt={t('diagnosis_uploadedSkinPhoto')}
                   className="object-cover rounded-xl border-2 border-blue-300 shadow-lg"
                   style={{ width: '224px', height: '224px' }}
                 />
@@ -504,11 +492,11 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
             {/* 예상 진단 내용 추가 */}
             <div className="space-y-4 sm:space-y-6">
               <div className="flex items-center justify-between">
-                <span className="text-lg sm:text-xl font-bold text-gray-900">예상 진단</span>
+                <span className="text-lg sm:text-xl font-bold text-gray-900">{t('diagnosis_expectedDiagnosis')}</span>
                 {/* <Badge className={`${getSeverityColor(diagnosis.severity)} font-bold px-3 sm:px-4 py-2 rounded-2xl border-2`}>
-                  {diagnosis.severity === 'low' && '경미'}
-                  {diagnosis.severity === 'medium' && '보통'}
-                  {diagnosis.severity === 'high' && '심각'}
+                  {diagnosis.severity === 'low' && t('diagnosis_severityLow')}
+                  {diagnosis.severity === 'medium' && t('diagnosis_severityMedium')}
+                  {diagnosis.severity === 'high' && t('diagnosis_severityHigh')}
                 </Badge> */}
               </div>
 
@@ -519,7 +507,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
 
               <div className="bg-white/60 p-4 sm:p-5 rounded-2xl border border-orange-100">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-sm sm:text-base font-bold text-gray-800">AI 신뢰도</span>
+                  <span className="text-sm sm:text-base font-bold text-gray-800">{t('diagnosis_aiConfidence')}</span>
                   <span className="text-lg sm:text-xl font-bold text-orange-600">{diagnosis.confidence}%</span>
                 </div>
                 <div className="relative">
@@ -548,7 +536,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
                 <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <span className="text-lg sm:text-xl font-bold text-gray-900">주변 추천 병원</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">{t('diagnosis_nearbyRecommendedHospitals')}</span>
             </div>
             <Button
               onClick={toggleMapView}
@@ -556,7 +544,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
               className="bg-white/70 border-2 border-blue-200 hover:bg-blue-50 rounded-2xl font-bold"
             >
               <Map className="w-4 h-4 mr-2" />
-              {showMap ? '리스트 보기' : '지도로 보기'}
+              {showMap ? t('diagnosis_listView') : t('diagnosis_mapView')}
             </Button>
           </CardTitle>
         </CardHeader>
@@ -569,9 +557,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">📍 위치 확인 중</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">📍 {t('diagnosis_locationChecking')}</h3>
                   <p className="text-sm sm:text-base text-blue-800">
-                    GPS를 통해 현재 위치를 확인하고 있습니다...
+                    {t('diagnosis_gpsLocationChecking')}
                   </p>
                 </div>
               ) : isLoadingHospitals ? (
@@ -579,9 +567,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">🏥 병원 검색 중</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">🏥 {t('diagnosis_hospitalSearching')}</h3>
                   <p className="text-sm sm:text-base text-blue-800">
-                    주변 동물병원을 검색하고 있습니다...
+                    {t('diagnosis_searchingNearbyHospitals')}
                   </p>
                 </div>
               ) : !hasLocationPermission ? (
@@ -589,10 +577,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <MapPin className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-orange-900 mb-2">⚠️ 위치 권한 필요</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-orange-900 mb-2">⚠️ {t('diagnosis_locationPermissionRequired')}</h3>
                   <p className="text-sm sm:text-base text-orange-800">
-                    주변 병원을 찾기 위해 위치 권한이 필요합니다.<br />
-                    브라우저에서 위치 권한을 허용해주세요.
+                    {t('diagnosis_locationPermissionMessage').split('\n').map((line, i) => (<span key={i}>{line}{i === 0 && <br />}</span>))}
                   </p>
                 </div>
               ) : actualHospitals.length === 0 ? (
@@ -600,10 +587,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-gray-500 to-slate-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <MapPin className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">🔍 병원을 찾을 수 없음</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">🔍 {t('diagnosis_noHospitalsFound')}</h3>
                   <p className="text-sm sm:text-base text-gray-800">
-                    주변에서 동물병원을 찾을 수 없습니다.<br />
-                    다른 지역에서 검색해보세요.
+                    {t('diagnosis_noHospitalsFoundMessage').split('\n').map((line, i) => (<span key={i}>{line}{i === 0 && <br />}</span>))}
                   </p>
                 </div>
               ) : (
@@ -613,7 +599,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
                           <h4 className="text-base sm:text-lg font-bold text-blue-900">{hospital.name}</h4>
-                          {hospital.isOpen && <Badge className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">영업중</Badge>}
+                          {hospital.isOpen && <Badge className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">{t('diagnosis_operatingNow')}</Badge>}
                         </div>
                         <p className="text-sm sm:text-base text-blue-800 mb-2 font-medium">{hospital.address}</p>
 
@@ -653,7 +639,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                         style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' }}
                       >
                         <Phone className="w-4 h-4 mr-2" />
-                        전화하기
+                        {t('diagnosis_callHospital')}
                       </Button>
                       <Button
                         onClick={() => handleHospitalContact(hospital, 'navigate')}
@@ -661,7 +647,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                         className="flex-1 h-10 sm:h-11 bg-white/70 border-2 border-blue-200 hover:bg-blue-50 rounded-xl font-bold"
                       >
                         <Navigation className="w-4 h-4 mr-2" />
-                        길찾기
+                        {t('diagnosis_getDirections')}
                       </Button>
                     </div>
                   </div>
@@ -684,7 +670,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                         url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNmMzY2M2YiLz4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIgZmlsbD0id2hpdGUiLz4KPC9zdmc+',
                         scaledSize: new google.maps.Size(20, 20)
                       }}
-                      title="내 위치"
+                      title={t('diagnosis_myLocation')}
                     />
 
                     {/* 주변 동물병원 마커 */}
@@ -711,9 +697,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <Map className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">🗺️ 지도 로딩 중</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">🗺️ {t('diagnosis_mapLoading')}</h3>
                   <p className="text-sm sm:text-base text-blue-800 mb-4">
-                    {position ? '지도를 불러오고 있습니다...' : 'GPS 위치 서비스를 활성화하고 있습니다...'}
+                    {position ? t('diagnosis_loadingMapMessage') : t('diagnosis_activatingGpsMessage')}
                   </p>
                 </div>
               )}
@@ -729,7 +715,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
               <Share2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <span className="text-lg sm:text-xl font-bold text-gray-900">결과 공유하기</span>
+            <span className="text-lg sm:text-xl font-bold text-gray-900">{t('diagnosis_shareResults')}</span>
           </CardTitle>
         </CardHeader>
 
@@ -737,7 +723,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
           <div className="bg-purple-50 p-4 sm:p-5 rounded-2xl border-2 border-purple-200">
             <Label className="text-sm sm:text-base font-bold text-purple-800 mb-3 block flex items-center space-x-2">
               <Camera className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>분석 결과 이미지로 저장</span>
+              <span>{t('diagnosis_saveAsImage')}</span>
             </Label>
             <Button
               onClick={handleSaveAsImage}
@@ -749,26 +735,26 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
               ) : (
                 <>
                   <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  <span>이미지 파일로 저장하기</span>
+                  <span>{t('diagnosis_saveImageFile')}</span>
                 </>
               )}
             </Button>
             <p className="text-xs sm:text-sm text-purple-700 mt-2 font-medium">
-              분석 결과를 고화질 이미지로 저장하여 보관하세요
+              {t('diagnosis_saveImageDescription')}
             </p>
           </div>
 
           <div className="bg-orange-50 p-4 sm:p-5 rounded-2xl border-2 border-orange-200">
             <Label className="text-sm sm:text-base font-bold text-orange-800 mb-3 block flex items-center space-x-2">
               <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>이메일로 구독 하기</span>
+              <span>{t('diagnosis_emailSubscription')}</span>
             </Label>
             <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
               <Input
                 type="email"
                 value={shareEmail}
                 onChange={(e) => setShareEmail(e.target.value)}
-                placeholder="이메일 주소를 입력하세요"
+                placeholder={t('diagnosis_emailPlaceholder')}
                 className="w-full h-11 sm:h-12 bg-white/70 backdrop-blur-sm border-2 border-orange-200 rounded-xl text-sm sm:text-base font-medium focus:border-orange-400"
               />
               <Button
@@ -782,13 +768,13 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                 ) : (
                   <>
                     <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    <span>구독</span>
+                    <span>{t('diagnosis_subscribe')}</span>
                   </>
                 )}
               </Button>
             </div>
             <p className="text-xs sm:text-sm text-orange-700 mt-2 font-medium">
-              상세한 진단 리포트와 관리 가이드를 이메일로 받아보세요
+              {t('diagnosis_emailDescription')}
             </p>
           </div>
 
@@ -866,9 +852,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
             <span className="text-white text-lg sm:text-xl">⚠️</span>
           </div>
           <div>
-            <p className="text-sm sm:text-base text-orange-800 font-bold mb-2">🔍 중요 안내사항</p>
+            <p className="text-sm sm:text-base text-orange-800 font-bold mb-2">🔍 {t('diagnosis_importantNotice')}</p>
             <p className="text-xs sm:text-sm text-orange-700 leading-relaxed">
-              이 결과는 AI 예측이며 정확한 진단을 위해서는 반드시 수의사의 진료를 받으시기 바랍니다.
+              {t('diagnosis_disclaimerMessage')}
             </p>
           </div>
         </div>
@@ -880,7 +866,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
           className="w-full h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105"
           style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
         >
-          <span className="text-base sm:text-lg">새로운 AI 분석하기</span>
+          <span className="text-base sm:text-lg">{t('diagnosis_newAnalysis')}</span>
         </Button>
       </div>
     </div>

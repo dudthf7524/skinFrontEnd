@@ -5,6 +5,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Eye, Search, Calendar, FileText, Filter } from 'lucide-react';
+import axios from 'axios';
 
 interface QuestionnaireData {
   id: string;
@@ -112,12 +113,20 @@ export function AdminListPage() {
     setQuestionnaireList(mockData);
   }, []);
 
-  useEffect(() => {
-    try{
+  const getAdminList = async () => {
+    try {
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+      console.log("admin list")
 
-    }catch(error){
+      const response = await axios.get(`${apiBaseUrl}/admin/list`,);
+      console.log("admin list", response.data)
+    } catch (error) {
       console.error(error);
     }
+  }
+
+  useEffect(() => {
+    getAdminList();
   })
 
   // 필터링된 데이터

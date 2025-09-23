@@ -14,6 +14,7 @@ import {
 import { Status } from "@googlemaps/react-wrapper";
 import Map from "./ui/google-maps";
 import Navbar from "./Navbar";
+import { useLanguage } from "./LanguageContext";
 
 interface filtersType {
   id: string;
@@ -48,6 +49,7 @@ const render = (status: Status) => {
 };
 
 export function VetFinderPage() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   // hospitalDetail의 타입을 vetClinicsType[]으로 변경
@@ -55,7 +57,7 @@ export function VetFinderPage() {
   const [filterListData, setFilterListData] = useState<vetClinicsType[]>([])
 
   const filters: filtersType[] = [
-    { id: "isOpen", label: "영업중", color: "bg-blue-100 text-blue-800" },
+    { id: "isOpen", label: t("vetFinder_filterOpen"), color: "bg-blue-100 text-blue-800" },
   ];
 
   const vetClinics: vetClinicsType[] = hospitalDetail;
@@ -80,9 +82,9 @@ export function VetFinderPage() {
       <Navbar currentPage="search" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">병원 찾기</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">{t("vetFinder_pageTitle")}</h1>
           <p className="text-xl text-gray-600">
-            주변의 전문 동물병원을 찾아보세요
+            {t("vetFinder_pageDescription")}
           </p>
         </div>
 
@@ -102,7 +104,7 @@ export function VetFinderPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
-                  placeholder="병원명 또는 지역 검색"
+                  placeholder={t("vetFinder_searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -114,7 +116,7 @@ export function VetFinderPage() {
             <Card className="p-4">
               <h3 className="font-medium text-gray-900 mb-3 flex items-center">
                 <Filter className="w-4 h-4 mr-2" />
-                필터
+                {t("vetFinder_filtersTitle")}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {filters.map((filter) => (
@@ -160,7 +162,7 @@ export function VetFinderPage() {
                                 : "bg-red-100 text-red-800"
                                 }`}
                             >
-                              {clinic.isOpen ? "영업중" : "영업종료"}
+                              {clinic.isOpen ? t("vetFinder_statusOpen") : t("vetFinder_statusClosed")}
                             </Badge>
                           </div>
                         </div>
@@ -209,7 +211,7 @@ export function VetFinderPage() {
                         size="sm"
                         className="flex-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)]"
                       >
-                        예약하기
+                        {t("vetFinder_reserveButton")}
                       </Button>
                     </div>
                   </Card>
@@ -240,7 +242,7 @@ export function VetFinderPage() {
                                 : "bg-red-100 text-red-800"
                                 }`}
                             >
-                              {clinic.isOpen ? "영업중" : "영업종료"}
+                              {clinic.isOpen ? t("vetFinder_statusOpen") : t("vetFinder_statusClosed")}
                             </Badge>
                           </div>
                         </div>
@@ -289,7 +291,7 @@ export function VetFinderPage() {
                         size="sm"
                         className="flex-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)]"
                       >
-                        예약하기
+                        {t("vetFinder_reserveButton")}
                       </Button>
                     </div>
                   </Card>

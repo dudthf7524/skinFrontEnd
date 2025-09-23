@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import ProfileBar from "./ProfileBar";
 import LoginPage from "./Login";
 import Navbar from "./Navbar";
+import { useLanguage } from "./LanguageContext";
 import result1 from "../assets/img/result1.png";
 import result2 from "../assets/img/result2.png";
 import result3 from "../assets/img/result3.png";
 
 export default function Home() {
     const navigate = useNavigate()
+    const { t } = useLanguage();
     const [loginModal, setLoginModal] = useState(false);
 
     // 슬라이더 관련 상태
@@ -110,44 +112,41 @@ export default function Home() {
     const steps = [
         {
             icon: Upload,
-            title: "사진 업로드",
-            description: "반려동물의 피부 문제 부위를 사진으로 촬영하여 업로드하세요.",
+            title: t("home_step1Title"),
+            description: t("home_step1Description"),
             color: "bg-blue-50 text-blue-600"
         },
         {
             icon: Brain,
-            title: "AI 분석",
-            description: "고도화된 AI가 피부 상태를 분석하여 질병 가능성을 진단합니다.",
+            title: t("home_step2Title"),
+            description: t("home_step2Description"),
             color: "bg-purple-50 text-purple-600"
         },
         {
             icon: Hospital,
-            title: "병원 연결",
-            description: "분석 결과를 바탕으로 주변 전문 병원을 추천하고 예약을 도와드립니다.",
+            title: t("home_step3Title"),
+            description: t("home_step3Description"),
             color: "bg-green-50 text-green-600"
         }
     ];
 
     const testimonials = [
         {
-            name: "김민지",
-            pet: "골든리트리버 멍멍이",
-            content:
-                "우리 멍멍이 피부 문제를 빠르게 발견할 수 있어서 정말 도움이 되었어요. AI 분석이 정말 정확했습니다!",
+            name: t("home_testimonial1Name"),
+            pet: t("home_testimonial1Pet"),
+            content: t("home_testimonial1Content"),
             rating: 5,
         },
         {
-            name: "박성호",
-            pet: "페르시안 나비",
-            content:
-                "24시간 언제든 사용할 수 있어서 좋고, 근처 병원까지 추천해줘서 편리했습니다.",
+            name: t("home_testimonial2Name"),
+            pet: t("home_testimonial2Pet"),
+            content: t("home_testimonial2Content"),
             rating: 5,
         },
         {
-            name: "이유진",
-            pet: "말티즈 구름이",
-            content:
-                "사진만 찍으면 바로 결과가 나와서 신기했어요. 수의사 선생님도 정확한 진단이라고 하셨습니다.",
+            name: t("home_testimonial3Name"),
+            pet: t("home_testimonial3Pet"),
+            content: t("home_testimonial3Content"),
             rating: 5,
         },
     ];
@@ -155,18 +154,18 @@ export default function Home() {
     const features = [
         {
             icon: Shield,
-            title: "95% 높은 정확도",
-            description: "수만 건의 데이터로 학습한 AI 알고리즘",
+            title: t("home_feature1Title"),
+            description: t("home_feature1Description"),
         },
         {
             icon: Users,
-            title: "전문 수의사 연결",
-            description: "500+ 제휴 병원과 즉시 연결",
+            title: t("home_feature2Title"),
+            description: t("home_feature2Description"),
         },
         {
             icon: Award,
-            title: "간편한 사용법",
-            description: "사진 업로드만으로 30초 내 결과",
+            title: t("home_feature3Title"),
+            description: t("home_feature3Description"),
         },
     ];
     type Page = "home" | "skinai" | "info" | "search" | "login";
@@ -209,15 +208,13 @@ export default function Home() {
                             <div className="space-y-4 text-center">
                                 <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
                                     <Sparkles className="w-4 h-4 mr-2 text-[var(--talktail-orange)]" />
-                                    AI 피부 질병 스크리닝 서비스
+                                    {t("home_aiScreeningService")}
                                 </div>
                                 <div className="text-xl sm:text-3xl font-bold text-gray-900 leading-tight">
-                                    반려동물 피부 건강을 AI로 진단하세요
+                                    {t("home_mainTitle")}
                                 </div>
                                 <p className="hidden sm:block text-sm text-gray-600 leading-relaxed">
-                                    반려동물의 피부 사진을 업로드하거나 AI
-                                    <br />
-                                    진단을 즉시 시작하세요
+                                    {t("home_mainDescription")}
                                 </p>
                             </div>
 
@@ -226,7 +223,7 @@ export default function Home() {
                                     <div className="bg-white rounded-xl p-4 relative overflow-hidden">
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
-                                                <div className="text-xs font-medium">AI 분석 중...</div>
+                                                <div className="text-xs font-medium">{t("home_aiAnalyzing")}</div>
                                                 <div className="w-4 h-4 bg-[var(--talktail-orange)] rounded-full animate-pulse"></div>
                                             </div>
 
@@ -304,7 +301,7 @@ export default function Home() {
                                     className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-3 py-2 text-sm font-medium rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
                                 >
                                     <Camera className="w-3 h-3 mr-1" />
-                                    지금 바로 체험하기
+                                    {t("home_tryNowButton")}
                                 </button>
 
                                 {/* <button
@@ -321,17 +318,13 @@ export default function Home() {
                             <div className="space-y-4 text-left">
                                 <div className="inline-flex items-center px-4 py-2 bg-[var(--talktail-mint)] rounded-full text-sm text-gray-700">
                                     <Sparkles className="w-4 h-4 mr-2 text-[var(--talktail-orange)]" />
-                                    AI 피부 질병 스크리닝 서비스
+                                    {t("home_aiScreeningService")}
                                 </div>
                                 <div className="text-5xl font-bold text-gray-900 leading-tight">
-                                    반려동물 피부 건강을
-                                    <br />
-                                    AI로 진단하세요
+                                    {t("home_mainTitle")}
                                 </div>
                                 <p className="text-lg text-gray-600 leading-relaxed">
-                                    반려동물의 피부 사진을 업로드하거나 AI
-                                    <br />
-                                    진단을 즉시 시작하세요
+                                    {t("home_mainDescription")}
                                 </p>
                             </div>
 
@@ -341,7 +334,7 @@ export default function Home() {
                                     className="w-full bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] hover:from-[var(--talktail-orange-dark)] hover:to-[var(--talktail-orange)] text-white px-6 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
                                 >
                                     <Camera className="w-5 h-5 mr-3" />
-                                    지금 바로 체험하기
+                                    {t("home_tryNowButton")}
                                 </button>
 
                                 {/* <button
@@ -359,7 +352,7 @@ export default function Home() {
                                 <div className="bg-white rounded-2xl p-6 relative overflow-hidden">
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <div className="text-sm font-medium">AI 분석 중...</div>
+                                            <div className="text-sm font-medium">{t("home_aiAnalyzing")}</div>
                                             <div className="w-6 h-6 bg-[var(--talktail-orange)] rounded-full animate-pulse"></div>
                                         </div>
 
@@ -440,10 +433,10 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                            간단한 3단계로 <span className="text-[var(--talktail-orange)]">완료</span>
+                            {t("home_stepsTitle")} <span className="text-[var(--talktail-orange)]">{t("home_stepsComplete")}</span>
                         </h2>
                         <p className="text-xl text-gray-600">
-                            복잡한 절차 없이 쉽고 빠르게 반려동물의 피부 건강을 확인하세요
+                            {t("home_stepsSubtitle")}
                         </p>
                     </div>
 
@@ -468,7 +461,7 @@ export default function Home() {
 
                     <div className="text-center mt-16">
                         <div className="inline-flex items-center px-6 py-3 bg-[var(--talktail-beige)] rounded-full text-[var(--talktail-orange)] font-medium">
-                            💡 평균 분석 시간: 30초 이내
+                            {t("home_analysisTime")}
                         </div>
                     </div>
                 </div>
@@ -478,14 +471,10 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                            왜{" "}
-                            <span className="text-[var(--talktail-orange)]">
-                                Talktail SkinCare AI
-                            </span>
-                            를 선택해야 할까요?
+                            {t("home_whyChooseTitle")}
                         </h2>
                         <p className="text-xl text-gray-600">
-                            전문적이고 신뢰할 수 있는 반려동물 피부 진단 서비스
+                            {t("home_whyChooseSubtitle")}
                         </p>
                     </div>
 
@@ -511,11 +500,10 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                            사용자{" "}
-                            <span className="text-[var(--talktail-orange)]">후기</span>
+                            {t("home_testimonialsTitle")}
                         </h2>
                         <p className="text-xl text-gray-600">
-                            이미 많은 반려인들이 경험했습니다
+                            {t("home_testimonialsSubtitle")}
                         </p>
                     </div>
 
@@ -542,7 +530,7 @@ export default function Home() {
                                         {testimonial.name}
                                     </p>
                                     <p className="text-sm text-gray-600">
-                                        {testimonial.pet} 보호자
+                                        {testimonial.pet} {t("home_petOwner")}
                                     </p>
                                 </div>
                             </div>
@@ -554,17 +542,17 @@ export default function Home() {
             <section className="py-20 bg-gradient-to-r from-[var(--talktail-orange)] to-[var(--talktail-orange-light)] text-white">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-                        지금 바로 시작하세요
+                        {t("home_ctaTitle")}
                     </h2>
                     <p className="text-xl mb-8 text-orange-100">
-                        우리 아이의 건강한 피부를 위한 첫 걸음을 내딛어보세요
+                        {t("home_ctaSubtitle")}
                     </p>
                     <Button
                         size="lg"
                         className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
                         onClick={() => handleSkinAiPage()}
                     >
-                        무료 체험 하기
+                        {t("home_freeTrialButton")}
                     </Button>
                     {/* <Button
                         size="lg"
@@ -588,37 +576,35 @@ export default function Home() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold">
-                                        Talktail SkinCare AI
+                                        {t("home_footerTitle")}
                                     </h3>
                                     <p className="text-sm text-gray-400">
-                                        반려동물 피부 건강의 든든한 파트너
+                                        {t("home_footerSubtitle")}
                                     </p>
                                 </div>
                             </div>
                             <p className="text-gray-400 mb-4">
-                                AI 기술로 반려동물의 피부 건강을 지키는 스마트한
-                                솔루션입니다. 전문 수의사와의 연결을 통해 더 나은 치료를
-                                받으세요.
+                                {t("home_footerDescription")}
                             </p>
                             <div className="flex space-x-4">
                                 <div className="bg-[var(--talktail-orange)] text-white rounded-xl px-2 py-0.5 text-xs" >
-                                    정확도 95%
+                                    {t("home_footerAccuracy")}
                                 </div>
                                 <div className="bg-[var(--talktail-orange)] text-white rounded-xl px-2 py-0.5 text-xs">
-                                    500+ 제휴병원
+                                    {t("home_footerHospitals")}
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="font-bold mb-4">서비스</h4>
+                            <h4 className="font-bold mb-4">{t("home_footerServices")}</h4>
                             <ul className="space-y-2 text-gray-400">
                                 <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        AI 분석
+                                        {t("home_footerAiAnalysis")}
                                     </a>
                                 </li>
                                 <li>
@@ -626,7 +612,7 @@ export default function Home() {
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        질병 정보
+                                        {t("home_footerDiseaseInfo")}
                                     </a>
                                 </li>
                                 <li>
@@ -634,21 +620,21 @@ export default function Home() {
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        병원 찾기
+                                        {t("home_footerHospitalFinder")}
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
                         <div>
-                            <h4 className="font-bold mb-4">고객지원</h4>
+                            <h4 className="font-bold mb-4">{t("home_footerCustomerSupport")}</h4>
                             <ul className="space-y-2 text-gray-400">
                                 <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        자주 묻는 질문
+                                        {t("home_footerFaq")}
                                     </a>
                                 </li>
                                 <li>
@@ -656,7 +642,7 @@ export default function Home() {
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        이용 가이드
+                                        {t("home_footerUserGuide")}
                                     </a>
                                 </li>
                                 <li>
@@ -664,7 +650,7 @@ export default function Home() {
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        고객센터
+                                        {t("home_footerCustomerCenter")}
                                     </a>
                                 </li>
                                 <li>
@@ -672,7 +658,7 @@ export default function Home() {
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
-                                        개인정보처리방침
+                                        {t("home_footerPrivacyPolicy")}
                                     </a>
                                 </li>
                             </ul>
@@ -680,7 +666,7 @@ export default function Home() {
                     </div>
 
                     <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                        <p>&copy; 2024 Talktail SkinCare AI. All rights reserved.</p>
+                        <p>{t("home_footerCopyright")}</p>
                     </div>
                 </div>
             </footer>
