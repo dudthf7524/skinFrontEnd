@@ -32,6 +32,7 @@ import {
 import { useLanguage } from "./LanguageContext";
 import { DateInput } from "./DateInput";
 import PetList from "../data/PetList";
+import { useAllBreedTranslation } from "./AllBreedTranslation";
 
 interface QuestionnaireData {
   petName: string;
@@ -88,6 +89,7 @@ export const MedicalQuestionnaire = React.memo(
     onBack,
   }: MedicalQuestionnaireProps) {
     const { t } = useLanguage();
+    const { translateBreed, getKoreanBreed } = useAllBreedTranslation();
     const [currentSection, setCurrentSection] = useState(0);
     const [formData, setFormData] = useState<QuestionnaireData>(
       {
@@ -109,13 +111,15 @@ export const MedicalQuestionnaire = React.memo(
     console.log(formData)
     const affectedAreaCategories = useMemo(() => getAffectedAreaCategories(t), [t]);
 
-    // 검색어로 필터링된 품종 목록
+    // 검색어로 필터링된 품종 목록 (번역된 이름으로 검색 및 표시)
     const filteredBreeds = useMemo(() => {
       if (!breedSearch.trim()) return dogBreeds;
-      return dogBreeds.filter(breed =>
-        breed.toLowerCase().includes(breedSearch.toLowerCase())
-      );
-    }, [breedSearch]);
+      return dogBreeds.filter(breed => {
+        const translatedBreed = translateBreed(breed);
+        return breed.toLowerCase().includes(breedSearch.toLowerCase()) ||
+               translatedBreed.toLowerCase().includes(breedSearch.toLowerCase());
+      });
+    }, [breedSearch, translateBreed]);
     const sections = useMemo(() => [
       { title: t("step1Title"), icon: Heart },
       { title: t("step2Title"), icon: AlertCircle },
@@ -326,7 +330,7 @@ export const MedicalQuestionnaire = React.memo(
                             value={breed}
                             className="text-sm"
                           >
-                            {breed}
+                            {translateBreed(breed)}
                           </SelectItem>
                         ))
                       ) : (
@@ -649,7 +653,7 @@ export const MedicalQuestionnaire = React.memo(
         <div className="mb-4 sm:mb-6 md:mb-8">
           <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-6 md:px-10 shadow-xl border border-white/30">
             <div className="flex items-center justify-between max-w-full">
-              {/* 단계 1: 기본정보 */}
+              {/* 단계 1: {t("basicInfo")} */}
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
@@ -673,7 +677,7 @@ export const MedicalQuestionnaire = React.memo(
                   </div>
                   <div className={`mt-3 text-xs font-bold transition-all duration-300 ${currentSection === 0 ? "text-orange-600" : currentSection > 0 ? "text-emerald-600" : "text-gray-400"
                     }`}>
-                    기본정보
+                    {t("basicInfo")}
                   </div>
                 </div>
               </div>
@@ -693,7 +697,7 @@ export const MedicalQuestionnaire = React.memo(
                 </div>
               </div> */}
 
-              {/* 단계 2: 증상입력 */}
+              {/* 단계 2: {t("symptomInput")} */}
               <div className="flex flex-col items-center">
                 <div className="relative flex flex-col items-center flex-shrink-0">
                   <div
@@ -717,7 +721,7 @@ export const MedicalQuestionnaire = React.memo(
                   </div>
                   <div className={`mt-3 text-xs font-bold transition-all duration-300 ${currentSection === 1 ? "text-orange-600" : currentSection > 1 ? "text-emerald-600" : "text-gray-400"
                     }`}>
-                    증상입력
+                    {t("symptomInput")}
                   </div>
                   {currentSection === 1 && (
                     <>

@@ -400,7 +400,22 @@ const translations = {
     turkishAngora: "터키시 앙고라",
     siamCat: "샴 고양이",
     highlandFold: "하이랜드 폴드",
-    sphinx: "스핑크스"
+    sphinx: "스핑크스",
+
+    // SkinAI.tsx - Process steps
+    infoInput: "정보입력",
+    photoUpload: "사진업로드",
+    diagnosisResult: "진단결과",
+    basicInfo: "기본정보",
+    symptomInput: "증상입력",
+
+    // SkinAI.tsx - Loading messages
+    aiAnalysisInProgress: "AI 피부 상태 분석 중",
+    petSkinAnalysis: "{petName}의 피부 상태 분석 중",
+    advancedAiAnalysis: "고도화된 AI 알고리즘이 업로드된 사진을 정밀 분석하여 정확한 피부 진단을 수행하고 있습니다",
+    imageAnalysis: "이미지 분석",
+    patternRecognition: "패턴 인식",
+    diagnosisComplete: "진단 완료"
   },
   
   en: {
@@ -788,7 +803,22 @@ const translations = {
     turkishAngora: "Turkish Angora",
     siamCat: "Siam Cat",
     highlandFold: "Highland Fold",
-    sphinx: "Sphinx"
+    sphinx: "Sphinx",
+
+    // SkinAI.tsx - Process steps
+    infoInput: "Info Input",
+    photoUpload: "Photo Upload",
+    diagnosisResult: "Diagnosis Result",
+    basicInfo: "Basic Info",
+    symptomInput: "Symptom Input",
+
+    // SkinAI.tsx - Loading messages
+    aiAnalysisInProgress: "AI Skin Analysis in Progress",
+    petSkinAnalysis: "Analyzing {petName}'s Skin Condition",
+    advancedAiAnalysis: "Advanced AI algorithms are performing precise analysis of the uploaded image to provide accurate skin diagnosis",
+    imageAnalysis: "Image Analysis",
+    patternRecognition: "Pattern Recognition",
+    diagnosisComplete: "Diagnosis Complete"
   },
   
   ja: {
@@ -1176,7 +1206,22 @@ const translations = {
     turkishAngora: "ターキッシュアンゴラ",
     siamCat: "シャム猫",
     highlandFold: "ハイランドフォールド",
-    sphinx: "スフィンクス"
+    sphinx: "スフィンクス",
+
+    // SkinAI.tsx - Process steps
+    infoInput: "情報入力",
+    photoUpload: "写真アップロード",
+    diagnosisResult: "診断結果",
+    basicInfo: "基本情報",
+    symptomInput: "症状入力",
+
+    // SkinAI.tsx - Loading messages
+    aiAnalysisInProgress: "AI皮膚解析中",
+    petSkinAnalysis: "{petName}の皮膚状態を解析中",
+    advancedAiAnalysis: "高度なAIアルゴリズムがアップロードされた画像を精密分析し、正確な皮膚診断を実行しています",
+    imageAnalysis: "画像解析",
+    patternRecognition: "パターン認識",
+    diagnosisComplete: "診断完了"
   },
   
   zh: {
@@ -1564,7 +1609,22 @@ const translations = {
     turkishAngora: "土耳其安哥拉猫",
     siamCat: "暹罗猫",
     highlandFold: "高地折耳猫",
-    sphinx: "斯芬克斯猫"
+    sphinx: "斯芬克斯猫",
+
+    // SkinAI.tsx - Process steps
+    infoInput: "信息输入",
+    photoUpload: "照片上传",
+    diagnosisResult: "诊断结果",
+    basicInfo: "基本信息",
+    symptomInput: "症状输入",
+
+    // SkinAI.tsx - Loading messages
+    aiAnalysisInProgress: "AI皮肤分析中",
+    petSkinAnalysis: "正在分析{petName}的皮肤状态",
+    advancedAiAnalysis: "高级AI算法正在对上传的图像进行精确分析，以提供准确的皮肤诊断",
+    imageAnalysis: "图像分析",
+    patternRecognition: "模式识别",
+    diagnosisComplete: "诊断完成"
   }
 };
 
