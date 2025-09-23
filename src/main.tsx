@@ -2,6 +2,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import "./i18n";
 
 // 사용자 행동 트래킹 함수
 const trackEvent = (eventType: string, eventData: Record<string, any>) => {

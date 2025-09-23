@@ -308,15 +308,10 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
       const emailData = {
-        email: shareEmail,
-        petName: questionnaireData?.petName || '반려동물',
-        diagnosis: diagnosis.condition,
-        predictClass: diagnosis.predictClass,
-        confidence: diagnosis.confidence,
-        description: diagnosis.description
+        user_email: shareEmail,
       };
 
-      const response = await axios.post(`${apiBaseUrl}/api/email`, emailData, {
+      const response = await axios.post(`${apiBaseUrl}/email`, emailData, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -354,12 +349,12 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
   const isInAppBrowser = () => {
     const userAgent = navigator.userAgent.toLowerCase();
     return userAgent.includes('kakaotalk') ||
-           userAgent.includes('line') ||
-           userAgent.includes('wechat') ||
-           userAgent.includes('facebook') ||
-           userAgent.includes('instagram') ||
-           userAgent.includes('naver') ||
-           userAgent.includes('daum');
+      userAgent.includes('line') ||
+      userAgent.includes('wechat') ||
+      userAgent.includes('facebook') ||
+      userAgent.includes('instagram') ||
+      userAgent.includes('naver') ||
+      userAgent.includes('daum');
   };
 
   const handleSaveAsImage = async () => {

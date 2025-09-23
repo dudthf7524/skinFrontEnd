@@ -4,6 +4,7 @@ import { Card, CardContent } from './ui/card';
 import { Camera, Upload, X, Crop as CropIcon, Check } from 'lucide-react';
 import ReactCrop, { Crop, PixelCrop, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { useLanguage } from './LanguageContext';
 
 interface PhotoUploadProps {
   onPhotoUploaded: (originalFile: File, croppedFile?: File) => void;
@@ -11,6 +12,7 @@ interface PhotoUploadProps {
 }
 
 export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
+  const { t } = useLanguage();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [showCropModal, setShowCropModal] = useState(false);
@@ -66,14 +68,14 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
 
   const handleFileSelect = (file: File) => {
     if (!file || !file.type.startsWith('image/')) {
-      alert('이미지 파일만 업로드 가능합니다.');
+      alert(t('upload_errorImageOnly'));
       return;
     }
 
     // 10MB 크기 제한 체크
     const maxSize = 10 * 1024 * 1024; // 10MB in bytes
     if (file.size > maxSize) {
-      alert('파일 크기가 10MB를 초과합니다. 더 작은 파일을 선택해주세요.');
+      alert(t('upload_errorFileSize'));
       return;
     }
 
@@ -151,7 +153,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
       };
       reader.readAsDataURL(newCroppedFile);
     } catch (error) {
-      console.error('크롭 처리 중 오류:', error);
+      console.error('Crop processing error:', error);
     }
   };
 
@@ -186,14 +188,14 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
     <div className="w-full max-w-full">
       <div className="mb-4 sm:mb-6 md:mb-8 text-center px-2">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-orange-700 bg-clip-text text-transparent mb-2 sm:mb-3 md:mb-4 leading-tight">
-          피부 상태 사진 업로드
+          {t('upload_title')}
         </h2>
         <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-2 sm:mb-3 md:mb-4">
-          문제가 있는 피부 부위의 선명한 사진을 업로드해 주세요
+          {t('upload_description')}
         </p>
         <div className="inline-flex items-center space-x-2 px-3 sm:px-4 py-2 bg-orange-50 rounded-full border border-orange-200">
           <span className="text-orange-500">💡</span>
-          <span className="text-[10px] sm:text-xs md:text-sm text-orange-700 font-medium text-center">자연광에서 근접 촬영하시면 더 정확한 분석이 가능합니다</span>
+          <span className="text-[10px] sm:text-xs md:text-sm text-orange-700 font-medium text-center">{t('upload_tip')}</span>
         </div>
       </div>
 
@@ -225,10 +227,10 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
 
                 <div className="space-y-2 sm:space-y-3">
                   <p className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-orange-700 transition-colors">
-                    사진을 드래그하거나 클릭하여 업로드
+                    {t('upload_dragOrClick')}
                   </p>
                   <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                    JPG, PNG 파일만 지원됩니다 (최대 10MB)
+                    {t('upload_fileFormat')}
                   </p>
                 </div>
 
@@ -241,7 +243,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                   style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
                 >
                   <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
-                  파일 선택하기
+                  {t('upload_selectFile')}
                 </Button>
 
                 <input
@@ -259,7 +261,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
               <div className={`relative overflow-hidden rounded-3xl shadow-2xl group ${croppedImage ? 'h-80 flex justify-center items-center bg-white' : ''}`}>
                 <img
                   src={croppedImage || uploadedImage}
-                  alt={croppedImage ? "크롭된 반려동물 사진" : "업로드된 반려동물 사진"}
+                  alt={croppedImage ? t('upload_cropCompleted') : t('upload_completed')}
                   className={croppedImage
                     ? "object-cover transition-transform duration-300 group-hover:scale-105 rounded-2xl shadow-lg"
                     : "w-full h-56 sm:h-64 object-cover transition-transform duration-300 group-hover:scale-105"
@@ -274,8 +276,8 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                 {!croppedImage && (
                   <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
                     <div className="bg-white/90 backdrop-blur-md rounded-2xl p-2 sm:p-3 shadow-lg">
-                      <p className="text-xs sm:text-sm font-medium text-gray-800">업로드 완료</p>
-                      <p className="text-xs text-gray-600">크롭하여 진단 준비</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-800">{t('upload_completed')}</p>
+                      <p className="text-xs text-gray-600">{t('upload_cropReady')}</p>
                     </div>
                   </div>
                 )}
@@ -285,8 +287,8 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
               {croppedImage && (
                 <div className="mt-4 mb-4 text-center w-full">
                   <div className="inline-block bg-white/90 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-lg">
-                    <p className="text-sm font-medium text-gray-800">크롭 완료</p>
-                    <p className="text-xs text-gray-600 mt-1">224x224 크기로 최적화됨</p>
+                    <p className="text-sm font-medium text-gray-800">{t('upload_cropCompleted')}</p>
+                    <p className="text-xs text-gray-600 mt-1">{t('upload_optimized')}</p>
                   </div>
                 </div>
               )}
@@ -310,9 +312,9 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                         <CropIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-blue-800 font-bold text-base sm:text-lg">이미지 크롭 필요</p>
+                        <p className="text-blue-800 font-bold text-base sm:text-lg">{t('upload_cropNeeded')}</p>
                         <p className="text-blue-700 text-xs sm:text-sm leading-relaxed">
-                          정확한 진단을 위해 병변 부위를 224x224 크기로 크롭해주세요
+                          {t('upload_cropDescription')}
                         </p>
                       </div>
                     </div>
@@ -322,7 +324,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                       style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)' }}
                     >
                       <CropIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                      크롭하기
+                      {t('upload_cropButton')}
                     </Button>
                   </div>
                 </div>
@@ -334,9 +336,9 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                         <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-emerald-800 font-bold text-base sm:text-lg">진단 준비 완료!</p>
+                        <p className="text-emerald-800 font-bold text-base sm:text-lg">{t('upload_diagnosisReady')}</p>
                         <p className="text-emerald-700 text-xs sm:text-sm leading-relaxed">
-                          이미지가 224x224 크기로 최적화되었습니다. AI 진단을 시작하세요.
+                          {t('upload_imageOptimized')}
                         </p>
                       </div>
                     </div>
@@ -347,7 +349,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                     style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
                   >
                     <Check className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    진단하기
+                    {t('upload_startDiagnosis')}
                   </Button>
                 </div>
               )}
@@ -363,19 +365,19 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
               <span className="text-white text-base sm:text-lg">💡</span>
             </div>
             <div>
-              <p className="font-bold text-orange-900 mb-2 sm:mb-3 text-base sm:text-lg">촬영 가이드</p>
+              <p className="font-bold text-orange-900 mb-2 sm:mb-3 text-base sm:text-lg">{t('upload_photographyGuide')}</p>
               <ul className="text-orange-800 space-y-1.5 sm:space-y-2">
                 <li className="flex items-center space-x-2">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  <span className="font-medium text-sm sm:text-base">밝은 자연광에서 촬영해 주세요</span>
+                  <span className="font-medium text-sm sm:text-base">{t('upload_guideBrightLight')}</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  <span className="font-medium text-sm sm:text-base">병변 부위를 선명하게 포착해 주세요</span>
+                  <span className="font-medium text-sm sm:text-base">{t('upload_guideClearCapture')}</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  <span className="font-medium text-sm sm:text-base">흔들림 없이 근접 촬영해 주세요</span>
+                  <span className="font-medium text-sm sm:text-base">{t('upload_guideCloseShot')}</span>
                 </li>
               </ul>
             </div>
@@ -389,7 +391,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
           <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-900">이미지 크롭</h3>
+                <h3 className="text-xl font-bold text-gray-900">{t('upload_cropModal_title')}</h3>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -401,7 +403,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
               </div>
 
               <p className="text-sm text-gray-600 mb-4">
-                병변 부위를 정사각형 영역으로 선택해주세요. 최종 이미지는 224x224 크기로 변환됩니다.
+                {t('upload_cropModal_description')}
               </p>
 
               <div className="relative">
@@ -415,7 +417,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                 >
                   <img
                     ref={imgRef}
-                    alt="크롭할 이미지"
+                    alt={t('upload_cropModal_imageAlt')}
                     src={uploadedImage}
                     style={{ maxHeight: '400px', width: '100%', objectFit: 'contain' }}
                     onLoad={onImageLoad}
@@ -429,7 +431,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                   onClick={handleCropCancel}
                   className="rounded-xl"
                 >
-                  취소
+                  {t('upload_cropModal_cancel')}
                 </Button>
                 <Button
                   onClick={handleCropComplete}
@@ -438,7 +440,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
                   style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
                 >
                   <CropIcon className="w-4 h-4 mr-2" />
-                  크롭 완료
+                  {t('upload_cropModal_complete')}
                 </Button>
               </div>
             </div>
@@ -455,7 +457,7 @@ export function PhotoUpload({ onPhotoUploaded, onBack }: PhotoUploadProps) {
             onClick={onBack}
             className="w-full h-10 sm:h-12 bg-white/70 border-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg text-orange-600"
           >
-            이전 단계로
+            {t('upload_backToPrevious')}
           </Button>
         </div>
       )}

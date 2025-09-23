@@ -112,6 +112,14 @@ export function AdminListPage() {
     setQuestionnaireList(mockData);
   }, []);
 
+  useEffect(() => {
+    try{
+
+    }catch(error){
+      console.error(error);
+    }
+  })
+
   // 필터링된 데이터
   const filteredData = questionnaireList.filter(item => {
     const matchesSearch = item.petName.toLowerCase().includes(searchTerm.toLowerCase());
@@ -152,7 +160,7 @@ export function AdminListPage() {
       <div className="absolute inset-0 bg-gray-100"></div>
 
       {/* 블러 효과를 위한 배경 패턴 */}
-      
+
 
       <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* 헤더 - 유리 효과 */}

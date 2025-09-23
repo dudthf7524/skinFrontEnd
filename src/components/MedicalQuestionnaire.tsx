@@ -394,7 +394,7 @@ export const MedicalQuestionnaire = React.memo(
                   {/* 2-1. 가려움 정도 */}
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="font-medium text-gray-800">반려동물이 가려워하나요?</span>
+                      <span className="font-medium text-gray-800">{t('questionnaire_doesPetItch')}</span>
                     </div>
                     <div className="space-y-2">
                       <div
@@ -404,8 +404,8 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                         onClick={() => handlePruritusChange("없음")}
                       >
-                        <p className="text-sm font-medium text-gray-800 mb-1">없음</p>
-                        <p className="text-xs text-gray-600">가려워하지 않아요</p>
+                        <p className="text-sm font-medium text-gray-800 mb-1">{t('questionnaire_itching_none')}</p>
+                        <p className="text-xs text-gray-600">{t('questionnaire_itching_none_desc')}</p>
                       </div>
                       <div
                         className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.pruritus === "보통"
@@ -414,8 +414,8 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                         onClick={() => handlePruritusChange("보통")}
                       >
-                        <p className="text-sm font-medium text-gray-800 mb-1">보통</p>
-                        <p className="text-xs text-gray-600">가끔 긁거나 핥아요</p>
+                        <p className="text-sm font-medium text-gray-800 mb-1">{t('questionnaire_itching_moderate')}</p>
+                        <p className="text-xs text-gray-600">{t('questionnaire_itching_moderate_desc')}</p>
                       </div>
                       <div
                         className={`p-3 bg-white rounded-lg border-2 cursor-pointer transition-all ${formData.pruritus === "심함"
@@ -424,8 +424,8 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                         onClick={() => handlePruritusChange("심함")}
                       >
-                        <p className="text-sm font-medium text-gray-800 mb-1">심함</p>
-                        <p className="text-xs text-gray-600">계속 긁고 핥아요</p>
+                        <p className="text-sm font-medium text-gray-800 mb-1">{t('questionnaire_itching_severe')}</p>
+                        <p className="text-xs text-gray-600">{t('questionnaire_itching_severe_desc')}</p>
                       </div>
                     </div>
                   </div>
@@ -433,7 +433,7 @@ export const MedicalQuestionnaire = React.memo(
                   {/* 2-2. 피부 냄새 */}
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="font-medium text-gray-800">피부에서 냄새가 나나요?</span>
+                      <span className="font-medium text-gray-800">{t('questionnaire_skinOdor')}</span>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <button
@@ -445,8 +445,8 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                       >
                         <div className="text-center">
-                          <div className="text-lg font-bold mb-1">O</div>
-                          <div className="text-xs">기름지고 냄새남</div>
+                          <div className="text-lg font-bold mb-1">{t('questionnaire_odor_yes')}</div>
+                          <div className="text-xs">{t('questionnaire_odor_yes_desc')}</div>
                         </div>
                       </button>
                       <button
@@ -458,8 +458,8 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                       >
                         <div className="text-center">
-                          <div className="text-lg font-bold mb-1">X</div>
-                          <div className="text-xs">냄새 없음</div>
+                          <div className="text-lg font-bold mb-1">{t('questionnaire_odor_no')}</div>
+                          <div className="text-xs">{t('questionnaire_odor_no_desc')}</div>
                         </div>
                       </button>
                     </div>
@@ -468,7 +468,7 @@ export const MedicalQuestionnaire = React.memo(
                   {/* 2-3. 털빠짐 */}
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="font-medium text-gray-800">털이 많이 빠지나요?</span>
+                      <span className="font-medium text-gray-800">{t('questionnaire_hairLoss')}</span>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <button
@@ -480,8 +480,8 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                       >
                         <div className="text-center">
-                          <div className="text-lg font-bold mb-1">O</div>
-                          <div className="text-xs">털이 많이 빠짐</div>
+                          <div className="text-lg font-bold mb-1">{t('questionnaire_hairLoss_yes')}</div>
+                          <div className="text-xs">{t('questionnaire_hairLoss_yes_desc')}</div>
                         </div>
                       </button>
                       <button
@@ -493,19 +493,18 @@ export const MedicalQuestionnaire = React.memo(
                           }`}
                       >
                         <div className="text-center">
-                          <div className="text-lg font-bold mb-1">X</div>
-                          <div className="text-xs">정상적인 털빠짐</div>
+                          <div className="text-lg font-bold mb-1">{t('questionnaire_hairLoss_no')}</div>
+                          <div className="text-xs">{t('questionnaire_hairLoss_no_desc')}</div>
                         </div>
                       </button>
                     </div>
                   </div>
-
                 </div>
 
                 {formData.pruritus && (
                   <div className="mt-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl">
                     <p className="text-sm font-medium text-orange-800 mb-2">
-                      선택된 증상
+{t('questionnaire_selectedSymptoms')}
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {formData.pruritus && (
