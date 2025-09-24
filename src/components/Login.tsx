@@ -3,9 +3,7 @@ import style from "../styles/Login.module.css";
 import kakaotalk from "../assets/img/kakaotalk.png";
 import naver from "../assets/img/naver.jpg";
 import google from "../assets/img/Google__G__logo.svg.webp";
-import apple from "../assets/img/apple.png";
 import cancle_icon from "../assets/img/cancle_icon.png";
-import AppleLogin from "./AppleLogin";
 
 interface propsType {
   setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,35 +12,12 @@ interface propsType {
 export default function LoginPage({ setLoginModal }: propsType) {
   const handlerClose = () => {
     setLoginModal(false);
-  };
+  }
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-
-    const pathParts = window.location.pathname.split("/");
-    const type = pathParts[pathParts.length - 1]; // 예: /login/kakao
-
-    if (code && type) {
-      const fetchToken = async () => {
-        try {
-          const res = await fetch(
-            `${import.meta.env.VITE_API_BASE_URL}/auth/${type}/callback?code=${code}`
-          );
-          console.log(res)
-          window.location.href = "/login";
-        } catch (err) {
-          console.error("OAuth 처리 중 오류:", err);
-        }
-      };
-      fetchToken();
-    }
-  }, []);
-
-  const handleLogin = (type: "kakao" | "google" | "naver" | "apple") => {
+  const handleLogin = (type: "kakao" | "google" | "naver") => {
     localStorage.clear()
     localStorage.setItem('loginType', type)
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/login?provider=${type}`;
+    window.location.href = `https://localhost:4000/api/auth/social-login?provider=${type}`;
   };
 
   return (
@@ -82,7 +57,6 @@ export default function LoginPage({ setLoginModal }: propsType) {
             >
               <img src={google} alt="google" />
             </div>
-            <AppleLogin />
           </div>
         </div>
       </div>

@@ -98,7 +98,7 @@ export default function Home() {
     };
 
     function handleSkinAiPage() {
-        navigate('/skinai')
+        navigate('/token/purchase')
     }
 
     const handleNavigation = (page: Page) => {
