@@ -15,9 +15,10 @@ export default function LoginPage({ setLoginModal }: propsType) {
   }
 
   const handleLogin = (type: "kakao" | "google" | "naver") => {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     localStorage.clear()
     localStorage.setItem('loginType', type)
-    window.location.href = `https://localhost:4000/api/auth/social-login?provider=${type}`;
+    window.location.href = `${apiBaseUrl}/auth/social-login?provider=${type}`;
   };
 
   return (

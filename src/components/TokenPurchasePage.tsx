@@ -25,9 +25,10 @@ export function TokenPurchasePage() {
 
   // 주문 생성
   const handlePurchase = async (price: number, retry = true) => {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     try {
       const { data } = await axios.post(
-        "https://localhost:4000/api/paypal/order",
+        `${apiBaseUrl}/paypal/order`,
         { current: price },
         {
           withCredentials: true
@@ -47,7 +48,7 @@ export function TokenPurchasePage() {
       if (err.response?.status === 401 && retry) {
         try {
           const refreshRes = await axios.post(
-            "https://localhost:4000/api/auth/refresh-token",
+            `${apiBaseUrl}/auth/refresh-token`,
             {},
             { withCredentials: true }
           );
@@ -69,20 +70,18 @@ export function TokenPurchasePage() {
   };
 
   useEffect(() => {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
-
-    console.log(token)
-
     if (token) {
       const capturePayment = async () => {
         try {
           const { data } = await axios.post(
-            `https://localhost:4000/api/paypal/capture/${token}`,
+            `${apiBaseUrl}/paypal/capture/${token}`,
             {},
             { withCredentials: true }
           );
-    
+
           if (data.success) {
             alert("결제 완료! 토큰이 충전되었습니다.");
             window.location.href = "/"; // 원래 화면(메인페이지)으로 이동
@@ -94,9 +93,9 @@ export function TokenPurchasePage() {
           alert("결제 완료 처리 중 오류 발생");
         }
       };
-    
+
       capturePayment();
-    }    
+    }
   }, []);
 
   return (
@@ -128,11 +127,10 @@ export function TokenPurchasePage() {
         {/* 패키지 목록 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tokenPackages.map((pkg) => (
-            <Card key={pkg.id} className={`relative p-6 border-2 transition-all duration-300 hover:shadow-xl ${
-              pkg.popular
-                ? "border-[var(--talktail-orange)] bg-gradient-to-b from-orange-50 to-white"
-                : "border-gray-200 bg-white hover:border-[var(--talktail-orange)]"
-            }`}>
+            <Card key={pkg.id} className={`relative p-6 border-2 transition-all duration-300 hover:shadow-xl ${pkg.popular
+              ? "border-[var(--talktail-orange)] bg-gradient-to-b from-orange-50 to-white"
+              : "border-gray-200 bg-white hover:border-[var(--talktail-orange)]"
+              }`}>
               {pkg.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-[var(--talktail-orange)] text-white px-4 py-1 flex items-center">

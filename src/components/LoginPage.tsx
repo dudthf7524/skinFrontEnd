@@ -13,33 +13,13 @@ interface LoginPageProps {
 }
 
 export function LoginPage({ setLoginModal }: LoginPageProps) {
-    const [isLoading, setIsLoading] = useState<string | null>(null);
     const navigate = useNavigate();
-    function handleHome() {
-        navigate("/");
-    }
 
-    const handleSocialLogin = async (provider: string) => {
-        setIsLoading(provider);
-
-        try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            // Here you would typically handle the actual social login
-            console.log(`로그인 시도: ${provider}`);
-
-            // For demo purposes, just close the modal or navigate home
-            if (setLoginModal) {
-                setLoginModal(false);
-            } else {
-                navigate("/");
-            }
-        } catch (error) {
-            console.error(`${provider} 로그인 실패:`, error);
-        } finally {
-            setIsLoading(null);
-        }
+    const handleLogin = (type: "kakao" | "google" | "naver") => {
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+        localStorage.clear()
+        localStorage.setItem('loginType', type)
+        window.location.href = `${apiBaseUrl}/auth/social-login?provider=${type}`;
     };
 
     return (
@@ -87,36 +67,33 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-gray-50"
                                 size="lg"
-                                onClick={() => handleSocialLogin("Google")}
-                                disabled={isLoading !== null}
+                                onClick={() => handleLogin("google")}
                             >
                                 <img src={googleLogo} alt="Google" className="w-6 h-6 mr-3" />
-                                {isLoading === "Google" ? "로그인 중..." : "Google로 계속하기"}
+                                Google로 계속하기
                             </Button>
 
                             <Button
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-yellow-50 hover:border-yellow-300"
                                 size="lg"
-                                onClick={() => handleSocialLogin("Kakao")}
-                                disabled={isLoading !== null}
+                                onClick={() => handleLogin("kakao")}
                             >
                                 <img src={kakaoLogo} alt="Kakao" className="w-6 h-6 mr-3" />
-                                {isLoading === "Kakao" ? "로그인 중..." : "카카오로 계속하기"}
+                                카카오로 계속하기
                             </Button>
 
                             <Button
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-green-50 hover:border-green-300"
                                 size="lg"
-                                onClick={() => handleSocialLogin("Naver")}
-                                disabled={isLoading !== null}
+                                onClick={() => handleLogin("naver")}
                             >
                                 <img src={naverLogo} alt="Naver" className="w-6 h-6 mr-3 rounded" />
-                                {isLoading === "Naver" ? "로그인 중..." : "네이버로 계속하기"}
+                                네이버로 계속하기
                             </Button>
 
-                            <Button
+                            {/* <Button
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-gray-50"
                                 size="lg"
@@ -125,7 +102,7 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                             >
                                 <img src={appleLogo} alt="Apple" className="w-6 h-6 mr-3" />
                                 {isLoading === "Apple" ? "로그인 중..." : "Apple로 계속하기"}
-                            </Button>
+                            </Button> */}
                         </div>
 
                         <div className="text-center">
@@ -187,36 +164,33 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-gray-50"
                                 size="lg"
-                                onClick={() => handleSocialLogin("Google")}
-                                disabled={isLoading !== null}
+                                onClick={() => handleLogin("google")}
                             >
                                 <img src={googleLogo} alt="Google" className="w-6 h-6 mr-3" />
-                                {isLoading === "Google" ? "로그인 중..." : "Google로 계속하기"}
+                                Google로 계속하기
                             </Button>
 
                             <Button
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-yellow-50 hover:border-yellow-300"
                                 size="lg"
-                                onClick={() => handleSocialLogin("Kakao")}
-                                disabled={isLoading !== null}
+                                onClick={() => handleLogin("kakao")}
                             >
                                 <img src={kakaoLogo} alt="Kakao" className="w-6 h-6 mr-3" />
-                                {isLoading === "Kakao" ? "로그인 중..." : "카카오로 계속하기"}
+                                카카오로 계속하기
                             </Button>
 
                             <Button
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-green-50 hover:border-green-300"
                                 size="lg"
-                                onClick={() => handleSocialLogin("Naver")}
-                                disabled={isLoading !== null}
+                                onClick={() => handleLogin("naver")}
                             >
                                 <img src={naverLogo} alt="Naver" className="w-6 h-6 mr-3 rounded" />
-                                {isLoading === "Naver" ? "로그인 중..." : "네이버로 계속하기"}
+                                네이버로 계속하기
                             </Button>
 
-                            <Button
+                            {/* <Button
                                 variant="outline"
                                 className="w-full h-12 rounded-xl border-2 hover:bg-gray-50"
                                 size="lg"
@@ -225,14 +199,14 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                             >
                                 <img src={appleLogo} alt="Apple" className="w-6 h-6 mr-3" />
                                 {isLoading === "Apple" ? "로그인 중..." : "Apple로 계속하기"}
-                            </Button>
+                            </Button> */}
                         </div>
 
                         {/* Footer */}
                         <div className="text-center space-y-4">
-                            <div className="text-xs text-gray-500">
+                            {/* <div className="text-xs text-gray-500">
                                 로그인하면 <span className="text-[var(--talktail-orange)]">이용약관</span> 및 <span className="text-[var(--talktail-orange)]">개인정보처리방침</span>에 동의합니다
-                            </div>
+                            </div> */}
 
                             <button
                                 onClick={() => {

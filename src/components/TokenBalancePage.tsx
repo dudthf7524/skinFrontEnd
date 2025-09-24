@@ -48,8 +48,9 @@ export function TokenBalancePage() {
   const [loadingRefund, setLoadingRefund] = useState<string | null>(null); // 환불 로딩 상태
 
   const list = async () => {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     try {
-      const res = await axios.get("https://localhost:4000/api/paypal/list", {
+      const res = await axios.get(`${apiBaseUrl}/paypal/list`, {
         withCredentials: true,
       });
       const completedTx = res.data.payments.filter((tx: any) => tx.status === "COMPLETED");
@@ -74,11 +75,12 @@ export function TokenBalancePage() {
 
   // ✅ 환불 함수
   const handleRefund = async (orderId: string) => {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     if (!window.confirm("정말로 환불하시겠습니까?")) return;
     setLoadingRefund(orderId);
     try {
       const res = await axios.post(
-        "https://localhost:4000/api/paypal/refund",
+        `${apiBaseUrl}/paypal/refund`,
         { orderId },
         { withCredentials: true }
       );
