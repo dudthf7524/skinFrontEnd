@@ -316,7 +316,7 @@ const SkinAIContent = () => {
                   </div>
                   <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${currentStep === "questionnaire" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 0 ? "text-emerald-600" : "text-gray-400"
                     }`}>
-                    정보입력
+                    {t("infoInput")}
                   </div>
                   {/* {currentStep === "questionnaire" && (
                     <>
@@ -362,7 +362,7 @@ const SkinAIContent = () => {
                   </div>
                   <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${currentStep === "upload" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 1 ? "text-emerald-600" : "text-gray-400"
                     }`}>
-                    사진업로드
+                    {t("photoUpload")}
                   </div>
                   {currentStep === "upload" && (
                     <>
@@ -408,7 +408,7 @@ const SkinAIContent = () => {
                   </div>
                   <div className={`mt-1 sm:mt-1.5 md:mt-2 text-[8px] sm:text-[10px] md:text-xs font-medium transition-all duration-300 text-center whitespace-nowrap ${currentStep === "diagnosis" ? "text-orange-600" : ["questionnaire", "upload", "diagnosis"].indexOf(currentStep) > 2 ? "text-emerald-600" : "text-gray-400"
                     }`}>
-                    진단결과
+                    {t("diagnosisResult")}
                   </div>
                   {currentStep === "diagnosis" && (
                     <>
@@ -456,13 +456,12 @@ const SkinAIContent = () => {
                   <div className="space-y-2 sm:space-y-3">
                     <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 leading-tight px-2">
                       {questionnaireData?.petName
-                        ? `${questionnaireData.petName}의 피부 상태 분석 중`
-                        : "AI 피부 상태 분석 중"
+                        ? t("petSkinAnalysis", { petName: questionnaireData.petName })
+                        : t("aiAnalysisInProgress")
                       }
                     </h3>
                     <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-xs mx-auto px-2">
-                      고도화된 AI 알고리즘이 업로드된 사진을 정밀 분석하여
-                      정확한 피부 진단을 수행하고 있습니다
+                      {t("advancedAiAnalysis")}
                     </p>
                   </div>
 
@@ -480,9 +479,9 @@ const SkinAIContent = () => {
                       <div className="absolute top-0 left-0 h-full w-6 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse"></div>
                     </div>
                     <div className="flex justify-between text-[10px] sm:text-xs text-gray-500">
-                      <span>이미지 분석</span>
-                      <span>패턴 인식</span>
-                      <span>진단 완료</span>
+                      <span>{t("imageAnalysis")}</span>
+                      <span>{t("patternRecognition")}</span>
+                      <span>{t("diagnosisComplete")}</span>
                     </div>
                   </div>
                 </div>

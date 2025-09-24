@@ -20,7 +20,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
 
   // No age restrictions - allow any age selection
   const today = useMemo(() => new Date(), []);
-  const maxDate = useMemo(() => new Date(), []); // Current date as max
+  const maxDate = useMemo(() => new Date(2100, 11, 31), []); // Allow future dates up to 2100
   const minDate = useMemo(() => new Date(1900, 0, 1), []);
 
   // Parse existing value
@@ -237,10 +237,10 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     setViewDate(prev => new Date(prev.getFullYear(), month, 1));
   }, []);
 
-  // 연도 목록 생성 (1900년부터 현재 연도까지)
+  // 연도 목록 생성 (1900년부터 2100년까지)
   const generateYears = useMemo(() => {
     const startYear = 1900;
-    const endYear = today.getFullYear();
+    const endYear = 2100;
     const years = [];
 
     for (let year = endYear; year >= startYear; year--) {
@@ -248,7 +248,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     }
 
     return years;
-  }, [today]);
+  }, []);
 
   // 월 목록 생성
   const generateMonths = useMemo(() => {
