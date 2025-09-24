@@ -22,7 +22,7 @@ export default function App() {
           <Route path="/skinai" element={<SkinAI />} />
           <Route path="/info" element={< DiseaseInfoPage />} />
           <Route path="/search" element={< VetFinderPage />} />
-          {/* <Route path="/login/page" element={<LoginPage />} /> */}
+          <Route path="/login/page" element={<LoginPage />} />
           <Route path="/login" element={<LoginCallback />} />
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/record" element={<MyRecordsPage />} />
