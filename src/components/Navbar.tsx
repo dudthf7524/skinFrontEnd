@@ -46,11 +46,10 @@ const LanguageToggle: React.FC = () => {
                     <DropdownMenuItem
                         key={lang.code}
                         onClick={() => setLanguage(lang.code)}
-                        className={`cursor-pointer rounded-md px-3 py-2 text-sm ${
-                            language === lang.code
-                                ? 'bg-orange-50 text-orange-900'
-                                : 'text-gray-700 hover:bg-gray-50'
-                        }`}
+                        className={`cursor-pointer rounded-md px-3 py-2 text-sm ${language === lang.code
+                            ? 'bg-orange-50 text-orange-900'
+                            : 'text-gray-700 hover:bg-gray-50'
+                            }`}
                     >
                         <span className="text-sm font-medium">
                             {lang.code.toUpperCase()} {lang.name}
@@ -84,6 +83,10 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
 
     function handlerecordPage() {
         navigate('/record ');
+    }
+
+    function handleLogin() {
+        navigate('/signin')
     }
 
     return (
@@ -158,17 +161,17 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         </div>
 
                         {/* 로그인/진단하기 버튼 주석처리 */}
-                        {/* {localStorage.getItem("user") ? (
+                        {localStorage.getItem("user") ? (
                             <ProfileBar />
                         ) : (
                             <Button
-                                // onClick={() => handlerLoginClick()}
+                                onClick={() => handleLogin()}
                                 size="sm"
                                 className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
                             >
                                 로그인
                             </Button>
-                        )} */}
+                        )}
 
                         {/* Mobile menu button */}
                         <Button
