@@ -10,9 +10,6 @@ export default function ProfileBar() {
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
     const profileImage = user?.profileImage
-    console.log("profileImage", profileImage)
-    console.log("userStr", user)
-
     let name = "";
     if (userStr) {
         try {
@@ -22,11 +19,9 @@ export default function ProfileBar() {
             name = "";
         }
     }
-
     const handlerClickProfile = () => {
         // handleNavigation("record");
     }
-
     // 드롭다운 상태 및 타이머 ref
     const [showLogout, setShowLogout] = useState(false);
     // NodeJS.Timeout 대신 number로 타입 지정 (브라우저 환경)

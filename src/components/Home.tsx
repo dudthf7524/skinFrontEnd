@@ -2,8 +2,6 @@ import { Award, Badge, Brain, Camera, Heart, Hospital, LogIn, MapPin, Menu, Quot
 import { Button } from "./ui/button";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
-import ProfileBar from "./ProfileBar";
-import LoginPage from "./Login";
 import Navbar from "./Navbar";
 import { useLanguage } from "./LanguageContext";
 import result1 from "../assets/img/result1.png";
@@ -102,7 +100,7 @@ export default function Home() {
     }
 
     const handleNavigation = (page: Page) => {
-        console.log(page);
+
         setCurrentPage(page);
         if (page === "home") {
             document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });

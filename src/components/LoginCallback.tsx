@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import style from "../styles/LoginCallback.module.css";
 import { Heart, Menu } from "lucide-react";
 import { HeroSection } from "./HeroSection";
-import { ProcessSteps } from "./ProcessSteps";
-import ProfileBar from "./ProfileBar";
+
 
 type Page = "home" | "diagnosis" | "diseases" | "vets" | "login" | "record";
 
@@ -48,7 +47,28 @@ export default function LoginCallback() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
-    const type = localStorage.getItem("loginType") || "kakao"; // 로그인 타입
+
+    // URL에서 state 파라미터나 referrer 확인하여 로그인 타입 판단
+    const state = params.get("state");
+    let type = localStorage.getItem("loginType") || "kakao";
+
+    // URL의 referrer나 state를 통해 로그인 타입 확인
+    if (state && state.includes("google")) {
+      type = "google";
+    } else if (state && state.includes("naver")) {
+      type = "naver";
+    } else if (window.location.search.includes("google") ||
+               document.referrer.includes("google") ||
+               document.referrer.includes("accounts.google.com")) {
+      type = "google";
+    } else if (window.location.search.includes("naver") ||
+               document.referrer.includes("naver") ||
+               document.referrer.includes("nid.naver.com")) {
+      type = "naver";
+    }
+
+    // localStorage에 정확한 타입 저장
+    localStorage.setItem("loginType", type);
 
     if (code) {
       handleCallback(code, type);
