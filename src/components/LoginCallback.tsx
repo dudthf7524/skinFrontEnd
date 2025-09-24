@@ -15,12 +15,12 @@ export default function LoginCallback() {
   const [statusText, setStatusText] = useState<string>("로그인 처리 중...");
 
   const handleCallback = async (code: string, type: string) => {
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    const callBackUrl = import.meta.env.VITE_CALLBACK_URL;
     try {
       setStatusText("로그인 처리 중...");
 
       const res = await axios.get(
-        `${apiBaseUrl}/auth/callback/${type}?code=${code}`,
+        `${callBackUrl}/auth/callback/${type}?code=${code}`,
         { withCredentials: true }
       );
 
