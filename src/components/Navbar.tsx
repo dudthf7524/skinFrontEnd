@@ -242,6 +242,8 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         >
                             {t('hospitalSearch')}
                         </button>
+                        
+                        
 
                         {/* Mobile 번역 버튼 */}
                         <div className="pt-2 border-t border-gray-100 mt-2">
@@ -252,6 +254,29 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Mobile 로그인 버튼 */}
+                        <div className="pt-2 border-t border-gray-100 mt-2">
+                            {localStorage.getItem("user") ? (
+                                <div className="px-3 py-2">
+                                    <ProfileBar />
+                                </div>
+                            ) : (
+                                <div className="px-3 py-2">
+                                    <Button
+                                        onClick={() => {
+                                            handleLogin();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        size="sm"
+                                        className="w-full justify-center bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
+                                    >
+                                        로그인
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
+                     
 
                         {/* Mobile CTA buttons 주석처리 */}
                         {/* <div className="pt-2 border-t border-gray-100 mt-2">
