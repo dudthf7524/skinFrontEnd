@@ -50,7 +50,7 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                             <Heart className="w-8 h-8 text-white" />
                         </div>
                         <h1 className="text-2xl font-bold text-gray-900">Talktail</h1>
-                        <p className="text-gray-600">SkinCare AI</p>
+                        <p className="text-gray-600">Care</p>
                     </div>
 
                     {/* Pet mascot illustration */}
@@ -152,7 +152,7 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl font-bold text-gray-900">Talktail</h1>
-                                    <p className="text-sm text-gray-500">SkinCare AI</p>
+                                    <p className="text-sm text-gray-500">Care</p>
                                 </div>
                             </div>
                             <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('loginTitle')}</h2>

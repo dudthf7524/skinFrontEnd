@@ -128,11 +128,10 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         </div>
                         <div>
                             <h1 className="text-xl font-bold text-gray-900">Talktail</h1>
-                            <p className="text-xs text-gray-500">SkinCare AI</p>
+                            <p className="text-xs text-gray-500">Care</p>
                         </div>
                     </div>
 
-                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-8">
                         <button
                             onClick={() => navigate('/')}

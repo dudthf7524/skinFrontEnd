@@ -422,7 +422,6 @@ const SkinAIContent = () => {
           </div>
         </div>
       )}
-
       {/* 메인 콘텐츠 */}
       <main className="flex-1 relative z-10 px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8">
         <div className={`w-full mx-auto ${currentStep === "complete" ? "max-w-4xl" : "max-w-2xl"}`}>

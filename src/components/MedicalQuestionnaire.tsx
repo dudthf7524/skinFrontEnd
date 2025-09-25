@@ -283,9 +283,9 @@ export const MedicalQuestionnaire = React.memo(
                     placeholder={t("datePlaceholder")}
                     className="h-11 bg-white/50 backdrop-blur-sm border-gray-200 rounded-xl"
                   />
-                  <p className="text-sm text-gray-600 mt-2 bg-orange-50 px-3 py-2 rounded-lg border border-orange-200">
+                  {/* <p className="text-sm text-gray-600 mt-2 bg-orange-50 px-3 py-2 rounded-lg border border-orange-200">
                     {t("dateFormat")}
-                  </p>
+                  </p> */}
                 </div>
 
                 <div>
