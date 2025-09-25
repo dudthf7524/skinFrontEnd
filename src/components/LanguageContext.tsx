@@ -712,7 +712,7 @@ const translations = {
     vetFinder_loadSuccess: "Load successful",
 
     // Home page
-    home_aiScreeningService: "AI Skin Disease Screening Service",
+    home_aiScreeningService: "AI Skin Disease Monitoring Service",
     home_mainTitle: "Diagnose your pet's skin health with AI",
     home_mainDescription: "Upload your pet's skin photos or start AI diagnosis immediately",
     home_tryNowButton: "Try It Now",
@@ -1140,7 +1140,7 @@ const translations = {
     vetFinder_loadSuccess: "読み込み成功",
 
     // Home page
-    home_aiScreeningService: "AI皮膚疾患スクリーニングサービス",
+    home_aiScreeningService: "AI皮膚疾患モニタリングサービス",
     home_mainTitle: "ペットの皮膚の健康をAIで診断しましょう",
     home_mainDescription: "ペットの皮膚写真をアップロードするか、AI診断をすぐに始めましょう",
     home_tryNowButton: "今すぐ体験",
@@ -1567,7 +1567,7 @@ const translations = {
     vetFinder_loadSuccess: "加载成功",
 
     // Home page
-    home_aiScreeningService: "AI皮肤疾病筛查服务",
+    home_aiScreeningService: "AI皮肤疾病监测服务",
     home_mainTitle: "用AI诊断宠物皮肤健康",
     home_mainDescription: "上传宠物皮肤照片或立即开始AI诊断",
     home_tryNowButton: "立即体验",
