@@ -335,7 +335,7 @@ export const MedicalQuestionnaire = React.memo(
 
                   {/* 드롭다운 메뉴 */}
                   {isBreedDropdownOpen && (
-                    <div className="absolute z-[9999] w-full bottom-full mb-1 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-60 overflow-y-hidden" style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}>
+                    <div className="absolute w-full bottom-full mb-1 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-60 overflow-y-hidden" style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}>
                       {/* 검색 입력창 */}
                       <div className="p-2 border-b">
                         <div className="relative">

@@ -49,10 +49,10 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
   // Get localized date display
   const getDisplayValue = (): string => {
     if (!value) return '';
-    
+
     const [year, month, day] = value.split('-').map(Number);
     if (!year || !month || !day) return '';
-    
+
     switch (language) {
       case 'ko':
         return `${year}년 ${month}월 ${day}일`;
@@ -148,28 +148,28 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const weekStart = getWeekStart;
-    
+
     // Calculate the starting day of the week
     let startDay = firstDay.getDay() - weekStart;
     if (startDay < 0) startDay += 7;
-    
+
     const days: (Date | null)[] = [];
-    
+
     // Add empty cells for days before the first day of month
     for (let i = 0; i < startDay; i++) {
       days.push(null);
     }
-    
+
     // Add all days of the month
     for (let day = 1; day <= lastDay.getDate(); day++) {
       days.push(new Date(year, month, day));
     }
-    
+
     // Fill remaining cells to complete 6 rows (42 cells)
     while (days.length < 42) {
       days.push(null);
     }
-    
+
     return days;
   }, [viewDate, getWeekStart]);
 
@@ -194,13 +194,13 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
       event.preventDefault();
       event.stopPropagation();
     }
-    
+
     if (!isDateSelectable(date)) return;
-    
+
     setSelectedDate(date);
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     onChange(formattedDate);
-    
+
     // Add haptic feedback
     if (navigator.vibrate) {
       navigator.vibrate(10);
@@ -293,7 +293,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
   // Enhanced keyboard navigation
   const handleKeyDown = useCallback((event: React.KeyboardEvent, date?: Date) => {
     if (!date || !isDateSelectable(date)) return;
-    
+
     switch (event.key) {
       case 'Enter':
       case ' ':
@@ -333,14 +333,14 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
         className={`relative cursor-pointer ${className}`}
         onClick={() => setIsOpen(true)}
       >
-        <div 
+        <div
           className="h-12 px-4 py-3 border rounded-lg flex items-center justify-between transition-all duration-200 hover:border-orange-300 focus-within:border-orange-400 shadow-sm"
           style={{
             backgroundColor: '#FAF6F2',
             borderColor: '#E5E5E5'
           }}
         >
-          <span 
+          <span
             className="truncate"
             style={{
               color: value ? '#333333' : '#999999',
@@ -349,8 +349,8 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
           >
             {value ? getDisplayValue() : getPlaceholderText()}
           </span>
-          <Calendar 
-            className="w-5 h-5 flex-shrink-0" 
+          <Calendar
+            className="w-5 h-5 flex-shrink-0"
             style={{ color: '#999999' }}
           />
         </div>
@@ -358,8 +358,9 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
 
       {/* Calendar Modal - 적당한 크기로 조정 */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/30 flex items-center justify-center z-40 p-4"
+        <div
+          className="fixed inset-0 bg-black/30 flex items-center justify-center p-4"
+          style={{ zIndex: 10000 }}
           onKeyDown={handleModalKeyDown}
           onClick={(e) => {
             // 배경 클릭 시 모달 닫기
@@ -370,156 +371,156 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
           tabIndex={-1}
         >
           <div className="w-full max-w-xs bg-white border border-gray-300 rounded p-3">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-bold">생년월일 선택</h3>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-base font-bold">생년월일 선택</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-500 hover:text-gray-700 text-lg"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Month/Year Navigation */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-1">
                 <button
-                  onClick={() => setIsOpen(false)}
-                  className="text-gray-500 hover:text-gray-700 text-lg"
+                  onClick={goToPreviousYear}
+                  className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
+                  title="이전 년도"
                 >
-                  ✕
+                  &lt;&lt;
+                </button>
+                <button
+                  onClick={goToPreviousMonth}
+                  disabled={isPreviousDisabled}
+                  className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
+                  title="이전 월"
+                >
+                  &lt;
                 </button>
               </div>
 
-              {/* Month/Year Navigation */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-1">
-                  <button
-                    onClick={goToPreviousYear}
-                    className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
-                    title="이전 년도"
+              <div className="text-center flex-1">
+                <div className="text-sm font-medium flex items-center justify-center">
+                  <select
+                    value={viewDate.getFullYear()}
+                    onChange={(e) => handleYearSelect(parseInt(e.target.value))}
+                    className="bg-transparent border-0 outline-0 cursor-pointer pr-0 pl-1 py-1 text-sm font-medium appearance-none"
+                    style={{
+                      backgroundImage: 'none',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'none'
+                    }}
                   >
-                    &lt;&lt;
-                  </button>
-                  <button
-                    onClick={goToPreviousMonth}
-                    disabled={isPreviousDisabled}
-                    className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
-                    title="이전 월"
-                  >
-                    &lt;
-                  </button>
-                </div>
-
-                <div className="text-center flex-1">
-                  <div className="text-sm font-medium flex items-center justify-center">
-                    <select
-                      value={viewDate.getFullYear()}
-                      onChange={(e) => handleYearSelect(parseInt(e.target.value))}
-                      className="bg-transparent border-0 outline-0 cursor-pointer pr-0 pl-1 py-1 text-sm font-medium appearance-none"
-                      style={{
-                        backgroundImage: 'none',
-                        WebkitAppearance: 'none',
-                        MozAppearance: 'none'
-                      }}
-                    >
-                      {generateYears.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                    <span className="text-sm font-medium">년</span>
-                    <span className="mx-2"></span>
-                    <span className="text-sm font-medium">
-                      {viewDate.getMonth() + 1}
-                    </span>
-                    <span className="text-sm font-medium">월</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-1">
-                  <button
-                    onClick={goToNextMonth}
-                    disabled={isNextDisabled}
-                    className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
-                    title="다음 월"
-                  >
-                    &gt;
-                  </button>
-                  <button
-                    onClick={goToNextYear}
-                    className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
-                    title="다음 년도"
-                  >
-                    &gt;&gt;
-                  </button>
+                    {generateYears.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="text-sm font-medium">년</span>
+                  <span className="mx-2"></span>
+                  <span className="text-sm font-medium">
+                    {viewDate.getMonth() + 1}
+                  </span>
+                  <span className="text-sm font-medium">월</span>
                 </div>
               </div>
 
-              {/* Weekday Headers */}
-              <div className="grid grid-cols-7 gap-1 mb-2">
-                {weekdayLabels.map((label, index) => (
-                  <div
+              <div className="flex items-center space-x-1">
+                <button
+                  onClick={goToNextMonth}
+                  disabled={isNextDisabled}
+                  className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
+                  title="다음 월"
+                >
+                  &gt;
+                </button>
+                <button
+                  onClick={goToNextYear}
+                  className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
+                  title="다음 년도"
+                >
+                  &gt;&gt;
+                </button>
+              </div>
+            </div>
+
+            {/* Weekday Headers */}
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {weekdayLabels.map((label, index) => (
+                <div
+                  key={index}
+                  className="h-6 flex items-center justify-center text-xs font-medium text-gray-600"
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
+
+            {/* Calendar Grid */}
+            <div className="grid grid-cols-7 gap-1 mb-3">
+              {calendarDays.map((date, index) => {
+                if (!date) {
+                  return <div key={index} className="h-9" />;
+                }
+
+                const selectable = isDateSelectable(date);
+                const todayDate = isToday(date);
+                const selected = isSelected(date);
+
+                return (
+                  <button
                     key={index}
-                    className="h-6 flex items-center justify-center text-xs font-medium text-gray-600"
-                  >
-                    {label}
-                  </div>
-                ))}
-              </div>
-
-              {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-1 mb-3">
-                {calendarDays.map((date, index) => {
-                  if (!date) {
-                    return <div key={index} className="h-9" />;
-                  }
-
-                  const selectable = isDateSelectable(date);
-                  const todayDate = isToday(date);
-                  const selected = isSelected(date);
-
-                  return (
-                    <button
-                      key={index}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleDateSelect(date, e);
-                      }}
-                      disabled={!selectable}
-                      className={`
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleDateSelect(date, e);
+                    }}
+                    disabled={!selectable}
+                    className={`
                         h-9 w-full rounded text-sm font-medium border
                         ${!selectable
-                          ? 'cursor-not-allowed opacity-30 bg-gray-100'
-                          : selected
-                            ? 'bg-orange-500 text-white border-orange-500'
-                            : todayDate
-                              ? 'bg-orange-100 text-orange-700 border-orange-400'
-                              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                        }
+                        ? 'cursor-not-allowed opacity-30 bg-gray-100'
+                        : selected
+                          ? 'bg-orange-500 text-white border-orange-500'
+                          : todayDate
+                            ? 'bg-orange-100 text-orange-700 border-orange-400'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      }
                       `}
-                    >
-                      {date.getDate()}
-                    </button>
-                  );
-                })}
-              </div>
+                  >
+                    {date.getDate()}
+                  </button>
+                );
+              })}
+            </div>
 
-              {/* Action Buttons */}
-              <div className="flex space-x-2">
-                <button
-                  className="flex-1 h-10 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm"
-                  onClick={() => setIsOpen(false)}
-                >
-                  취소
-                </button>
-                <button
-                  className="flex-1 h-10 rounded text-white disabled:opacity-50 text-sm"
-                  style={{
-                    backgroundColor: selectedDate ? '#F0663F' : '#cccccc',
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleConfirm();
-                  }}
-                  disabled={!selectedDate}
-                >
-                  확인
-                </button>
-              </div>
+            {/* Action Buttons */}
+            <div className="flex space-x-2">
+              <button
+                className="flex-1 h-10 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm"
+                onClick={() => setIsOpen(false)}
+              >
+                취소
+              </button>
+              <button
+                className="flex-1 h-10 rounded text-white disabled:opacity-50 text-sm"
+                style={{
+                  backgroundColor: selectedDate ? '#F0663F' : '#cccccc',
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleConfirm();
+                }}
+                disabled={!selectedDate}
+              >
+                확인
+              </button>
+            </div>
 
           </div>
         </div>
