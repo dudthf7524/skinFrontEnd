@@ -52,6 +52,7 @@ export default function ProfileBar() {
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
         try {
             const response = await axios.post(`${apiBaseUrl}/auth/logout`,
+                {},
                 {
                     withCredentials: true
                 }
