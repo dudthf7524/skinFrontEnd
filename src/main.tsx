@@ -11,7 +11,9 @@ const trackEvent = (eventType: string, eventData: Record<string, any>) => {
     timestamp: new Date().toISOString(),
     data: eventData,
   };
-  console.log("Tracked Event:", payload);
+  window.dispatchEvent(new CustomEvent("__tracked_event__", { detail: payload }));
+
+  // console.log("Tracked Event:", payload);
 };
 
 // 전역 이벤트 리스너 등록

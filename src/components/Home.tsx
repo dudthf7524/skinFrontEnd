@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
 import Navbar from "./Navbar";
 import { useLanguage } from "./LanguageContext";
+import { TermsModal } from "./TermsModal";
+import { PrivacyModal } from "./PrivacyModal";
 import result1 from "../assets/img/result1.png";
 import result2 from "../assets/img/result2.png";
 import result3 from "../assets/img/result3.png";
@@ -12,6 +14,8 @@ export default function Home() {
     const navigate = useNavigate()
     const { t } = useLanguage();
     const [loginModal, setLoginModal] = useState(false);
+    const [termsModalOpen, setTermsModalOpen] = useState(false);
+    const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
 
     // 슬라이더 관련 상태
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -96,8 +100,15 @@ export default function Home() {
     };
 
     function handleSkinAiPage() {
-        navigate('/token')
+        const user = localStorage.getItem("user")
+        if (user) {
+            navigate('/skinai')
+        } else {
+            alert("로그인이 필요합니다.")
+            navigate('/signin')
+        }
     }
+
 
     const handleNavigation = (page: Page) => {
 
@@ -380,9 +391,9 @@ export default function Home() {
                                                                 draggable={false}
                                                                 style={{
                                                                     imageRendering: 'crisp-edges',
-                                                                    WebkitImageRendering: 'crisp-edges',
-                                                                    msImageRendering: 'crisp-edges',
-                                                                    imageRendering: '-webkit-optimize-contrast'
+                                                                    // WebkitImageRendering: 'crisp-edges',
+                                                                    // msImageRendering: 'crisp-edges',
+                                                                    // imageRendering: '-webkit-optimize-contrast'
                                                                 }}
                                                             />
                                                         </div>
@@ -597,7 +608,10 @@ export default function Home() {
                         <div>
                             <h4 className="font-bold mb-4">{t("home_footerServices")}</h4>
                             <ul className="space-y-2 text-gray-400">
-                                <li>
+                                <li
+                                    onClick={() => handleSkinAiPage()}
+
+                                >
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
@@ -605,7 +619,9 @@ export default function Home() {
                                         {t("home_footerAiAnalysis")}
                                     </a>
                                 </li>
-                                <li>
+                                <li
+                                    onClick={() => handleInfoPage()}
+                                >
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
@@ -613,48 +629,56 @@ export default function Home() {
                                         {t("home_footerDiseaseInfo")}
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
                                         {t("home_footerHospitalFinder")}
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
 
                         <div>
                             <h4 className="font-bold mb-4">{t("home_footerCustomerSupport")}</h4>
                             <ul className="space-y-2 text-gray-400">
-                                <li>
+                                {/* <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
                                         {t("home_footerFaq")}
                                     </a>
-                                </li>
+                                </li> */}
                                 <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setTermsModalOpen(true);
+                                        }}
                                     >
                                         {t("home_footerUserGuide")}
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
                                     >
                                         {t("home_footerCustomerCenter")}
                                     </a>
-                                </li>
+                                </li> */}
                                 <li>
                                     <a
                                         href="#"
                                         className="hover:text-white transition-colors"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setPrivacyModalOpen(true);
+                                        }}
                                     >
                                         {t("home_footerPrivacyPolicy")}
                                     </a>
@@ -668,6 +692,16 @@ export default function Home() {
                     </div>
                 </div>
             </footer>
+
+            {/* Modals */}
+            <TermsModal
+                isOpen={termsModalOpen}
+                onClose={() => setTermsModalOpen(false)}
+            />
+            <PrivacyModal
+                isOpen={privacyModalOpen}
+                onClose={() => setPrivacyModalOpen(false)}
+            />
         </div>
     )
 }

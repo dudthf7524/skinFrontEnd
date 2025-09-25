@@ -43,23 +43,48 @@ const translations = {
     hospitalSearch: "병원 찾기",
     myRecord: "내 기록",
     login: "로그인",
+    logout: "로그아웃",
     diagnoseNow: "지금 진단하기",
     languageSelect: "언어 선택",
+
+    // LoginPage.tsx
+    goBack: "돌아가기",
+    welcomeBack: "다시 만나서 반가워요!",
+    keepHealthySkin: "우리 아이의 건강한 피부를 함께 지켜요",
+    continueWithGoogle: "Google로 계속하기",
+    continueWithKakao: "카카오로 계속하기",
+    continueWithNaver: "네이버로 계속하기",
+    continueWithApple: "Apple로 계속하기",
+    termsAgreement: "로그인하면 이용약관 및 개인정보처리방침에 동의합니다",
+    terms: "이용약관",
+    privacyPolicy: "개인정보처리방침",
+    loginTitle: "로그인",
+    socialLoginDescription: "소셜 계정으로 간편하게 로그인하세요",
+    welcome: "반가워요!",
+    petHealthMessage: "반려동물의 피부 건강을 함께 지켜나가요",
+    cumulativeDiagnosis: "누적 진단",
+    accuracy: "정확도",
+    goHome: "홈으로 돌아가기",
 
     // DiseaseInfoPage.tsx
     skinDiseaseInfo: "피부 질병 정보",
     skinDiseaseDescription: "반려동물에게 흔한 피부 질병들에 대해 알아보세요",
     consultVetNote: "정확한 진단은 전문 수의사와 상담하세요",
     mainSymptoms: "주요 증상",
+    diseaseMainSymptoms: "질병 주요 증상",
+    description: "설명",
+    checkOtherDiseases: "다른 질병 확인하기",
+    riskLevel: "위험도",
+    common: "흔함",
+    normal: "보통",
+    rare: "드뭄",
     viewDetails: "자세히 보기",
     severity: "심각도",
     prevalence: "발생빈도",
     high: "높음",
     medium: "중간",
     low: "낮음",
-    common: "흔함",
-    normal: "보통",
-    rare: "드뭄",
+
 
     // Disease names and descriptions
     papulesPlaquesName: "구진,플라크",
@@ -85,7 +110,7 @@ const translations = {
     nodulesName: "결절, 종괴",
     nodulesDesc: "피부 및 피하 조직 문제, 장기 종양, 노령성 변화로 인하여서 발생하는 질병 입니다.",
     nodulesSymptoms: ["피부 멍울", "호흡곤란", "절뚝거림", "체중 감소", "식욕부진"],
-    
+
     // MedicalQuestionnaire.tsx
     step1Title: "Step 1. 반려동물 정보",
     step2Title: "Step 2. 증상 및 부위 입력",
@@ -120,7 +145,7 @@ const translations = {
     previous: "이전",
     next: "다음",
     complete: "완료",
-    
+
     // Symptoms
     itching: "가려움",
     scaling: "각질",
@@ -132,7 +157,7 @@ const translations = {
     scabs: "딱지",
     blackSpots: "검은 반점",
     whiteDandruff: "하얀 비듬",
-    
+
     // New symptom questions
     petItchyQuestion: "반려동물이 가려워합니까?",
     itchyNone: "전혀 긁거나 핥지 않음",
@@ -311,7 +336,7 @@ const translations = {
     home_footerHospitalFinder: "병원 찾기",
     home_footerCustomerSupport: "고객지원",
     home_footerFaq: "자주 묻는 질문",
-    home_footerUserGuide: "이용 가이드",
+    home_footerUserGuide: "이용 약관",
     home_footerCustomerCenter: "고객센터",
     home_footerPrivacyPolicy: "개인정보처리방침",
     home_footerCopyright: "© 2024 Talktail SkinCare AI. All rights reserved.",
@@ -328,7 +353,7 @@ const translations = {
     weightGainLethargyQuestion: "체중이 증가했거나 무기력해 보입니까?",
     yesSuchSymptoms: "O (네, 그런 증상이 있음)",
     noSuchSymptoms: "X (아니요, 그런 증상이 없음)",
-    
+
     // Areas
     face: "얼굴",
     back: "등",
@@ -358,7 +383,7 @@ const translations = {
     analArea: "항문 주위",
     wholebody: "전신",
     genitalArea: "생식기 주변",
-    
+
     // Dog breeds
     goldenRetriever: "골든 리트리버",
     labradorRetriever: "래브라도 리트리버",
@@ -384,7 +409,7 @@ const translations = {
     welshCorgi: "웰시 코기",
     papillon: "파피용",
     spitz: "스피츠",
-    
+
     // Cat breeds
     persian: "페르시안",
     russianBlue: "러시안 블루",
@@ -415,9 +440,9 @@ const translations = {
     advancedAiAnalysis: "고도화된 AI 알고리즘이 업로드된 사진을 정밀 분석하여 정확한 피부 진단을 수행하고 있습니다",
     imageAnalysis: "이미지 분석",
     patternRecognition: "패턴 인식",
-    diagnosisComplete: "진단 완료"
+    // diagnosisComplete: "진단 완료"
   },
-  
+
   en: {
     // App.tsx
     appTitle: "Pet Care AI",
@@ -446,24 +471,47 @@ const translations = {
     hospitalSearch: "Find Hospital",
     myRecord: "My Record",
     login: "Login",
+    logout: "Logout",
     diagnoseNow: "Diagnose Now",
     languageSelect: "Language Selection",
+
+    // LoginPage.tsx
+    goBack: "Go Back",
+    welcomeBack: "Nice to meet you again!",
+    keepHealthySkin: "Let's keep your pet's skin healthy together",
+    continueWithGoogle: "Continue with Google",
+    continueWithKakao: "Continue with Kakao",
+    continueWithNaver: "Continue with Naver",
+    continueWithApple: "Continue with Apple",
+    termsAgreement: "By logging in, you agree to the Terms of Service and Privacy Policy",
+    terms: "Terms of Service",
+    privacyPolicy: "Privacy Policy",
+    loginTitle: "Login",
+    socialLoginDescription: "Sign in easily with your social account",
+    welcome: "Welcome!",
+    petHealthMessage: "Let's protect your pet's skin health together",
+    cumulativeDiagnosis: "Total Diagnoses",
+    accuracy: "Accuracy",
+    goHome: "Go Home",
 
     // DiseaseInfoPage.tsx
     skinDiseaseInfo: "Skin Disease Information",
     skinDiseaseDescription: "Learn about common skin diseases in pets",
     consultVetNote: "Consult a professional veterinarian for accurate diagnosis",
     mainSymptoms: "Main Symptoms",
+    diseaseMainSymptoms: "Disease Main Symptoms",
+    description: "Description",
+    checkOtherDiseases: "Check Other Diseases",
+    riskLevel: "Risk Level",
+    common: "Common",
+    normal: "Normal",
+    rare: "Rare",
     viewDetails: "View Details",
     severity: "Severity",
     prevalence: "Prevalence",
     high: "High",
     medium: "Medium",
     low: "Low",
-    common: "Common",
-    normal: "Normal",
-    rare: "Rare",
-
     // Disease names and descriptions
     papulesPlaquesName: "Papules, Plaques",
     papulesPlaquesDesc: "Diseases that can occur due to allergies and bacterial infections.",
@@ -488,7 +536,7 @@ const translations = {
     nodulesName: "Nodules, Masses",
     nodulesDesc: "Disease caused by skin and subcutaneous tissue problems, organ tumors, and aging changes.",
     nodulesSymptoms: ["Skin lumps", "Difficulty breathing", "Limping", "Weight loss", "Loss of appetite"],
-    
+
     // MedicalQuestionnaire.tsx
     step1Title: "Step 1. Pet Information",
     step2Title: "Step 2. Symptoms & Areas",
@@ -523,7 +571,7 @@ const translations = {
     previous: "Previous",
     next: "Next",
     complete: "Complete",
-    
+
     // Symptoms
     itching: "Itching",
     scaling: "Scaling",
@@ -535,7 +583,7 @@ const translations = {
     scabs: "Scabs",
     blackSpots: "Black Spots",
     whiteDandruff: "White Dandruff",
-    
+
     // New symptom questions
     petItchyQuestion: "Does your pet feel itchy?",
     itchyNone: "None: Not scratching or licking at all",
@@ -731,7 +779,7 @@ const translations = {
     weightGainLethargyQuestion: "Has your pet gained weight or seemed lethargic?",
     yesSuchSymptoms: "O (Yes, such symptoms are present)",
     noSuchSymptoms: "X (No, such symptoms are not present)",
-    
+
     // Areas
     face: "Face",
     back: "Back",
@@ -761,7 +809,7 @@ const translations = {
     analArea: "Anal Area",
     wholebody: "Whole Body",
     genitalArea: "Genital Area",
-    
+
     // Dog breeds
     goldenRetriever: "Golden Retriever",
     labradorRetriever: "Labrador Retriever",
@@ -787,7 +835,7 @@ const translations = {
     welshCorgi: "Welsh Corgi",
     papillon: "Papillon",
     spitz: "Spitz",
-    
+
     // Cat breeds
     persian: "Persian",
     russianBlue: "Russian Blue",
@@ -818,9 +866,9 @@ const translations = {
     advancedAiAnalysis: "Advanced AI algorithms are performing precise analysis of the uploaded image to provide accurate skin diagnosis",
     imageAnalysis: "Image Analysis",
     patternRecognition: "Pattern Recognition",
-    diagnosisComplete: "Diagnosis Complete"
+    // diagnosisComplete: "Diagnosis Complete"
   },
-  
+
   ja: {
     // App.tsx
     appTitle: "ペットケア AI",
@@ -849,23 +897,48 @@ const translations = {
     hospitalSearch: "病院検索",
     myRecord: "記録",
     login: "ログイン",
+    logout: "ログアウト",
     diagnoseNow: "今すぐ診断",
     languageSelect: "言語選択",
+
+    // LoginPage.tsx
+    goBack: "戻る",
+    welcomeBack: "また会えて嬉しいです！",
+    keepHealthySkin: "ペットの健康な皮膚を一緒に守りましょう",
+    continueWithGoogle: "Googleで続ける",
+    continueWithKakao: "Kakaoで続ける",
+    continueWithNaver: "Naverで続ける",
+    continueWithApple: "Appleで続ける",
+    termsAgreement: "ログインすることで利用規約およびプライバシーポリシーに同意します",
+    terms: "利用規約",
+    privacyPolicy: "プライバシーポリシー",
+    loginTitle: "ログイン",
+    socialLoginDescription: "ソーシャルアカウントで簡単ログイン",
+    welcome: "ようこそ！",
+    petHealthMessage: "ペットの皮膚の健康を一緒に守っていきましょう",
+    cumulativeDiagnosis: "累積診断",
+    accuracy: "精度",
+    goHome: "ホームに戻る",
 
     // DiseaseInfoPage.tsx
     skinDiseaseInfo: "皮膚疾患情報",
     skinDiseaseDescription: "ペットによくある皮膚疾患について学びましょう",
     consultVetNote: "正確な診断は専門獣医師にご相談ください",
     mainSymptoms: "主な症状",
+    diseaseMainSymptoms: "疾患主要症状",
+    description: "説明",
+    checkOtherDiseases: "他の疾患を確認",
+    riskLevel: "危険度",
+    common: "一般的",
+    normal: "普通",
+    rare: "まれ",
     viewDetails: "詳細を見る",
     severity: "重症度",
     prevalence: "発生頻度",
     high: "高い",
     medium: "中程度",
     low: "低い",
-    common: "よくある",
-    normal: "普通",
-    rare: "まれ",
+
 
     // Disease names and descriptions
     papulesPlaquesName: "丘疹、プラーク",
@@ -891,7 +964,7 @@ const translations = {
     nodulesName: "結節、腫瘤",
     nodulesDesc: "皮膚・皮下組織の問題、臓器腫瘍、老化による変化により発生する疾患です。",
     nodulesSymptoms: ["皮膚のしこり", "呼吸困難", "跛行", "体重減少", "食欲不振"],
-    
+
     // MedicalQuestionnaire.tsx
     step1Title: "ステップ1. ペット情報",
     step2Title: "ステップ2. 症状・部位入力",
@@ -926,7 +999,7 @@ const translations = {
     previous: "前へ",
     next: "次へ",
     complete: "完了",
-    
+
     // Symptoms
     itching: "かゆみ",
     scaling: "角質",
@@ -938,7 +1011,7 @@ const translations = {
     scabs: "かさぶた",
     blackSpots: "黒い斑点",
     whiteDandruff: "白いフケ",
-    
+
     // New symptom questions
     petItchyQuestion: "ペットはかゆがっていますか？",
     itchyNone: "なし：全く掻いたり舐めたりしない",
@@ -1134,7 +1207,7 @@ const translations = {
     weightGainLethargyQuestion: "体重が増加したり、無気力に見えますか？",
     yesSuchSymptoms: "O（はい、そのような症状があります）",
     noSuchSymptoms: "X（いいえ、そのような症状はありません）",
-    
+
     // Areas
     face: "顔",
     back: "背中",
@@ -1164,7 +1237,7 @@ const translations = {
     analArea: "肛門周り",
     wholebody: "全身",
     genitalArea: "生殖器周辺",
-    
+
     // Dog breeds
     goldenRetriever: "ゴールデンレトリバー",
     labradorRetriever: "ラブラドールレトリバー",
@@ -1190,7 +1263,7 @@ const translations = {
     welshCorgi: "ウェルシュコーギー",
     papillon: "パピヨン",
     spitz: "スピッツ",
-    
+
     // Cat breeds
     persian: "ペルシャ",
     russianBlue: "ロシアンブルー",
@@ -1221,9 +1294,9 @@ const translations = {
     advancedAiAnalysis: "高度なAIアルゴリズムがアップロードされた画像を精密分析し、正確な皮膚診断を実行しています",
     imageAnalysis: "画像解析",
     patternRecognition: "パターン認識",
-    diagnosisComplete: "診断完了"
+    // diagnosisComplete: "診断完了"
   },
-  
+
   zh: {
     // App.tsx
     appTitle: "宠物护理 AI",
@@ -1252,23 +1325,47 @@ const translations = {
     hospitalSearch: "找医院",
     myRecord: "我的记录",
     login: "登录",
+    logout: "登出",
     diagnoseNow: "立即诊断",
     languageSelect: "语言选择",
+
+    // LoginPage.tsx
+    goBack: "返回",
+    welcomeBack: "很高兴再次见到您！",
+    keepHealthySkin: "让我们一起守护宠物的健康皮肤",
+    continueWithGoogle: "使用Google继续",
+    continueWithKakao: "使用Kakao继续",
+    continueWithNaver: "使用Naver继续",
+    continueWithApple: "使用Apple继续",
+    termsAgreement: "登录即表示您同意服务条款和隐私政策",
+    terms: "服务条款",
+    privacyPolicy: "隐私政策",
+    loginTitle: "登录",
+    socialLoginDescription: "使用社交账户轻松登录",
+    welcome: "欢迎！",
+    petHealthMessage: "让我们一起守护宠物的皮肤健康",
+    cumulativeDiagnosis: "累计诊断",
+    accuracy: "准确率",
+    goHome: "回到首页",
 
     // DiseaseInfoPage.tsx
     skinDiseaseInfo: "皮肤疾病信息",
     skinDiseaseDescription: "了解宠物常见皮肤疾病",
     consultVetNote: "准确诊断请咨询专业兽医",
     mainSymptoms: "主要症状",
+    diseaseMainSymptoms: "疾病主要症状",
+    description: "说明",
+    checkOtherDiseases: "查看其他疾病",
+    riskLevel: "风险等级",
+    common: "常见",
+    normal: "普通",
+    rare: "罕见",
     viewDetails: "查看详情",
     severity: "严重程度",
     prevalence: "发生频率",
     high: "高",
     medium: "中等",
     low: "低",
-    common: "常见",
-    normal: "一般",
-    rare: "罕见",
 
     // Disease names and descriptions
     papulesPlaquesName: "丘疹、斑块",
@@ -1329,7 +1426,7 @@ const translations = {
     previous: "上一步",
     next: "下一步",
     complete: "完成",
-    
+
     // Symptoms
     itching: "瘙痒",
     scaling: "鳞屑",
@@ -1341,7 +1438,7 @@ const translations = {
     scabs: "结痂",
     blackSpots: "黑斑",
     whiteDandruff: "白色皮屑",
-    
+
     // New symptom questions
     petItchyQuestion: "您的宠物感到瘙痒吗？",
     itchyNone: "无：完全不抓挠或舔舐",
@@ -1537,7 +1634,7 @@ const translations = {
     weightGainLethargyQuestion: "您的宠物是否体重增加或显得无精打采？",
     yesSuchSymptoms: "O（是的，有这样的症状）",
     noSuchSymptoms: "X（没有，没有这样的症状）",
-    
+
     // Areas
     face: "面部",
     back: "背部",
@@ -1567,7 +1664,7 @@ const translations = {
     analArea: "肛门周围",
     wholebody: "全身",
     genitalArea: "生殖器周围",
-    
+
     // Dog breeds
     goldenRetriever: "金毛寻回犬",
     labradorRetriever: "拉布拉多寻回犬",
@@ -1593,7 +1690,7 @@ const translations = {
     welshCorgi: "威尔士柯基",
     papillon: "蝴蝶犬",
     spitz: "博美犬",
-    
+
     // Cat breeds
     persian: "波斯猫",
     russianBlue: "俄罗斯蓝猫",
@@ -1624,7 +1721,7 @@ const translations = {
     advancedAiAnalysis: "高级AI算法正在对上传的图像进行精确分析，以提供准确的皮肤诊断",
     imageAnalysis: "图像分析",
     patternRecognition: "模式识别",
-    diagnosisComplete: "诊断完成"
+    // diagnosisComplete: "诊断完成"
   }
 };
 
@@ -1680,7 +1777,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // Format date according to language preference
   const formatDate = (date: string, format: 'input' | 'display' = 'display'): string => {
     if (!date) return '';
-    
+
     // If format is 'input', always return YYYY-MM-DD for HTML date input
     if (format === 'input') {
       if (date.includes('/')) {
@@ -1701,12 +1798,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     // For display format, convert from YYYY-MM-DD to language-specific format
     const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
     const match = date.match(dateRegex);
-    
+
     if (!match) return date; // Return as is if not in expected format
-    
+
     const [, year, month, day] = match;
     const config = dateFormats[language];
-    
+
     switch (language) {
       case 'en':
         return `${month}/${day}/${year}`;
@@ -1722,12 +1819,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // Parse user input and convert to YYYY-MM-DD format for storage
   const parseDateInput = (dateString: string): string => {
     if (!dateString) return '';
-    
+
     const config = dateFormats[language];
-    
+
     // Remove any non-numeric characters except separators
     const cleaned = dateString.replace(/[^\d\/\-]/g, '');
-    
+
     if (language === 'en' && cleaned.includes('/')) {
       // Handle MM/DD/YYYY format
       const parts = cleaned.split('/');
@@ -1762,7 +1859,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         }
       }
     }
-    
+
     return dateString; // Return original if parsing fails
   };
 
@@ -1775,14 +1872,14 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
 
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage, 
-      t, 
-      formatDate, 
-      parseDateInput, 
-      getDatePlaceholder, 
-      getDateFormatPattern 
+    <LanguageContext.Provider value={{
+      language,
+      setLanguage,
+      t,
+      formatDate,
+      parseDateInput,
+      getDatePlaceholder,
+      getDateFormatPattern
     }}>
       {children}
     </LanguageContext.Provider>

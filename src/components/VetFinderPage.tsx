@@ -68,14 +68,35 @@ export function VetFinderPage() {
         ? prev.filter((id) => id !== filterId)
         : [...prev, filterId]
     );
-    switch (filterId) {
-      case "isOpen":
-        const openHospitals = hospitalDetail.filter(hospitalDetail => hospitalDetail.isOpen);
-        setFilteredClinics(openHospitals)
-    }
   };
 
-  const [filteredClinics, setFilteredClinics] = useState<vetClinicsType>([])
+  const [filteredClinics, setFilteredClinics] = useState<vetClinicsType[]>([]);
+
+  // 검색 및 필터링 로직
+  const getFilteredClinics = () => {
+    let filtered = hospitalDetail;
+
+    // 검색어 필터링
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(clinic =>
+        clinic.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        clinic.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        clinic.specialties.some(specialty =>
+          specialty.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+
+    // 필터 적용
+    if (selectedFilters.includes("isOpen")) {
+      filtered = filtered.filter(clinic => clinic.isOpen);
+    }
+
+    return filtered;
+  };
+
+  // 실제로 표시할 클리닉 목록
+  const displayClinics = getFilteredClinics();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[var(--talktail-gray)] to-white">
@@ -136,88 +157,15 @@ export function VetFinderPage() {
 
             {/* Clinic List */}
             <div className="space-y-4 max-h-96 overflow-y-auto">
-              {filteredClinics.length === 0 ? (
-                hospitalDetail.map((clinic) => (
-                  <Card
-                    key={clinic.id}
-                    className="p-4 hover:shadow-md transition-shadow cursor-pointer"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center space-x-3">
-                        <div className="text-2xl">{clinic.image}</div>
-                        <div>
-                          <h3 className="font-bold text-gray-900">
-                            {clinic.name}
-                          </h3>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <div className="flex items-center text-yellow-500">
-                              <Star className="w-4 h-4 fill-current" />
-                              <span className="text-sm ml-1">
-                                {clinic.rating}
-                              </span>
-                            </div>
-                            <Badge
-                              className={`text-xs ${clinic.isOpen
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                                }`}
-                            >
-                              {clinic.isOpen ? t("vetFinder_statusOpen") : t("vetFinder_statusClosed")}
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {clinic.distance}km
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 text-sm text-gray-600">
-                      <div className="flex flex-wrap gap-1">
-                        {clinic.specialties.map((specialty, index) => (
-                          <Badge
-                            key={index}
-                            variant="outline"
-                            className="text-xs"
-                          >
-                            {specialty}
-                          </Badge>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-1" />
-                          {clinic.address}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center">
-                            <Clock className="w-4 h-4 mr-1" />
-                            {clinic.hours}
-                          </div>
-                          <div className="flex items-center">
-                            <Phone className="w-4 h-4 mr-1" />
-                            {clinic.phone}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex space-x-2">
-                      <Button
-                        size="sm"
-                        className="flex-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)]"
-                      >
-                        {t("vetFinder_reserveButton")}
-                      </Button>
-                    </div>
-                  </Card>
-                ))
+              {displayClinics.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  {hospitalDetail.length === 0 ?
+                    t("vetFinder_noHospitalsFound") || "병원을 찾을 수 없습니다." :
+                    t("vetFinder_noResultsFound") || "검색 결과가 없습니다."
+                  }
+                </div>
               ) : (
-                filteredClinics.map((clinic) => (
+                displayClinics.map((clinic) => (
                   <Card
                     key={clinic.id}
                     className="p-4 hover:shadow-md transition-shadow cursor-pointer"

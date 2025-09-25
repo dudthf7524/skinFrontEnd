@@ -12,6 +12,7 @@ import {
   X,
   CheckCircle2,
 } from "lucide-react";
+import { useLanguage } from './LanguageContext';
 
 import papule from "../assets/img/구진.jpg";
 import Pyoderma from "../assets/img/농피증.png";
@@ -40,6 +41,7 @@ export function DiseaseInfoDetailModal({
   prevalence,
   setIsDetailModal,
 }: propsType) {
+  const { t } = useLanguage();
   function handlerImg(img: string) {
     switch (img) {
       case "1":
@@ -62,11 +64,11 @@ export function DiseaseInfoDetailModal({
   const getSeverityBadge = (severity: string) => {
     switch (severity) {
       case "높음":
-        return <Badge className={style.severityHigh}>위험도: 높음</Badge>;
+        return <Badge className={style.severityHigh}>{t('riskLevel')}: {t('high')}</Badge>;
       case "중간":
-        return <Badge className={style.severityMedium}>위험도: 중간</Badge>;
+        return <Badge className={style.severityMedium}>{t('riskLevel')}: {t('medium')}</Badge>;
       case "낮음":
-        return <Badge className={style.severityLow}>위험도: 낮음</Badge>;
+        return <Badge className={style.severityLow}>{t('riskLevel')}: {t('low')}</Badge>;
       default:
         return <Badge variant="outline">{severity}</Badge>;
     }
@@ -75,11 +77,11 @@ export function DiseaseInfoDetailModal({
   const getPrevalenceBadge = (prevalence: string) => {
     switch (prevalence) {
       case "높음":
-        return <Badge className={style.prevalenceHigh}>흔함</Badge>;
+        return <Badge className={style.prevalenceHigh}>{t('common')}</Badge>;
       case "중간":
-        return <Badge className={style.prevalenceMedium}>보통</Badge>;
+        return <Badge className={style.prevalenceMedium}>{t('normal')}</Badge>;
       case "낮음":
-        return <Badge className={style.prevalenceLow}>드뭄</Badge>;
+        return <Badge className={style.prevalenceLow}>{t('rare')}</Badge>;
       default:
         return <Badge variant="outline">{prevalence}</Badge>;
     }
@@ -118,7 +120,7 @@ export function DiseaseInfoDetailModal({
           <div className={style.section}>
             <h3 className={style.sectionTitle}>
               <Info className={style.infoIcon} />
-              설명
+              {t('description')}
             </h3>
             <p className={style.description}>{description}</p>
           </div>
@@ -127,7 +129,7 @@ export function DiseaseInfoDetailModal({
           <div className={style.section}>
             <h3 className={style.sectionTitle}>
               <AlertTriangle className={style.alertIcon} />
-              주요 증상
+              {t('mainSymptoms')}
             </h3>
             <ul className={style.symptomList}>
               {symptoms.map((symptom, idx) => (
@@ -146,7 +148,7 @@ export function DiseaseInfoDetailModal({
               onClick={() => setIsDetailModal(false)}
               className={style.footerButton}
             >
-              다른 질병 확인하기
+              {t('checkOtherDiseases')}
             </Button>
           </div>
         </CardContent>

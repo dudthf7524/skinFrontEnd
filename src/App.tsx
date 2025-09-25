@@ -13,6 +13,7 @@ import { AdminListPage } from "./components/AdminListPage";
 import { AdminDetailPage } from "./components/AdminDetailPage";
 import { TokenPurchasePage } from "./components/TokenPurchasePage";
 import { TokenBalancePage } from "./components/TokenBalancePage";
+import DebugPage from "./components/DebugPage";
 
 export default function App() {
   return (
@@ -31,6 +32,8 @@ export default function App() {
           <Route path="/admin/detail/:id" element={<AdminDetailPage />} />
           <Route path="/token" element={<TokenPurchasePage />} />
           <Route path="/token/balance" element={<TokenBalancePage />} />
+          <Route path="/admin/debug" element={<DebugPage />} />
+
         </Routes>
       </Router>
     </LanguageProvider>

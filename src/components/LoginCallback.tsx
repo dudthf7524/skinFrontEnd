@@ -1,23 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from "../styles/LoginCallback.module.css";
 import { Heart, Menu } from "lucide-react";
-import { HeroSection } from "./HeroSection";
-
-
-type Page = "home" | "diagnosis" | "diseases" | "vets" | "login" | "record";
 
 export default function LoginCallback() {
-  const [currentPage, setCurrentPage] = useState<Page>("home");
   const navigate = useNavigate();
-  const [statusText, setStatusText] = useState<string>("로그인 처리 중...");
-
   const handleCallback = async (code: string, type: string) => {
     const callBackUrl = import.meta.env.VITE_CALLBACK_URL;
     try {
-      setStatusText("로그인 처리 중...");
-
       const res = await axios.get(
         `${callBackUrl}/auth/callback/${type}?code=${code}`,
         { withCredentials: true }
@@ -30,19 +21,32 @@ export default function LoginCallback() {
         // 사용자 정보 저장
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        setStatusText("로그인 성공! 페이지 이동 중...");
         console.log("로그인 성공:", res.data);
 
         // 홈 페이지로 이동
         navigate("/");
       } else {
-        setStatusText(`로그인 실패: 서버 응답 ${res.status}`);
       }
     } catch (err: any) {
       console.error("로그인 실패:", err);
-      setStatusText(`로그인 오류: ${err.response?.data?.message || err.message}`);
     }
   };
+
+  // useEffect(() => {
+  //   const loginType = localStorage.getItem("loginType");
+  //   setSnsType(loginType);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (snsType) {
+  //     const params = new URLSearchParams(window.location.search);
+  //     const code = params.get("code");
+
+  //     if (code) {
+  //       handleCallback(code, snsType);
+  //     }
+  //   }
+  // }, [snsType]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -52,21 +56,19 @@ export default function LoginCallback() {
     const state = params.get("state");
     let type = localStorage.getItem("loginType") || "kakao";
 
-    // URL의 referrer나 state를 통해 로그인 타입 확인
     if (state && state.includes("google")) {
       type = "google";
     } else if (state && state.includes("naver")) {
       type = "naver";
     } else if (window.location.search.includes("google") ||
-               document.referrer.includes("google") ||
-               document.referrer.includes("accounts.google.com")) {
+      document.referrer.includes("google") ||
+      document.referrer.includes("accounts.google.com")) {
       type = "google";
     } else if (window.location.search.includes("naver") ||
-               document.referrer.includes("naver") ||
-               document.referrer.includes("nid.naver.com")) {
+      document.referrer.includes("naver") ||
+      document.referrer.includes("nid.naver.com")) {
       type = "naver";
     }
-
     // localStorage에 정확한 타입 저장
     localStorage.setItem("loginType", type);
 
@@ -171,14 +173,9 @@ export default function LoginCallback() {
       </nav>
 
       {/* Hero Section */}
-      <div className={style.hero_section}>
+      {/* <div className={style.hero_section}>
         <HeroSection setCurrent={setCurrentPage} />
-      </div>
-
-      {/* Main Content */}
-      <main>
-        {/* 필요하면 ProcessSteps 등 다른 컴포넌트도 여기에 Skeleton 처리 가능 */}
-      </main>
+      </div> */}
     </div>
   );
 }

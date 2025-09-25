@@ -11,6 +11,7 @@ import {
     DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import ProfileBar from "./ProfileBar";
+import axios from "axios";
 
 interface NavbarProps {
     currentPage?: string;
@@ -70,7 +71,13 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     function handleSkinAiPage() {
-        navigate('/skinai');
+        const user = localStorage.getItem("user")
+        if (user) {
+            navigate('/skinai')
+        } else {
+            alert("로그인이 필요합니다.")
+            navigate('/signin')
+        }
     }
 
     function handleInfoPage() {
@@ -81,12 +88,31 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
         navigate('/search ');
     }
 
-    function handlerecordPage() {
-        navigate('/record ');
-    }
+    // function handlerecordPage() {
+    //     navigate('/record ');
+    // }
 
     function handleLogin() {
         navigate('/signin')
+    }
+
+    const handleLogout = async () => {
+        localStorage.removeItem('user');
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+        try {
+            const response = await axios.post(`${apiBaseUrl}/auth/logout`,
+                {
+                    withCredentials: true
+                }
+            );
+
+            if (response.status === 200) {
+                alert(response.data.message);
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -133,7 +159,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         >
                             {t('diseaseInfo')}
                         </button>
-                        <button
+                        {/* <button
                             onClick={() => handleSearchPage()}
                             className={`transition-colors ${currentPage === "search"
                                 ? "text-[var(--talktail-orange)]"
@@ -141,15 +167,6 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 }`}
                         >
                             {t('hospitalSearch')}
-                        </button>
-                        {/* <button
-                            onClick={() => handlerecordPage()}
-                            className={`transition-colors ${currentPage === "record"
-                                ? "text-[var(--talktail-orange)]"
-                                : "text-gray-700 hover:text-[var(--talktail-orange)]"
-                                }`}
-                        >
-                            내 기록
                         </button> */}
                     </div>
 
@@ -169,7 +186,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 size="sm"
                                 className="hidden sm:flex bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
                             >
-                                로그인
+                                {t('login')}
                             </Button>
                         )}
 
@@ -196,6 +213,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                     <div className="px-4 py-2 space-y-1">
                         <button
                             onClick={() => {
+
                                 navigate('/');
                                 setIsMobileMenuOpen(false);
                             }}
@@ -230,7 +248,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         >
                             {t('diseaseInfo')}
                         </button>
-                        <button
+                        {/* <button
                             onClick={() => {
                                 handleSearchPage();
                                 setIsMobileMenuOpen(false);
@@ -241,9 +259,9 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                 }`}
                         >
                             {t('hospitalSearch')}
-                        </button>
-                        
-                        
+                        </button> */}
+
+
 
                         {/* Mobile 번역 버튼 */}
                         <div className="pt-2 border-t border-gray-100 mt-2">
@@ -259,7 +277,16 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                         <div className="pt-2 border-t border-gray-100 mt-2">
                             {localStorage.getItem("user") ? (
                                 <div className="px-3 py-2">
-                                    <ProfileBar />
+                                    <Button
+                                        onClick={() => {
+                                            handleLogout();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        size="sm"
+                                        className="w-full justify-center bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
+                                    >
+                                        {t('logout')}
+                                    </Button>
                                 </div>
                             ) : (
                                 <div className="px-3 py-2">
@@ -271,26 +298,11 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                                         size="sm"
                                         className="w-full justify-center bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-white"
                                     >
-                                        로그인
+                                        {t('login')}
                                     </Button>
                                 </div>
                             )}
                         </div>
-                     
-
-                        {/* Mobile CTA buttons 주석처리 */}
-                        {/* <div className="pt-2 border-t border-gray-100 mt-2">
-                            <Button
-                                size="sm"
-                                className="w-full justify-start px-3 py-2 mt-1 bg-[var(--talktail-orange)] hover:bg-[var(--talktail-orange-dark)] text-base font-medium"
-                                onClick={() => {
-                                    handleNavigation("diagnosis");
-                                    setIsMobileMenuOpen(false);
-                                }}
-                            >
-                                지금 진단하기
-                            </Button>
-                        </div> */}
                     </div>
                 </div>
             )}

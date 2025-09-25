@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -52,8 +52,8 @@ interface MedicalQuestionnaireProps {
   onBack?: () => void;
 }
 
-// PetList.js에서 가져온 강아지 품종 데이터 사용
-const dogBreeds = PetList.specis;
+// PetList.js에서 가져온 강아지 품종 데이터 사용 (중복 제거)
+const dogBreeds = [...new Set(PetList.specis)];
 
 const getAffectedAreaCategories = (t: (key: string) => string) => [
   {
@@ -108,6 +108,23 @@ export const MedicalQuestionnaire = React.memo(
     const [showCustomBreed, setShowCustomBreed] = useState(false);
     const [selectedAreaCategory, setSelectedAreaCategory] = useState("");
     const [breedSearch, setBreedSearch] = useState("");
+    const [isComposing, setIsComposing] = useState(false);
+    const [isBreedDropdownOpen, setIsBreedDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // 외부 클릭 시 드롭다운 닫기
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+          setIsBreedDropdownOpen(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
     console.log(formData)
     const affectedAreaCategories = useMemo(() => getAffectedAreaCategories(t), [t]);
 
@@ -117,9 +134,10 @@ export const MedicalQuestionnaire = React.memo(
       return dogBreeds.filter(breed => {
         const translatedBreed = translateBreed(breed);
         return breed.toLowerCase().includes(breedSearch.toLowerCase()) ||
-               translatedBreed.toLowerCase().includes(breedSearch.toLowerCase());
+          translatedBreed.toLowerCase().includes(breedSearch.toLowerCase());
       });
     }, [breedSearch, translateBreed]);
+
     const sections = useMemo(() => [
       { title: t("step1Title"), icon: Heart },
       { title: t("step2Title"), icon: AlertCircle },
@@ -291,65 +309,96 @@ export const MedicalQuestionnaire = React.memo(
                   <PawPrint className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
                   <span>{t("breed")} {t("required")}</span>
                 </Label>
-                <Select
-                  value={formData.petBreed}
-                  onValueChange={(value) => {
-                    handleInputChange("petBreed", value);
-                    if (value === "other") {
-                      setShowCustomBreed(true);
-                    } else {
-                      setShowCustomBreed(false);
-                      handleInputChange("customBreed", "");
-                    }
-                  }}
-                >
-                  <SelectTrigger className="h-11 bg-white/50 backdrop-blur-sm border-gray-200 rounded-xl">
-                    <SelectValue placeholder={t("breedPlaceholder")} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-60 bg-white">
-                    {/* 검색 입력창 */}
-                    <div className="p-2 border-b">
-                      <div className="relative">
-                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
-                        <Input
-                          placeholder="품종 검색..."
-                          value={breedSearch}
-                          onChange={(e) => setBreedSearch(e.target.value)}
-                          className="pl-8 h-8 text-sm"
-                          onClick={(e) => e.stopPropagation()}
-                        />
+                {/* 커스텀 드롭다운 */}
+                <div ref={dropdownRef} className="relative" style={{ zIndex: 9999 }}>
+                  {/* 트리거 버튼 */}
+                  <button
+                    type="button"
+                    onClick={() => setIsBreedDropdownOpen(!isBreedDropdownOpen)}
+                    className="w-full h-11 bg-white/50 backdrop-blur-sm border-2 border-gray-200 rounded-xl px-3 py-2 text-left flex items-center justify-between focus:border-orange-400 focus:ring-4 focus:ring-orange-200/50 transition-all duration-300"
+                  >
+                    <span className={formData.petBreed ? "text-gray-900" : "text-gray-500"}>
+                      {formData.petBreed ?
+                        (formData.petBreed === "other" ? t("otherBreed") : translateBreed(formData.petBreed))
+                        : t("breedPlaceholder")
+                      }
+                    </span>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${isBreedDropdownOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {/* 드롭다운 메뉴 */}
+                  {isBreedDropdownOpen && (
+                    <div className="absolute z-[9999] w-full bottom-full mb-1 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-60 overflow-y-hidden" style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}>
+                      {/* 검색 입력창 */}
+                      <div className="p-2 border-b">
+                        <div className="relative">
+                          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+                          <Input
+                            type="text"
+                            placeholder="품종 검색..."
+                            value={breedSearch}
+                            onChange={(e) => setBreedSearch(e.target.value)}
+                            onCompositionStart={() => setIsComposing(true)}
+                            onCompositionEnd={() => setIsComposing(false)}
+                            className="pl-8 h-8 text-sm border-gray-200"
+                            autoFocus
+                          />
+                        </div>
+                      </div>
+
+                      {/* 품종 목록 */}
+                      <div className="max-h-48 overflow-y-auto">
+                        {filteredBreeds.length > 0 ? (
+                          filteredBreeds.map((breed) => (
+                            <button
+                              key={breed}
+                              type="button"
+                              onClick={() => {
+                                handleInputChange("petBreed", breed);
+                                setBreedSearch("");
+                                setIsBreedDropdownOpen(false);
+                                setShowCustomBreed(false);
+                                handleInputChange("customBreed", "");
+                              }}
+                              className="w-full text-left px-3 py-2 hover:bg-gray-100 transition-colors text-sm"
+                            >
+                              {translateBreed(breed)}
+                            </button>
+                          ))
+                        ) : (
+                          <div className="text-sm text-gray-500 text-center py-2">
+                            검색 결과가 없습니다.
+                          </div>
+                        )}
+
+                        {/* 기타 옵션 */}
+                        <div className="border-t">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleInputChange("petBreed", "other");
+                              setBreedSearch("");
+                              setIsBreedDropdownOpen(false);
+                              setShowCustomBreed(true);
+                            }}
+                            className="w-full text-left px-3 py-2 hover:bg-gray-100 transition-colors text-sm font-medium text-orange-600"
+                          >
+                            {t("otherBreed")}
+                          </button>
+                        </div>
                       </div>
                     </div>
+                  )}
+                </div>
 
-                    {/* 품종 목록 */}
-                    <div className="p-2 max-h-48 overflow-y-auto">
-                      {filteredBreeds.length > 0 ? (
-                        filteredBreeds.map((breed, index) => (
-                          <SelectItem
-                            key={index}
-                            value={breed}
-                            className="text-sm"
-                          >
-                            {translateBreed(breed)}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <div className="text-sm text-gray-500 text-center py-2">
-                          검색 결과가 없습니다.
-                        </div>
-                      )}
-                    </div>
 
-                    <div className="p-2 border-t">
-                      <SelectItem
-                        value="other"
-                        className="text-sm font-medium text-orange-600"
-                      >
-                        {t("otherBreed")}
-                      </SelectItem>
-                    </div>
-                  </SelectContent>
-                </Select>
 
                 {showCustomBreed && (
                   <div className="mt-3">
@@ -739,7 +788,7 @@ export const MedicalQuestionnaire = React.memo(
         </div>
 
         {/* 향상된 메인 콘텐츠 */}
-        <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl mb-4 sm:mb-6 md:mb-8 rounded-3xl overflow-hidden">
+        <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl mb-4 sm:mb-6 md:mb-8 rounded-3xl overflow-visible">
           <CardHeader className="pb-3 sm:pb-4 md:pb-6 bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50">
             <CardTitle className="flex items-center space-x-4">
               <div

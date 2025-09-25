@@ -1,5 +1,8 @@
 import { useState, useRef } from "react";
 import ProfileImage from "./ui/profileImage"
+import { Button } from "./ui/button";
+import { Globe } from "lucide-react";
+import axios from "axios";
 
 // interface propsType {
 //     handleNavigation: (page: string) => void;
@@ -44,16 +47,30 @@ export default function ProfileBar() {
     };
 
     // 로그아웃 처리 함수
-    const handleLogout = () => {
+    const handleLogout = async () => {
         localStorage.removeItem('user');
-        window.location.reload();
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+        try {
+            const response = await axios.post(`${apiBaseUrl}/auth/logout`,
+                {
+                    withCredentials: true
+                }
+            );
+
+            if (response.status === 200) {
+                alert(response.data.message);
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
         <div
             className="flex items-center space-x-2 md:space-x-4 relative group"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
         >
             {/* 프로필 이미지 */}
             <div
@@ -66,30 +83,37 @@ export default function ProfileBar() {
 
             </div>
             {/* 데스크탑용 인사말 */}
-            <div className="hidden md:flex flex-col">
+            {/* <div className="hidden md:flex flex-col">
                 <span className="font-semibold text-base md:text-lg">{name}님,</span>
                 <span className="text-sm md:text-base text-gray-500">안녕하세요!</span>
-            </div>
+            </div> */}
             {/* 모바일용 인사말 */}
-            <div className="flex flex-col md:hidden">
+            {/* <div className="flex flex-col md:hidden">
                 <span className="font-semibold text-sm">{name}님</span>
-            </div>
+            </div> */}
             {/* 호버 시 로그아웃 버튼 */}
-            {showLogout && (
-                <div
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded shadow-lg px-4 py-2 min-w-[120px] text-center"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
+            <Button
+                onClick={handleLogout}
+                variant="ghost"
+                size="sm"
+                className="hidden sm:flex h-8 px-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg text-gray-700 text-sm font-normal shadow-sm"
+            >
+                <span className="text-sm">로그아웃</span>
+            </Button>
+            {/* <div
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded shadow-lg px-4 py-2 min-w-[120px] text-center"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                <button
+                    className="w-full py-2 text-red-500 font-semibold hover:underline text-base rounded"
+                    style={{ minWidth: "100px" }}
+                    onClick={handleLogout}
                 >
-                    <button
-                        className="w-full py-2 text-red-500 font-semibold hover:underline text-base rounded"
-                        style={{ minWidth: "100px" }}
-                        onClick={handleLogout}
-                    >
-                        로그아웃
-                    </button>
-                </div>
-            )}
+                    로그아웃
+                </button>
+            </div> */}
+
         </div>
     )
 }
