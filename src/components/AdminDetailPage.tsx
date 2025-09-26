@@ -218,9 +218,19 @@ export function AdminDetailPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="">
+
+              <div className="flex items-center justify-center mb-4">
+                <img
+                  src={data.imagePath}
+                  className="object-cover rounded-xl border-2 border-blue-300 shadow-lg"
+                  style={{ width: '224px', height: '224px' }}
+                />
+              </div>
+              
               <div className="text-left mb-4">
                 <span className="text-lg sm:text-xl font-bold text-gray-900">피부 상태 분류</span>
               </div>
+
 
               <div className="p-4 sm:p-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 rounded-2xl border-2 border-blue-200 mb-6">
                 <div className="text-center">
