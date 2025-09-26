@@ -175,6 +175,11 @@ export function AdminDetailPage() {
   //     </div>
   //   );
   // }
+  const buildImgSrc = (p?: string) => {
+    if (!p) return "";
+    if (/^(https?:)?\/\//i.test(p) || /^(data:|blob:)/i.test(p)) return p;
+    return p.startsWith("/") ? p : `/${p.replace(/^(\.\/|\/)?/, "")}`;
+  };
 
   if (!data) {
     return (
@@ -190,6 +195,8 @@ export function AdminDetailPage() {
       </div>
     );
   }
+
+
 
   return (
     <div className="min-h-screen bg-white from-gray-50 to-blue-50">
@@ -221,12 +228,12 @@ export function AdminDetailPage() {
 
               <div className="flex items-center justify-center mb-4">
                 <img
-                  src={data.imagePath}
+                  src={buildImgSrc(data?.imagePath)}
                   className="object-cover rounded-xl border-2 border-blue-300 shadow-lg"
                   style={{ width: '224px', height: '224px' }}
                 />
               </div>
-              
+
               <div className="text-left mb-4">
                 <span className="text-lg sm:text-xl font-bold text-gray-900">피부 상태 분류</span>
               </div>
