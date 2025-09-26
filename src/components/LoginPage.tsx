@@ -130,11 +130,11 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                         </p>
                         <div className="grid grid-cols-2 gap-6 max-w-md mx-auto">
                             <div className="text-center">
-                                <div className="text-2xl font-bold">10,000+</div>
+                                <div className="text-2xl font-bold">50,000+</div>
                                 <div className="text-orange-200">{t('cumulativeDiagnosis')}</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-2xl font-bold">95%</div>
+                                <div className="text-2xl font-bold">85%</div>
                                 <div className="text-orange-200">{t('accuracy')}</div>
                             </div>
                         </div>

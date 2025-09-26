@@ -14,8 +14,12 @@ import { AdminDetailPage } from "./components/AdminDetailPage";
 import { TokenPurchasePage } from "./components/TokenPurchasePage";
 import { TokenBalancePage } from "./components/TokenBalancePage";
 import DebugPage from "./components/DebugPage";
+// import { usePageLogger } from "./hooks/usePageLogger";
+// import { useExitLogger } from "./hooks/useExitLogger";
 
 export default function App() {
+  // usePageLogger();
+  // useExitLogger();
   return (
     <LanguageProvider>
       <Router>

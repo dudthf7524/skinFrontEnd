@@ -56,7 +56,7 @@ interface QuestionnaireData {
 
 const SkinAIContent = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [currentStep, setCurrentStep] = useState<Step>("questionnaire");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
@@ -138,6 +138,9 @@ const SkinAIContent = () => {
 
 
       const userName = "kimsinwoo";
+
+      // 언어 정보 추가
+      formData.append('language', language);
 
       // 문진표 데이터를 개별 필드로 전송
       if (questionnaireData) {

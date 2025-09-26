@@ -547,17 +547,17 @@ export const MedicalQuestionnaire = React.memo(
                       >
                         <div className="text-center">
                           <div className="text-lg font-bold mb-1">X</div>
-                          <div className="text-xs">정상적인 털빠짐</div>
+                          <div className="text-xs">{t('questionnaire_hairLoss_no_desc')}</div>
                         </div>
                       </button>
                     </div>
                   </div>
                 </div>
 
-                {formData.pruritus && (
+                {/* {formData.pruritus && (
                   <div className="mt-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl">
                     <p className="text-sm font-medium text-orange-800 mb-2">
-                      선택된 증상
+                      {t('selectedSymptoms')}
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {formData.pruritus && (
@@ -573,7 +573,7 @@ export const MedicalQuestionnaire = React.memo(
                       </Badge>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
 
               {/* Affected Area Section */}
