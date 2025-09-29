@@ -27,7 +27,6 @@ export function TokenPurchasePage() {
     { id: "premium", name: "프리미엄", tokens: 10, price: 10, description: "헤비 유저를 위한 대용량", features: ["10회 AI 진단", "프리미엄 질병 정보"] },
   ];
 
-  const [userToken, setUserToken] = useState(null);
 
   // 주문 생성
   const handlePurchase = async (price: number, retry = true) => {
@@ -70,7 +69,8 @@ export function TokenPurchasePage() {
           alert("토큰 갱신 중 오류 발생. 다시 로그인 해주세요.");
         }
       } else {
-        alert("결제 요청 중 오류가 발생했습니다.");
+        console.error("결제 요청 상세 오류:", err);
+        alert(`결제 요청 중 오류가 발생했습니다.\n오류 내용: ${err.response?.data?.message || err.message || '알 수 없는 오류'}`);
       }
     }
   };
