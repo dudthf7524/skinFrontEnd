@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -17,12 +18,16 @@ interface TokenPackage {
 }
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
+console.log(token)
 export function TokenPurchasePage() {
+  const navigate = useNavigate();
   const tokenPackages: TokenPackage[] = [
     { id: "starter", name: "시작하기", tokens: 1, price: 1, description: "처음 사용해보는 분들을 위한 기본 패키지", features: ["1회 AI 진단"] },
     { id: "standard", name: "표준", tokens: 5, price: 5, popular: true, description: "가장 인기 있는 패키지", features: ["5회 AI 진단"] },
     { id: "premium", name: "프리미엄", tokens: 10, price: 10, description: "헤비 유저를 위한 대용량", features: ["10회 AI 진단", "프리미엄 질병 정보"] },
   ];
+
+  const [userToken, setUserToken] = useState(null);
 
   // 주문 생성
   const handlePurchase = async (price: number, retry = true) => {
@@ -70,63 +75,92 @@ export function TokenPurchasePage() {
     }
   };
 
-  const capturePayment = async () => {
+  const userTokenAPI = async () => {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    try {
+      const response = await axios.get(`${apiBaseUrl}/user/my-token`, {
+        withCredentials: true,   // ✅ 쿠키 포함해서 전송
+      });
+      setUserToken(response.data);
 
-    if (token) {
-      try {
-        const { data } = await axios.post(
-          `${apiBaseUrl}/paypal/capture/${token}`,
-          {},
-          { withCredentials: true }
-        );
-
-        if (data.success) {
-          alert("결제 완료! 토큰이 충전되었습니다.");
-          window.location.href = "/"; // 원래 화면(메인페이지)으로 이동
-        } else {
-          alert("결제 완료 처리 실패");
-        }
-      } catch (err) {
-        console.error("캡처 실패:", err);
-        alert("결제 완료 처리 중 오류 발생");
-      }
-    } else {
-      alert("토큰이 없습니다.");
+    } catch (error) {
+      console.error(error)
     }
-  };
+  }
 
   useEffect(() => {
-    capturePayment();
-  }, [token])
+    userTokenAPI();
+  }, []);
+
+  // userToken이 있으면 /skinai로 리다이렉트
+  useEffect(() => {
+    if (userToken && userToken > 0) {
+      navigate('/skinai');
+    } else {
+      alert("토큰이 없습니다.")
+    }
+  }, [userToken, navigate]);
+
+
+  // const capturePayment = async () => {
+  //   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  //   if (token) {
+  //     try {
+  //       const { data } = await axios.post(
+  //         `${apiBaseUrl}/paypal/capture/${token}`,
+  //         {},
+  //         { withCredentials: true }
+  //       );
+
+  //       if (data.success) {
+  //         alert("결제 완료! 토큰이 충전되었습니다.");
+  //         window.location.href = "/"; // 원래 화면(메인페이지)으로 이동
+  //       } else {
+  //         alert("결제 완료 처리 실패");
+  //       }
+  //     } catch (err) {
+  //       console.error("캡처 실패:", err);
+  //       alert("결제 완료 처리 중 오류 발생");
+  //     }
+  //   } else {
+  //     alert("토큰이 없습니다.");
+  //   }
+  // };
 
   // useEffect(() => {
-  //   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-  //   const params = new URLSearchParams(window.location.search);
-  //   const token = params.get("token");
-  //   if (token) {
-  //     const capturePayment = async () => {
-  //       try {
-  //         const { data } = await axios.post(
-  //           `${apiBaseUrl}/paypal/capture/${token}`,
-  //           {},
-  //           { withCredentials: true }
-  //         );
+  //   capturePayment();
+  // }, [token])
 
-  //         if (data.success) {
-  //           alert("결제 완료! 토큰이 충전되었습니다.");
-  //           window.location.href = "/"; // 원래 화면(메인페이지)으로 이동
-  //         } else {
-  //           alert("결제 완료 처리 실패");
-  //         }
-  //       } catch (err) {
-  //         console.error("캡처 실패:", err);
-  //         alert("결제 완료 처리 중 오류 발생");
-  //       }
-  //     };
-  //     capturePayment();
-  //   }
-  // }, []);
+
+
+  useEffect(() => {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      const capturePayment = async () => {
+        try {
+          const { data } = await axios.post(
+            `${apiBaseUrl}/paypal/capture/${token}`,
+            {},
+            { withCredentials: true }
+          );
+
+          if (data.success) {
+            alert("결제 완료! 토큰이 충전되었습니다.");
+            window.location.href = "/"; // 원래 화면(메인페이지)으로 이동
+          } else {
+            alert("결제 완료 처리 실패");
+          }
+        } catch (err) {
+          console.error("캡처 실패:", err);
+          alert("결제 완료 처리 중 오류 발생");
+        }
+      };
+      capturePayment();
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--talktail-gray)] pt-20">
@@ -202,6 +236,7 @@ export function TokenPurchasePage() {
             </Card>
           ))}
         </div>
+
       </div>
     </div>
   );

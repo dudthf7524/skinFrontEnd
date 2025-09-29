@@ -73,7 +73,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
     function handleSkinAiPage() {
         const user = localStorage.getItem("user")
         if (user) {
-            navigate('/skinai')
+            navigate('/token')
         } else {
             alert("로그인이 필요합니다.")
             navigate('/signin')
