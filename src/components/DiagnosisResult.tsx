@@ -9,6 +9,7 @@ import { AlertTriangle, CheckCircle, MapPin, Share2, Mail, Navigation, Star, Clo
 import html2canvas from 'html2canvas';
 import axios from 'axios';
 import { useLanguage } from './LanguageContext';
+import { useNavigate } from 'react-router-dom';
 
 interface DiagnosisData {
   condition: string;
@@ -75,6 +76,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
   const [isLoadingHospitals, setIsLoadingHospitals] = useState(false);
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
+  const navigate = useNavigate();
 
   const resultCardRef = useRef<HTMLDivElement>(null);
 
@@ -109,8 +111,14 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c; // km 단위
+
+
   }
 
+
+  function handleskinpage() {
+    window.location.href = "/skinai"
+  }
   // 위치 정보 가져오기
   useEffect(() => {
     if (navigator.geolocation) {
@@ -862,7 +870,7 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
 
       <div className="space-y-3 sm:space-y-4">
         <Button
-          onClick={onContinue}
+          onClick={handleskinpage}
           className="w-full h-12 sm:h-14 text-white shadow-xl rounded-2xl font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105"
           style={{ background: 'linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)' }}
         >

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PhotoUpload } from "./PhotoUpload";
 import { MedicalQuestionnaire } from "./MedicalQuestionnaire";
 import { DiagnosisResult } from "./DiagnosisResult";
 import { ResultShare } from "./ResultShare";
-import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
 import { Stethoscope } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
 import { useNavigate } from "react-router-dom";
