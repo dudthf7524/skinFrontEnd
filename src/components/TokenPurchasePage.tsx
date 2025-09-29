@@ -95,10 +95,12 @@ export function TokenPurchasePage() {
 
   // userToken이 있으면 /skinai로 리다이렉트
   useEffect(() => {
-    if (userToken && userToken > 0) {
-      navigate('/skinai');
-    } else {
-      alert("토큰이 없습니다.")
+    if (userToken !== null) { // API 응답을 받은 후에만 실행
+      if (userToken > 0) {
+        navigate('/skinai');
+      } else {
+        alert("토큰이 없습니다.");
+      }
     }
   }, [userToken, navigate]);
 
