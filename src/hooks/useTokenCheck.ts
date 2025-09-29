@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import axiosInstance from '../utils/axiosConfig';
+import axios from 'axios';
 
 interface TokenCheckResult {
   hasToken: boolean;
@@ -18,7 +18,7 @@ export const useTokenCheck = () => {
 
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-      const response = await axiosInstance.get(`${apiBaseUrl}/user/my-token`, {
+      const response = await axios.get(`${apiBaseUrl}/user/my-token`, {
         withCredentials: true,
       });
 
