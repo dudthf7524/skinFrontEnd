@@ -81,7 +81,8 @@ export function TokenPurchasePage() {
       const response = await axios.get(`${apiBaseUrl}/user/my-token`, {
         withCredentials: true,   // ✅ 쿠키 포함해서 전송
       });
-      setUserToken(response.data);
+      console.log(response.data);
+      setUserToken(response.data.aiTokenCurrent);
 
     } catch (error) {
       console.error(error)
