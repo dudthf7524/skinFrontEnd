@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PhotoUpload } from "./PhotoUpload";
 import { MedicalQuestionnaire } from "./MedicalQuestionnaire";
 import { DiagnosisResult } from "./DiagnosisResult";
@@ -10,6 +10,7 @@ import { useLanguage } from "./LanguageContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import axios from "axios";
+import { useTokenCheck } from "../hooks/useTokenCheck";
 
 type Step =
   | "questionnaire"
@@ -123,6 +124,33 @@ const SkinAIContent = () => {
       estimatedWaitTime: "5-10분",
     },
   ];
+
+  const { checkUserToken } = useTokenCheck();
+
+  async function handleSkinAiPage() {
+    const user = localStorage.getItem("user")
+    if (user) {
+      try {
+        const tokenResult = await checkUserToken();
+        if (tokenResult.hasToken) {
+          navigate('/skinai');
+        } else {
+          alert("토큰이 없습니다.")
+          navigate('/token');
+        }
+      } catch (error) {
+        console.error('토큰 확인 중 오류:', error);
+        navigate('/token');
+      }
+    } else {
+      alert("로그인이 필요합니다.")
+      navigate('/signin')
+    }
+  }
+
+  useEffect(() => {
+    handleSkinAiPage();
+  }, [])
 
   const handleQuestionnaireComplete = (data: QuestionnaireData) => {
     console.log('문진표 완료 데이터:', data);
