@@ -74,35 +74,7 @@ export function TokenPurchasePage() {
       }
     }
   };
-
-  const userTokenAPI = async () => {
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-    try {
-      const response = await axios.get(`${apiBaseUrl}/user/my-token`, {
-        withCredentials: true,   // ✅ 쿠키 포함해서 전송
-      });
-      console.log(response.data);
-      setUserToken(response.data.aiTokenCurrent);
-
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    userTokenAPI();
-  }, []);
-
-  // userToken이 있으면 /skinai로 리다이렉트
-  useEffect(() => {
-    if (userToken !== null) { // API 응답을 받은 후에만 실행
-      if (userToken > 0) {
-        navigate('/skinai');
-      } else {
-        alert("토큰이 없습니다.");
-      }
-    }
-  }, [userToken, navigate]);
+  // 토큰 리다이렉트 로직 제거 (홈에서 처리됨)
 
 
   // const capturePayment = async () => {

@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import { useLanguage } from "./LanguageContext";
 import { TermsModal } from "./TermsModal";
 import { PrivacyModal } from "./PrivacyModal";
+import { useTokenCheck } from "../hooks/useTokenCheck";
 import result1 from "../assets/img/result1.png";
 import result2 from "../assets/img/result2.png";
 import result3 from "../assets/img/result3.png";
@@ -13,6 +14,7 @@ import result3 from "../assets/img/result3.png";
 export default function Home() {
     const navigate = useNavigate()
     const { t } = useLanguage();
+    const { checkUserToken } = useTokenCheck();
     const [termsModalOpen, setTermsModalOpen] = useState(false);
     const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
 
@@ -98,10 +100,21 @@ export default function Home() {
         handleEnd();
     };
 
-    function handleSkinAiPage() {
+    async function handleSkinAiPage() {
         const user = localStorage.getItem("user")
         if (user) {
-            navigate('/token')
+            try {
+                const tokenResult = await checkUserToken();
+                if (tokenResult.hasToken) {
+                    navigate('/skinai');
+                } else {
+                    alert("토큰이 없습니다.")
+                    navigate('/token');
+                }
+            } catch (error) {
+                console.error('토큰 확인 중 오류:', error);
+                navigate('/token');
+            }
         } else {
             alert("로그인이 필요합니다.")
             navigate('/signin')
