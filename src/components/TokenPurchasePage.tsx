@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -20,7 +19,6 @@ const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 console.log(token)
 export function TokenPurchasePage() {
-  const navigate = useNavigate();
   const tokenPackages: TokenPackage[] = [
     { id: "starter", name: "시작하기", tokens: 1, price: 1, description: "처음 사용해보는 분들을 위한 기본 패키지", features: ["1회 AI 진단"] },
     { id: "standard", name: "표준", tokens: 5, price: 5, popular: true, description: "가장 인기 있는 패키지", features: ["5회 AI 진단"] },

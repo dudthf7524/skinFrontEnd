@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useLanguage, Language } from './LanguageContext';
-import kakaoIcon from "../assets/img/kakaotalk.png";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,6 +11,7 @@ import {
 } from './ui/dropdown-menu';
 import ProfileBar from "./ProfileBar";
 import axios from "axios";
+import { useTokenCheck } from "../hooks/useTokenCheck";
 
 interface NavbarProps {
     currentPage?: string;
@@ -68,12 +68,24 @@ const LanguageToggle: React.FC = () => {
 const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
     const navigate = useNavigate();
     const { t } = useLanguage();
+    const { checkUserToken } = useTokenCheck();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    function handleSkinAiPage() {
+    async function handleSkinAiPage() {
         const user = localStorage.getItem("user")
         if (user) {
-            navigate('/token')
+            try {
+                const tokenResult = await checkUserToken();
+                if (tokenResult.hasToken) {
+                    navigate('/skinai');
+                } else {
+                    alert("토큰이 없습니다.")
+                    navigate('/token');
+                }
+            } catch (error) {
+                console.error('토큰 확인 중 오류:', error);
+                navigate('/token');
+            }
         } else {
             alert("로그인이 필요합니다.")
             navigate('/signin')
@@ -84,9 +96,9 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
         navigate('/info');
     }
 
-    function handleSearchPage() {
-        navigate('/search ');
-    }
+    // function handleSearchPage() {
+    //     navigate('/search ');
+    // }
 
     // function handlerecordPage() {
     //     navigate('/record ');
