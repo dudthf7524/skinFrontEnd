@@ -1,4 +1,4 @@
-import { Award, Badge, Brain, Camera, Heart, Hospital, LogIn, MapPin, Menu, Quote, Shield, Sparkles, Star, Upload, Users, X } from "lucide-react";
+import { Award, Brain, Camera, Heart, Hospital, Quote, Shield, Sparkles, Star, Upload, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
@@ -13,7 +13,6 @@ import result3 from "../assets/img/result3.png";
 export default function Home() {
     const navigate = useNavigate()
     const { t } = useLanguage();
-    const [loginModal, setLoginModal] = useState(false);
     const [termsModalOpen, setTermsModalOpen] = useState(false);
     const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
 
@@ -102,22 +101,12 @@ export default function Home() {
     function handleSkinAiPage() {
         const user = localStorage.getItem("user")
         if (user) {
-            navigate('/skinai')
+            navigate('/token')
         } else {
             alert("로그인이 필요합니다.")
             navigate('/signin')
         }
     }
-
-
-    const handleNavigation = (page: Page) => {
-
-        setCurrentPage(page);
-        if (page === "home") {
-            document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
-        }
-    };
-
     const steps = [
         {
             icon: Upload,
@@ -177,34 +166,10 @@ export default function Home() {
             description: t("home_feature3Description"),
         },
     ];
-    type Page = "home" | "skinai" | "info" | "search" | "login";
-
-    const [currentPage, setCurrentPage] = useState<Page>("home");
-
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
 
     function handleInfoPage() {
         navigate('/info');
     }
-
-    function handleSearchPage() {
-        navigate('/search ');
-    }
-
-    function handleLoginPage() {
-        navigate('/signin ');
-    }
-
-    const handlerLoginClick = () => {
-        if (loginModal === true) {
-            setLoginModal(false);
-        } else {
-            setLoginModal(true);
-        }
-    };
-
-
     return (
         <div className="min-h-screen bg-white">
 
@@ -288,17 +253,6 @@ export default function Home() {
                                                     ))}
                                                 </div>
                                             </div>
-
-                                            {/* <div className="space-y-2">
-                                                <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
-                                                    <span className="text-xs">습진 (Eczema)</span>
-                                                    <span className="text-xs font-medium text-green-600">85%</span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-2 bg-yellow-50 rounded-lg">
-                                                    <span className="text-xs">알레르기</span>
-                                                    <span className="text-xs font-medium text-yellow-600">12%</span>
-                                                </div>
-                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -312,14 +266,6 @@ export default function Home() {
                                     <Camera className="w-3 h-3 mr-1" />
                                     {t("home_tryNowButton")}
                                 </button>
-
-                                {/* <button
-                                    onClick={() => handleLoginPage()}
-                                    className="w-full border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-3 py-2 text-sm font-medium rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
-                                >
-                                    <LogIn className="w-3 h-3 mr-1" />
-                                    로그인
-                                </button> */}
                             </div>
                         </div>
 
@@ -345,14 +291,6 @@ export default function Home() {
                                     <Camera className="w-5 h-5 mr-3" />
                                     {t("home_tryNowButton")}
                                 </button>
-
-                                {/* <button
-                                    onClick={() => handleLoginPage()}
-                                    className="w-full border-2 border-[var(--talktail-orange)] text-[var(--talktail-orange)] hover:bg-[var(--talktail-orange)] hover:text-white px-6 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
-                                >
-                                    <LogIn className="w-5 h-5 mr-3" />
-                                    로그인
-                                </button> */}
                             </div>
                         </div>
 
@@ -414,17 +352,6 @@ export default function Home() {
                                                 ))}
                                             </div>
                                         </div>
-
-                                        {/* <div className="space-y-2">
-                                            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                                                <span className="text-sm">습진 (Eczema)</span>
-                                                <span className="text-sm font-medium text-green-600">85%</span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
-                                                <span className="text-sm">알레르기</span>
-                                                <span className="text-sm font-medium text-yellow-600">12%</span>
-                                            </div>
-                                        </div> */}
                                     </div>
                                     <div className="absolute -top-2 -right-2 w-8 h-8 bg-[var(--talktail-mint)] rounded-full flex items-center justify-center">
                                         <Sparkles className="w-4 h-4 text-[var(--talktail-orange)]" />
@@ -563,14 +490,6 @@ export default function Home() {
                     >
                         {t("home_freeTrialButton")}
                     </Button>
-                    {/* <Button
-                        size="lg"
-                        variant="outline"
-                        className="bg-white text-[var(--talktail-orange)] hover:bg-gray-100 px-8 py-4 text-lg rounded-xl mr-4"
-                        onClick={() => handleLoginPage()}
-                    >
-                        로그인
-                    </Button> */}
                 </div>
             </section>
 
@@ -613,7 +532,7 @@ export default function Home() {
 
                                 >
                                     <a
-                                        href="#"
+                                        href=""
                                         className="hover:text-white transition-colors"
                                     >
                                         {t("home_footerAiAnalysis")}
@@ -623,37 +542,20 @@ export default function Home() {
                                     onClick={() => handleInfoPage()}
                                 >
                                     <a
-                                        href="#"
+                                        href=""
                                         className="hover:text-white transition-colors"
                                     >
                                         {t("home_footerDiseaseInfo")}
                                     </a>
                                 </li>
-                                {/* <li>
-                                    <a
-                                        href="#"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        {t("home_footerHospitalFinder")}
-                                    </a>
-                                </li> */}
                             </ul>
                         </div>
-
                         <div>
                             <h4 className="font-bold mb-4">{t("home_footerCustomerSupport")}</h4>
                             <ul className="space-y-2 text-gray-400">
-                                {/* <li>
-                                    <a
-                                        href="#"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        {t("home_footerFaq")}
-                                    </a>
-                                </li> */}
                                 <li>
                                     <a
-                                        href="#"
+                                        href=""
                                         className="hover:text-white transition-colors"
                                         onClick={(e) => {
                                             e.preventDefault();
@@ -663,17 +565,9 @@ export default function Home() {
                                         {t("home_footerUserGuide")}
                                     </a>
                                 </li>
-                                {/* <li>
-                                    <a
-                                        href="#"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        {t("home_footerCustomerCenter")}
-                                    </a>
-                                </li> */}
                                 <li>
                                     <a
-                                        href="#"
+                                        href=""
                                         className="hover:text-white transition-colors"
                                         onClick={(e) => {
                                             e.preventDefault();
@@ -686,14 +580,11 @@ export default function Home() {
                             </ul>
                         </div>
                     </div>
-
                     <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
                         <p>{t("home_footerCopyright")}</p>
                     </div>
                 </div>
             </footer>
-
-            {/* Modals */}
             <TermsModal
                 isOpen={termsModalOpen}
                 onClose={() => setTermsModalOpen(false)}

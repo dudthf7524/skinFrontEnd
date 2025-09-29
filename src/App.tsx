@@ -37,7 +37,6 @@ export default function App() {
           <Route path="/token" element={<TokenPurchasePage />} />
           <Route path="/token/balance" element={<TokenBalancePage />} />
           <Route path="/admin/debug" element={<DebugPage />} />
-
         </Routes>
       </Router>
     </LanguageProvider>
