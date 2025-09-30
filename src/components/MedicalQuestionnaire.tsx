@@ -647,7 +647,7 @@ export const MedicalQuestionnaire = React.memo(
                   </div>
                 )}
 
-                {formData.affectedAreas.length > 0 && (
+                {/* {formData.affectedAreas.length > 0 && (
                   <div className="mt-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl">
                     <p className="text-sm font-medium text-orange-800 mb-2">
                       선택된 부위 ({formData.affectedAreas.length}개)
@@ -668,7 +668,7 @@ export const MedicalQuestionnaire = React.memo(
                       )}
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           );

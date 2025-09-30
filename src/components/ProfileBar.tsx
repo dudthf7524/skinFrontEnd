@@ -3,6 +3,7 @@ import ProfileImage from "./ui/profileImage"
 import { Button } from "./ui/button";
 import { Globe } from "lucide-react";
 import axios from "axios";
+import { useLanguage } from "./LanguageContext";
 
 // interface propsType {
 //     handleNavigation: (page: string) => void;
@@ -10,9 +11,11 @@ import axios from "axios";
 
 export default function ProfileBar() {
     // localStorage에서 user 정보를 가져오고, JSON 파싱
+    const { t } = useLanguage();
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
     const profileImage = user?.profileImage
+
     let name = "";
     if (userStr) {
         try {
@@ -99,7 +102,7 @@ export default function ProfileBar() {
                 size="sm"
                 className="hidden sm:flex h-8 px-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg text-gray-700 text-sm font-normal shadow-sm"
             >
-                <span className="text-sm">로그아웃</span>
+                <span className="text-sm">{t('logout')}</span>
             </Button>
             {/* <div
                 className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded shadow-lg px-4 py-2 min-w-[120px] text-center"

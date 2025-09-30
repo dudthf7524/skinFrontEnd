@@ -3,6 +3,7 @@ import axios from "axios";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Coins, CheckCircle } from "lucide-react";
+import { useLanguage } from './LanguageContext';
 
 // 거래 내역 타입 정의
 type TokenTransaction = {
@@ -16,11 +17,11 @@ type TokenTransaction = {
 };
 
 // 거래 상태 뱃지 함수
-function getStatusBadge(status: string) {
+function getStatusBadge(status: string, t: any) {
   if (status === "completed") {
     return (
       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 ml-2">
-        완료
+        {t('completed')}
       </span>
     );
   }
@@ -44,6 +45,7 @@ function getTransactionIcon(type: string) {
 }
 
 export function TokenBalancePage() {
+  const { t } = useLanguage();
   const [transactions, setTransactions] = useState<TokenTransaction[]>([]);
   const [loadingRefund, setLoadingRefund] = useState<string | null>(null); // 환불 로딩 상태
 
@@ -58,7 +60,7 @@ export function TokenBalancePage() {
         id: tx.id.toString(),
         type: "purchase",
         amount: Number(tx.amount),
-        description: `PayPal 결제 (${tx.currency})`,
+        description: `${t('paypalPayment')} (${tx.currency})`,
         date: new Date(tx.createdAt).toLocaleString(),
         status: "completed",
         orderId: tx.orderId, // 환불 시 필요
@@ -76,7 +78,7 @@ export function TokenBalancePage() {
   // ✅ 환불 함수
   const handleRefund = async (orderId: string) => {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-    if (!window.confirm("정말로 환불하시겠습니까?")) return;
+    if (!window.confirm(t('confirmRefund'))) return;
     setLoadingRefund(orderId);
     try {
       const res = await axios.post(
@@ -86,15 +88,15 @@ export function TokenBalancePage() {
       );
 
       if (res.data.success) {
-        alert("환불 성공!");
+        alert(t('refundSuccess'));
         // 환불 완료 후 목록 다시 불러오기
         await list();
       } else {
-        alert("환불 실패");
+        alert(t('refundFailed'));
       }
     } catch (err) {
       console.error("환불 오류:", err);
-      alert("환불 중 오류가 발생했습니다.");
+      alert(t('refundError'));
     } finally {
       setLoadingRefund(null);
     }
@@ -103,11 +105,11 @@ export function TokenBalancePage() {
   return (
     <div className="min-h-screen bg-[var(--talktail-gray)] pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">토큰 관리</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">{t('tokenManagement')}</h1>
 
         <Card className="bg-white">
           <div className="p-4 sm:p-6 border-b">
-            <h3 className="font-bold text-gray-900">거래 내역</h3>
+            <h3 className="font-bold text-gray-900">{t('transactionHistory')}</h3>
           </div>
           <div className="divide-y">
             {transactions.length > 0 ? (
@@ -124,9 +126,9 @@ export function TokenBalancePage() {
                     <div className="text-right">
                       <div className={`font-bold ${tx.amount > 0 ? "text-green-600" : "text-red-600"}`}>
                         {tx.amount > 0 ? "+" : ""}
-                        {tx.amount} 토큰
+                        {tx.amount} {t('tokens')}
                       </div>
-                      {getStatusBadge(tx.status)}
+                      {getStatusBadge(tx.status, t)}
                     </div>
                     <Button
                       variant="outline"
@@ -135,13 +137,13 @@ export function TokenBalancePage() {
                       disabled={loadingRefund === tx.orderId}
                       onClick={() => handleRefund(tx.orderId!)}
                     >
-                      {loadingRefund === tx.orderId ? "환불 중..." : "환불"}
+                      {loadingRefund === tx.orderId ? t('refunding') : t('refund')}
                     </Button>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="p-6 text-center text-gray-500">완료된 거래 내역이 없습니다.</div>
+              <div className="p-6 text-center text-gray-500">{t('noTransactions')}</div>
             )}
           </div>
         </Card>

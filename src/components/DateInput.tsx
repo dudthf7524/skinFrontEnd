@@ -12,7 +12,7 @@ interface DateInputProps {
 }
 
 export function DateInput({ value, onChange, placeholder, className }: DateInputProps) {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [viewDate, setViewDate] = useState<Date>(new Date());
@@ -40,11 +40,10 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
   // Initialize view date when modal opens
   useEffect(() => {
     if (isOpen && !selectedDate) {
-      // 선택된 날짜가 없으면 5년 전을 기본값으로 설정 (반려동물 평균 연령 고려)
-      const defaultDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
-      setViewDate(defaultDate);
+      // 선택된 날짜가 없으면 오늘 날짜를 기본값으로 설정
+      setViewDate(new Date(today.getFullYear(), today.getMonth(), 1));
     }
-  }, [isOpen, selectedDate]); // today 제거 - useMemo로 메모이제이션되어 불필요
+  }, [isOpen, selectedDate, today]);
 
   // Get localized date display
   const getDisplayValue = (): string => {
@@ -373,7 +372,9 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
           <div className="w-full max-w-xs bg-white border border-gray-300 rounded p-3">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-base font-bold">생년월일 선택</h3>
+              <h3 className="text-base font-bold">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+              </h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-500 hover:text-gray-700 text-lg"
@@ -388,7 +389,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                 <button
                   onClick={goToPreviousYear}
                   className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
-                  title="이전 년도"
+                  title={t('previousYear')}
                 >
                   &lt;&lt;
                 </button>
@@ -396,7 +397,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                   onClick={goToPreviousMonth}
                   disabled={isPreviousDisabled}
                   className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
-                  title="이전 월"
+                  title={t('previousMonth')}
                 >
                   &lt;
                 </button>
@@ -404,28 +405,59 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
 
               <div className="text-center flex-1">
                 <div className="text-sm font-medium flex items-center justify-center">
-                  <select
-                    value={viewDate.getFullYear()}
-                    onChange={(e) => handleYearSelect(parseInt(e.target.value))}
-                    className="bg-transparent border-0 outline-0 cursor-pointer pr-0 pl-1 py-1 text-sm font-medium appearance-none"
-                    style={{
-                      backgroundImage: 'none',
-                      WebkitAppearance: 'none',
-                      MozAppearance: 'none'
-                    }}
-                  >
-                    {generateYears.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="text-sm font-medium">년</span>
-                  <span className="mx-2"></span>
-                  <span className="text-sm font-medium">
-                    {viewDate.getMonth() + 1}
-                  </span>
-                  <span className="text-sm font-medium">월</span>
+                  {language === 'en' ? (
+                    // English: Month Year
+                    <>
+                      <span className="text-sm font-medium">
+                        {viewDate.getMonth() + 1}
+                      </span>
+                      <span className="text-sm font-medium">{t('month')}</span>
+                      <span className="mx-2"></span>
+                      <select
+                        value={viewDate.getFullYear()}
+                        onChange={(e) => handleYearSelect(parseInt(e.target.value))}
+                        className="bg-transparent border-0 outline-0 cursor-pointer pr-0 pl-1 py-1 text-sm font-medium appearance-none"
+                        style={{
+                          backgroundImage: 'none',
+                          WebkitAppearance: 'none',
+                          MozAppearance: 'none'
+                        }}
+                      >
+                        {generateYears.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="text-sm font-medium">{t('year')}</span>
+                    </>
+                  ) : (
+                    // Other languages: Year Month
+                    <>
+                      <select
+                        value={viewDate.getFullYear()}
+                        onChange={(e) => handleYearSelect(parseInt(e.target.value))}
+                        className="bg-transparent border-0 outline-0 cursor-pointer pr-0 pl-1 py-1 text-sm font-medium appearance-none"
+                        style={{
+                          backgroundImage: 'none',
+                          WebkitAppearance: 'none',
+                          MozAppearance: 'none'
+                        }}
+                      >
+                        {generateYears.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="text-sm font-medium">{t('year')}</span>
+                      <span className="mx-2"></span>
+                      <span className="text-sm font-medium">
+                        {viewDate.getMonth() + 1}
+                      </span>
+                      <span className="text-sm font-medium">{t('month')}</span>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -434,14 +466,14 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                   onClick={goToNextMonth}
                   disabled={isNextDisabled}
                   className="px-1 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-30 text-sm"
-                  title="다음 월"
+                  title={t('nextMonth')}
                 >
                   &gt;
                 </button>
                 <button
                   onClick={goToNextYear}
                   className="px-1 py-1 text-gray-600 hover:text-gray-800 text-sm"
-                  title="다음 년도"
+                  title={t('nextYear')}
                 >
                   &gt;&gt;
                 </button>
@@ -504,7 +536,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                 className="flex-1 h-10 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm"
                 onClick={() => setIsOpen(false)}
               >
-                취소
+                {t('cancel')}
               </button>
               <button
                 className="flex-1 h-10 rounded text-white disabled:opacity-50 text-sm"
@@ -518,7 +550,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                 }}
                 disabled={!selectedDate}
               >
-                확인
+                {t('confirm')}
               </button>
             </div>
 

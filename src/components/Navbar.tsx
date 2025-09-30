@@ -121,7 +121,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
             );
 
             if (response.status === 200) {
-                alert(response.data.message);
+                alert(t('logoutSuccess'));
                 window.location.reload();
             }
         } catch (error) {

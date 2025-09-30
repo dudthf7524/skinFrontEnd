@@ -125,7 +125,7 @@ const SkinAIContent = () => {
 
   const { checkUserToken } = useTokenCheck();
 
-  async function handleSkinAiPage() {
+  async function checkAuth() {
     const user = localStorage.getItem("user")
     if (user) {
       try {
@@ -147,7 +147,7 @@ const SkinAIContent = () => {
   }
 
   useEffect(() => {
-    handleSkinAiPage();
+    checkAuth();
   }, [])
 
   const handleQuestionnaireComplete = (data: QuestionnaireData) => {
