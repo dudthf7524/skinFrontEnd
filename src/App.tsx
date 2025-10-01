@@ -14,6 +14,7 @@ import { AdminDetailPage } from "./components/AdminDetailPage";
 import { TokenPurchasePage } from "./components/TokenPurchasePage";
 import { TokenBalancePage } from "./components/TokenBalancePage";
 import DebugPage from "./components/DebugPage";
+import { MyPage } from "./components/mypage/MyPage";
 // import { usePageLogger } from "./hooks/usePageLogger";
 // import { useExitLogger } from "./hooks/useExitLogger";
 
@@ -28,15 +29,15 @@ export default function App() {
           <Route path="/skinai" element={<SkinAI />} />
           <Route path="/info" element={< DiseaseInfoPage />} />
           <Route path="/search" element={< VetFinderPage />} />
-          {/* <Route path="/login/page" element={<Login />} /> */}
           <Route path="/login" element={<LoginCallback />} />
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/record" element={<MyRecordsPage />} />
-          <Route path="/admin/list" element={<AdminListPage />} />
-          <Route path="/admin/detail/:id" element={<AdminDetailPage />} />
           <Route path="/token" element={<TokenPurchasePage />} />
           <Route path="/token/balance" element={<TokenBalancePage />} />
+          <Route path="/admin/list" element={<AdminListPage />} />
+          <Route path="/admin/detail/:id" element={<AdminDetailPage />} />
           <Route path="/admin/debug" element={<DebugPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </Router>
     </LanguageProvider>

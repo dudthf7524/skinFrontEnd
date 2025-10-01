@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import ProfileImage from "./ui/profileImage"
 import { Button } from "./ui/button";
-import { Globe } from "lucide-react";
+import { Globe, User } from "lucide-react";
 import axios from "axios";
 import { useLanguage } from "./LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 // interface propsType {
 //     handleNavigation: (page: string) => void;
@@ -15,6 +16,7 @@ export default function ProfileBar() {
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
     const profileImage = user?.profileImage
+    const navigation = useNavigate()
 
     let name = "";
     if (userStr) {
@@ -26,11 +28,10 @@ export default function ProfileBar() {
         }
     }
     const handlerClickProfile = () => {
-        // handleNavigation("record");
+        navigation("/mypage");
     }
     // 드롭다운 상태 및 타이머 ref
     const [showLogout, setShowLogout] = useState(false);
-    // NodeJS.Timeout 대신 number로 타입 지정 (브라우저 환경)
     const hideTimer = useRef<number | null>(null);
 
     // 드롭다운을 바로 보여줌
@@ -82,7 +83,13 @@ export default function ProfileBar() {
                 onClick={handlerClickProfile}
             >
                 {
-                    profileImage ? (<ProfileImage />) : (<div></div>)
+                    profileImage ? (
+                        <ProfileImage />
+                    ) : (
+                        <div className="w-full h-full bg-orange-50 rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-orange-500" />
+                        </div>
+                    )
                 }
 
             </div>
@@ -96,14 +103,14 @@ export default function ProfileBar() {
                 <span className="font-semibold text-sm">{name}님</span>
             </div> */}
             {/* 호버 시 로그아웃 버튼 */}
-            <Button
+            {/* <Button
                 onClick={handleLogout}
                 variant="ghost"
                 size="sm"
                 className="hidden sm:flex h-8 px-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg text-gray-700 text-sm font-normal shadow-sm"
             >
                 <span className="text-sm">{t('logout')}</span>
-            </Button>
+            </Button> */}
             {/* <div
                 className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded shadow-lg px-4 py-2 min-w-[120px] text-center"
                 onMouseEnter={handleMouseEnter}
