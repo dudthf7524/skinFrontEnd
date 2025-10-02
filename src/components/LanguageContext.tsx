@@ -524,7 +524,7 @@ const translations = {
     myRecord: "My Record",
     login: "Login",
     logout: "Logout",
-    diagnoseNow: "Diagnose Now",
+    diagnoseNow: "Analyze Now",
     languageSelect: "Language Selection",
 
     // LoginPage.tsx
@@ -542,7 +542,7 @@ const translations = {
     socialLoginDescription: "Sign in easily with your social account",
     welcome: "Welcome!",
     petHealthMessage: "Let's protect your pet's skin health together",
-    cumulativeDiagnosis: "Total Diagnoses",
+    cumulativeDiagnosis: "Total Analyses",
     accuracy: "Accuracy",
     goHome: "Go Home",
 
@@ -765,7 +765,7 @@ const translations = {
 
     // Home page
     home_aiScreeningService: "AI Skin Disease Monitoring Service",
-    home_mainTitle: "Diagnose your pet's skin health with AI",
+    home_mainTitle: "Analyze your pet's skin health with AI",
     home_mainDescription: "Upload your pet's skin photos or start AI diagnosis immediately",
     home_tryNowButton: "Try It Now",
     home_aiAnalyzing: "AI Analyzing...",
@@ -776,7 +776,7 @@ const translations = {
     home_step1Title: "Upload Photo",
     home_step1Description: "Take a photo of the problematic skin area and upload it.",
     home_step2Title: "AI Analysis",
-    home_step2Description: "Advanced AI analyzes skin condition and diagnoses possible diseases.",
+    home_step2Description: "Advanced AI analyzes skin condition and analyzes possible diseases.",
     home_step3Title: "Hospital Connection",
     home_step3Description: "Based on analysis results, we recommend nearby specialized hospitals and help with appointments.",
     home_analysisTime: "💡 Average analysis time: within 30 seconds",
@@ -926,13 +926,13 @@ const translations = {
     tokenPurchaseDesc: "Purchase tokens needed for AI diagnosis",
     tokenPackageStarter: "Starter",
     tokenPackageStarterDesc: "Basic package for first-time users",
-    tokenPackageStarterFeature1: "1 AI Diagnosis",
+    tokenPackageStarterFeature1: "1 AI Analyze",
     tokenPackageStandard: "Standard",
     tokenPackageStandardDesc: "Most popular package",
-    tokenPackageStandardFeature1: "5 AI Diagnoses",
+    tokenPackageStandardFeature1: "5 AI Analyses",
     tokenPackagePremium: "Premium",
     tokenPackagePremiumDesc: "Large capacity for heavy users",
-    tokenPackagePremiumFeature1: "10 AI Diagnoses",
+    tokenPackagePremiumFeature1: "10 AI Analyze",
     tokenPackagePremiumFeature2: "Premium Disease Information",
     orderCreationFailed: "Order creation failed",
     tokenRefreshFailed: "Token refresh failed. Please log in again.",
