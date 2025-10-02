@@ -79,7 +79,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                 if (tokenResult.hasToken) {
                     navigate('/skinai');
                 } else {
-                    alert("토큰이 없습니다.")
+                    alert(t("noTokenAlert"))
                     navigate('/token');
                 }
             } catch (error) {
@@ -87,7 +87,7 @@ const NavbarContent = ({ currentPage = "home" }: NavbarProps) => {
                 navigate('/token');
             }
         } else {
-            alert("로그인이 필요합니다.")
+            alert(t("loginRequiredAlert"))
             navigate('/signin')
         }
     }

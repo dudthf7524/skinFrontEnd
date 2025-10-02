@@ -113,7 +113,7 @@ export default function Home() {
                 if (tokenResult.hasToken) {
                     navigate('/skinai');
                 } else {
-                    alert("토큰이 없습니다.")
+                    alert(t("noTokenAlert"))
                     navigate('/token');
                 }
             } catch (error) {
@@ -121,7 +121,7 @@ export default function Home() {
                 navigate('/token');
             }
         } else {
-            alert("로그인이 필요합니다.")
+            alert(t("loginRequiredAlert"))
             navigate('/signin')
         }
     }

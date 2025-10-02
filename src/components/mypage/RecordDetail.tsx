@@ -5,6 +5,7 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { ArrowLeft, User, Calendar, Weight, MapPin, AlertTriangle, CheckCircle, Info } from 'lucide-react';
 import axios from 'axios';
+import { useLanguage } from '../LanguageContext';
 
 interface QuestionnaireData {
   id: string;
@@ -19,6 +20,7 @@ interface QuestionnaireData {
 export function RecordDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [data, setData] = useState<QuestionnaireData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -74,11 +76,11 @@ export function RecordDetail() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">데이터를 찾을 수 없습니다</h2>
-          <p className="text-gray-600 mb-4">요청하신 진단 정보가 존재하지 않습니다.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("mypage_dataNotFound")}</h2>
+          <p className="text-gray-600 mb-4">{t("mypage_diagnosisInfoNotExist")}</p>
           <Button onClick={() => navigate('/mypage', { state: { tab: 'diagnosis' } })}>
             <ArrowLeft className="w-4 h-4 mr-2" />
-            목록으로 돌아가기
+            {t("mypage_backToList")}
           </Button>
         </div>
       </div>
@@ -98,11 +100,11 @@ export function RecordDetail() {
             className="mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            목록으로 돌아가기
+            {t("mypage_backToList")}
           </Button>
           <div className="p-7 bg-white rounded-2xl border border-gray-200 shadow-xl">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">진단 상세보기</h1>
-            <p className="text-gray-600">접수일 {formatDate(data.createdAt)}</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("mypage_diagnosisDetailView")}</h1>
+            <p className="text-gray-600">{t("mypage_receptionDate")} {formatDate(data.createdAt)}</p>
           </div>
         </div>
 
@@ -110,7 +112,7 @@ export function RecordDetail() {
           <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
             <CardHeader className="pb-4 sm:pb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50">
               <CardTitle className="flex items-center">
-                <span className="text-lg sm:text-xl font-bold text-gray-900">🔍 분석결과</span>
+                <span className="text-lg sm:text-xl font-bold text-gray-900">{t("mypage_analysisResult")}</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="">
@@ -124,7 +126,7 @@ export function RecordDetail() {
               </div>
 
               <div className="text-left mb-4">
-                <span className="text-lg sm:text-xl font-bold text-gray-900">피부 상태 분류</span>
+                <span className="text-lg sm:text-xl font-bold text-gray-900">{t("mypage_skinConditionClassification")}</span>
               </div>
 
 
@@ -137,7 +139,7 @@ export function RecordDetail() {
               {/* 예상 진단 내용 */}
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-lg sm:text-xl font-bold text-gray-900">예상 진단</span>
+                  <span className="text-lg sm:text-xl font-bold text-gray-900">{t("mypage_expectedDiagnosis")}</span>
                 </div>
 
                 <div className="p-4 sm:p-6 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 rounded-2xl border-2 border-orange-200">
@@ -147,7 +149,7 @@ export function RecordDetail() {
 
                 <div className="bg-white/60 p-4 sm:p-5 rounded-2xl border border-orange-100">
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm sm:text-base font-bold text-gray-800">AI 신뢰도</span>
+                    <span className="text-sm sm:text-base font-bold text-gray-800">{t("mypage_aiConfidence")}</span>
                     <span className="text-lg sm:text-xl font-bold text-orange-600">{data.confidence}%</span>
                   </div>
                   <div className="relative">

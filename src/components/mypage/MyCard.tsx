@@ -6,11 +6,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserInfo } from "../type/type";
+import { useLanguage } from "../LanguageContext";
+
 type ProfileSettingsProps = {
     userInfoData: UserInfo;
 };
 export function MyCard({ userInfoData }: ProfileSettingsProps) {
     const navigate = useNavigate();
+    const { t } = useLanguage();
     const handleLogout = async () => {
         localStorage.removeItem('user');
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -23,7 +26,7 @@ export function MyCard({ userInfoData }: ProfileSettingsProps) {
             );
 
             if (response.status === 200) {
-                alert(response.data.message);
+                alert(t("mypage_logoutSuccess"));
                 navigate("/")
             }
         } catch (error) {
@@ -62,7 +65,7 @@ export function MyCard({ userInfoData }: ProfileSettingsProps) {
                             className="text-white flex items-center space-x-1 self-end sm:self-start"
                         >
                             <LogOut className="w-4 h-4" />
-                            <span className="text-xs sm:text-sm font-medium">로그아웃</span>
+                            <span className="text-xs sm:text-sm font-medium">{t("mypage_logout")}</span>
                         </button>
                     </div>
 
@@ -73,7 +76,7 @@ export function MyCard({ userInfoData }: ProfileSettingsProps) {
                             <div className="flex items-center justify-between sm:flex-1">
                                 <div className="flex items-center space-x-2">
                                     <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                                    <span className="text-white text-sm sm:text-base font-medium">보유토큰</span>
+                                    <span className="text-white text-sm sm:text-base font-medium">{t("mypage_currentTokens")}</span>
                                 </div>
                                 <span className="text-white text-lg sm:text-xl font-bold">{userInfoData.aiTokenCurrent}</span>
                             </div>
@@ -85,7 +88,7 @@ export function MyCard({ userInfoData }: ProfileSettingsProps) {
                                 className="flex items-center justify-center space-x-2 bg-orange-500 text-white px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium w-full sm:w-auto"
                             >
                                 <Wallet className="w-4 h-4 sm:w-5 sm:h-5" />
-                                <span>충전</span>
+                                <span>{t("mypage_recharge")}</span>
                             </button>
                         </div>
                     </div>

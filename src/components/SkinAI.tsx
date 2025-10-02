@@ -125,30 +125,30 @@ const SkinAIContent = () => {
 
   const { checkUserToken } = useTokenCheck();
 
-  async function checkAuth() {
-    const user = localStorage.getItem("user")
-    if (user) {
-      try {
-        const tokenResult = await checkUserToken();
-        if (tokenResult.hasToken) {
-          navigate('/skinai');
-        } else {
-          alert("토큰이 없습니다.")
-          navigate('/token');
-        }
-      } catch (error) {
-        console.error('토큰 확인 중 오류:', error);
-        navigate('/token');
-      }
-    } else {
-      alert("로그인이 필요합니다.")
-      navigate('/signin')
-    }
-  }
+  // async function checkAuth() {
+  //   const user = localStorage.getItem("user")
+  //   if (user) {
+  //     try {
+  //       const tokenResult = await checkUserToken();
+  //       if (tokenResult.hasToken) {
+  //         navigate('/skinai');
+  //       } else {
+  //         alert(t("noTokenAlert"))
+  //         navigate('/token');
+  //       }
+  //     } catch (error) {
+  //       console.error('토큰 확인 중 오류:', error);
+  //       navigate('/token');
+  //     }
+  //   } else {
+  //     alert(t("loginRequiredAlert"))
+  //     navigate('/signin')
+  //   }
+  // }
 
-  useEffect(() => {
-    checkAuth();
-  }, [])
+  // useEffect(() => {
+  //   checkAuth();
+  // }, [])
 
   const handleQuestionnaireComplete = (data: QuestionnaireData) => {
     console.log('문진표 완료 데이터:', data);

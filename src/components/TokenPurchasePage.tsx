@@ -23,13 +23,11 @@ export function TokenPurchasePage() {
   const { t } = useLanguage();
 
   const tokenPackages: TokenPackage[] = [
-    { id: "starter", name: t('tokenPackageStarter'), tokens: 1, price: 1, description: t('tokenPackageStarterDesc'), features: [t('tokenPackageStarterFeature1')] },
+    { id: "starter", name: t('tokenPackageStarter'), tokens: 3, price: 3, description: t('tokenPackageStarterDesc'), features: [t('tokenPackageStarterFeature1')] },
     { id: "standard", name: t('tokenPackageStandard'), tokens: 5, price: 5, popular: true, description: t('tokenPackageStandardDesc'), features: [t('tokenPackageStandardFeature1')] },
-    { id: "premium", name: t('tokenPackagePremium'), tokens: 10, price: 10, description: t('tokenPackagePremiumDesc'), features: [t('tokenPackagePremiumFeature1'), t('tokenPackagePremiumFeature2')] },
+    { id: "premium", name: t('tokenPackagePremium'), tokens: 10, price: 10, description: t('tokenPackagePremiumDesc'), features: [t('tokenPackagePremiumFeature1')] },
   ];
 
-
-  // 주문 생성
   const handlePurchase = async (price: number, retry = true) => {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     try {
@@ -155,9 +153,9 @@ export function TokenPurchasePage() {
           <div className="flex items-center">
             <Gift className="w-8 h-8 text-[var(--talktail-orange)] mr-3" />
             <div>
-              <h3 className="font-bold text-gray-900 mb-1">🎉 {t('newMemberEvent')}</h3>
+              <h3 className="font-bold text-gray-900 mb-1">{t('newMemberEvent')}</h3>
               <p className="text-gray-600 text-sm sm:text-base">
-                {t('firstPurchaseBenefit')} <span className="font-bold text-[var(--talktail-orange)]">{t('discount20')}</span> +{" "}
+                {/* <span className="font-bold text-[var(--talktail-orange)]">{t('discount20')}</span> — {" "} */}
                 <span className="font-bold text-[var(--talktail-orange)]">{t('bonusTokens')}</span>
               </p>
             </div>
@@ -188,7 +186,7 @@ export function TokenPurchasePage() {
                   </span>
                   <span className="text-gray-600 ml-1">{t('tokens')}</span>
                 </div>
-                <div className="text-2xl font-bold text-gray-900">{pkg.price}$</div>
+                <div className="text-2xl font-bold text-gray-900">${pkg.price}</div>
               </div>
 
               <p className="text-gray-600 text-center mb-4">{pkg.description}</p>

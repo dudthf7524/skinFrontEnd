@@ -54,13 +54,13 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                     </div>
 
                     {/* Pet mascot illustration */}
-                    <div className="text-center mb-8">
+                    {/* <div className="text-center mb-8">
                         <div className="w-24 h-24 mx-auto mb-4 bg-[var(--talktail-mint)] rounded-full flex items-center justify-center">
                             <span className="text-4xl">🐕</span>
                         </div>
                         <h2 className="text-xl font-bold text-gray-900 mb-2">{t('welcomeBack')}</h2>
                         <p className="text-gray-600">{t('keepHealthySkin')}</p>
-                    </div>
+                    </div> */}
 
                     {/* Social Login Buttons */}
                     <Card className="p-6 card-rounded-lg shadow-lg border-0">
@@ -130,12 +130,12 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                         </p>
                         <div className="grid grid-cols-2 gap-6 max-w-md mx-auto">
                             <div className="text-center">
-                                <div className="text-2xl font-bold">50,000+</div>
-                                <div className="text-orange-200">{t('cumulativeDiagnosis')}</div>
-                            </div>
-                            <div className="text-center">
                                 <div className="text-2xl font-bold">85%</div>
                                 <div className="text-orange-200">{t('accuracy')}</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-2xl font-bold">50,000+</div>
+                                <div className="text-orange-200">{t('cumulativeDiagnosis')}</div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ export function LoginPage({ setLoginModal }: LoginPageProps) {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl font-bold text-gray-900">Talktail</h1>
-                                    <p className="text-sm text-gray-500">Care</p>
+                                    <p className="text-sm text-left text-gray-500">Care</p>
                                 </div>
                             </div>
                             <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('loginTitle')}</h2>

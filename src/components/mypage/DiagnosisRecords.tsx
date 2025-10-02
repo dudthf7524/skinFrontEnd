@@ -1,51 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { Card } from "../ui/card";
 import { Eye } from "lucide-react";
+import { useLanguage } from "../LanguageContext";
 
 export function DiagnosisRecords({ recordData }: any) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   console.log(recordData)
-  // const diagnosisRecords: DiagnosisRecord[] = [
-  //   {
-  //     id: "diag_001",
-  //     date: "2024-03-15",
-  //     petName: "멍멍이",
-  //     petType: "골든리트리버",
-  //     bodyPart: "얼굴",
-  //     diagnosis: "아토피 피부염",
-  //     confidence: 87,
-  //     severity: "중간",
-  //     status: "재진필요",
-  //     image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop",
-  //     vetVisit: true,
-  //     notes: "수의사 진료 후 약물 치료 시작"
-  //   },
-  //   {
-  //     id: "diag_002",
-  //     date: "2024-03-14",
-  //     petName: "나비",
-  //     petType: "페르시안",
-  //     bodyPart: "발가락",
-  //     diagnosis: "접촉성 피부염",
-  //     confidence: 92,
-  //     severity: "낮음",
-  //     status: "완료",
-  //     image: "https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=400&h=400&fit=crop"
-  //   },
-  //   {
-  //     id: "diag_003",
-  //     date: "2024-03-10",
-  //     petName: "구름이",
-  //     petType: "말티즈",
-  //     bodyPart: "등",
-  //     diagnosis: "습진",
-  //     confidence: 74,
-  //     severity: "높음",
-  //     status: "진행중",
-  //     image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop",
-  //     vetVisit: false
-  //   }
-  // ];
+ 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
       year: 'numeric',
@@ -59,7 +21,7 @@ export function DiagnosisRecords({ recordData }: any) {
     <div className="space-y-4">
       <Card className="bg-white">
         <div className="p-4 sm:p-6 border-b">
-          <h3 className="font-bold text-gray-900">진단 기록</h3>
+          <h3 className="font-bold text-gray-900">{t("mypage_diagnosisRecords")}</h3>
         </div>
         <div className="divide-y">
           {recordData.map((record: any) => (
@@ -79,20 +41,20 @@ export function DiagnosisRecords({ recordData }: any) {
                       </p>
 
                       <p className="text-sm text-gray-600">
-                        가려움 : {record.itchiness === '심함' ? '심함' : record.itchiness === '보통' ? '보통' : '없음'}
+                        {t("mypage_itching")} : {record.itchiness === '심함' ? t("mypage_severe") : record.itchiness === '보통' ? t("mypage_moderate") : t("mypage_none")}
                       </p>
                       {record.alopecia && (
                         <p className="text-sm text-gray-600">
-                          털빠짐
+                          {t("mypage_hairLoss")}
                         </p>
                       )}
                       {record.smell && (
                         <p className="text-sm text-gray-600">
-                          냄새
+                          {t("mypage_smell")}
                         </p>
                       )}
                       <p className="text-sm text-gray-600">
-                        부위: {record.lesionSites
+                        {t("mypage_area")}: {record.lesionSites
                           ? JSON.parse(record.lesionSites).join(", ")
                           : ""}
                       </p>
@@ -106,7 +68,7 @@ export function DiagnosisRecords({ recordData }: any) {
                         onClick={() => navigate(`/record/detail/${record.id}`)}
                       >
                         <Eye className="w-4 h-4 mr-1" />
-                        상세보기
+                        {t("mypage_viewDetails")}
                       </button>
                     </div>
                   </div>

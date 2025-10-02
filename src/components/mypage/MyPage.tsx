@@ -12,6 +12,7 @@ import { ProfileSettings } from "./ProfileSettings";
 import { MyCard } from "./MyCard";
 import axios from "axios";
 import { UserInfo } from "../type/type";
+import { useLanguage } from "../LanguageContext";
 
 type TabType = "tokens" | "diagnosis" | "profile";
 
@@ -21,6 +22,7 @@ export function MyPage() {
     location.state?.tab || "profile"
   );
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [userInfoData, setUserInfoData] = useState<UserInfo | null>(null);
   const [recordData, setRecordData] = useState(null);
@@ -30,10 +32,10 @@ export function MyPage() {
   useEffect(() => {
     const userStr = localStorage.getItem('user');
     if (!userStr) {
-      alert('로그인이 필요합니다.');
+      alert(t('loginRequiredAlert'));
       navigate('/signin');
     }
-  }, [navigate]);
+  }, [navigate, t]);
 
   const userMyPageAPI = async () => {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -70,7 +72,7 @@ export function MyPage() {
               onClick={() => setSelectedTab("profile")}
             >
               <Settings className="w-5 h-5" />
-              <span className="hidden sm:inline">프로필</span>
+              <span className="hidden sm:inline">{t("mypage_profile")}</span>
             </div>
             <div
               className={`flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 p-4 cursor-pointer transition-colors ${selectedTab === "diagnosis" ? "bg-orange-50 border-b-2 border-orange-500" : "bg-white"
@@ -78,7 +80,7 @@ export function MyPage() {
               onClick={() => setSelectedTab("diagnosis")}
             >
               <FileText className="w-5 h-5" />
-              <span className="hidden sm:inline">진단 기록</span>
+              <span className="hidden sm:inline">{t("mypage_diagnosisRecords")}</span>
             </div>
             <div
               className={`flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 p-4 cursor-pointer transition-colors ${selectedTab === "tokens" ? "bg-orange-50 border-b-2 border-orange-500" : "bg-white"
@@ -86,7 +88,7 @@ export function MyPage() {
               onClick={() => setSelectedTab("tokens")}
             >
               <Coins className="w-5 h-5" />
-              <span className="hidden sm:inline">토큰 관리</span>
+              <span className="hidden sm:inline">{t("mypage_tokenManagement")}</span>
             </div>
           </div>
 

@@ -781,9 +781,9 @@ export function DiagnosisResult({ diagnosis, onContinue, onBack, uploadedImage, 
                 )}
               </Button>
             </div>
-            <p className="text-xs sm:text-sm text-orange-700 mt-2 font-medium">
+            {/* <p className="text-xs sm:text-sm text-orange-700 mt-2 font-medium">
               {t('diagnosis_emailDescription')}
-            </p>
+            </p> */}
           </div>
 
           {/* <div className="bg-blue-50 p-4 sm:p-5 rounded-2xl border-2 border-blue-200">
