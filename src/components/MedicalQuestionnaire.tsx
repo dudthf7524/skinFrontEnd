@@ -772,12 +772,12 @@ export const MedicalQuestionnaire = React.memo(
                     }`}>
                     {t("symptomInput")}
                   </div>
-                  {currentSection === 1 && (
+                  {/* {currentSection === 1 && (
                     <>
                       <div className="absolute top-0 left-0 w-12 h-12 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                       <div className="absolute top-1 left-1 w-10 h-10 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

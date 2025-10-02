@@ -125,30 +125,30 @@ const SkinAIContent = () => {
 
   const { checkUserToken } = useTokenCheck();
 
-  // async function checkAuth() {
-  //   const user = localStorage.getItem("user")
-  //   if (user) {
-  //     try {
-  //       const tokenResult = await checkUserToken();
-  //       if (tokenResult.hasToken) {
-  //         navigate('/skinai');
-  //       } else {
-  //         alert("토큰이 없습니다.")
-  //         navigate('/token');
-  //       }
-  //     } catch (error) {
-  //       console.error('토큰 확인 중 오류:', error);
-  //       navigate('/token');
-  //     }
-  //   } else {
-  //     alert("로그인이 필요합니다.")
-  //     navigate('/signin')
-  //   }
-  // }
+  async function checkAuth() {
+    const user = localStorage.getItem("user")
+    if (user) {
+      try {
+        const tokenResult = await checkUserToken();
+        if (tokenResult.hasToken) {
+          navigate('/skinai');
+        } else {
+          alert("토큰이 없습니다.")
+          navigate('/token');
+        }
+      } catch (error) {
+        console.error('토큰 확인 중 오류:', error);
+        navigate('/token');
+      }
+    } else {
+      alert("로그인이 필요합니다.")
+      navigate('/signin')
+    }
+  }
 
-  // useEffect(() => {
-  //   checkAuth();
-  // }, [])
+  useEffect(() => {
+    checkAuth();
+  }, [])
 
   const handleQuestionnaireComplete = (data: QuestionnaireData) => {
     console.log('문진표 완료 데이터:', data);
@@ -202,6 +202,7 @@ const SkinAIContent = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
         validateStatus: function (status) {
           // 모든 상태 코드를 성공으로 처리하여 catch로 가지 않게 함
           return status < 500;
@@ -393,12 +394,12 @@ const SkinAIContent = () => {
                     }`}>
                     {t("photoUpload")}
                   </div>
-                  {currentStep === "upload" && (
+                  {/* {currentStep === "upload" && (
                     <>
                       <div className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                       <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -439,12 +440,12 @@ const SkinAIContent = () => {
                     }`}>
                     {t("diagnosisResult")}
                   </div>
-                  {currentStep === "diagnosis" && (
+                  {/* {currentStep === "diagnosis" && (
                     <>
                       <div className="absolute top-0 left-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-2xl animate-ping opacity-20" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                       <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-xl animate-pulse opacity-30" style={{ background: "linear-gradient(135deg, #f0663f 0%, #d45a2f 100%)" }}></div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

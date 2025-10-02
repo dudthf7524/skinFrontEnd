@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
@@ -44,36 +44,50 @@ function getTransactionIcon(type: string) {
   );
 }
 
-export function TokenManagement() {
+export function TokenManagement({ userPaymentData }: any) {
   const { t } = useLanguage();
-  const [transactions, setTransactions] = useState<TokenTransaction[]>([]);
+  // const [transactions, setTransactions] = useState<TokenTransaction[]>([]);
   const [loadingRefund, setLoadingRefund] = useState<string | null>(null); // 환불 로딩 상태
 
-  const list = async () => {
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-    try {
-      const res = await axios.get(`${apiBaseUrl}/paypal/list`, {
-        withCredentials: true,
-      });
-      const completedTx = res.data.payments.filter((tx: any) => tx.status === "COMPLETED");
-      const mapped: TokenTransaction[] = completedTx.map((tx: any) => ({
-        id: tx.id.toString(),
-        type: "purchase",
-        amount: Number(tx.amount),
-        description: `${t('paypalPayment')} (${tx.currency})`,
-        date: new Date(tx.createdAt).toLocaleString(),
-        status: "completed",
-        orderId: tx.orderId, // 환불 시 필요
-      }));
-      setTransactions(mapped);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const transactions = useMemo(() => {
+    const completedTx = (userPaymentData ?? []).filter((tx: any) => tx.status === "COMPLETED");
+    return completedTx.map((tx: any) => ({
+      id: String(tx.id),
+      type: "purchase" as const,
+      amount: Number(tx.amount),
+      description: `${t('paypalPayment')} (${tx.currency})`,
+      date: new Date(tx.createdAt).toLocaleString(),
+      status: "completed" as const,
+      orderId: tx.orderId,
+    })) as TokenTransaction[];
+  }, [userPaymentData, t]);
 
-  useEffect(() => {
-    list();
-  }, []);
+  // const list = async () => {
+  //   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  //   try {
+  //     const res = await axios.get(`${apiBaseUrl}/paypal/list`, {
+  //       withCredentials: true,
+  //     });
+  //     console.log(res.data)
+  //     const completedTx = res.data.payments.filter((tx: any) => tx.status === "COMPLETED");
+  //     const mapped: TokenTransaction[] = completedTx.map((tx: any) => ({
+  //       id: tx.id.toString(),
+  //       type: "purchase",
+  //       amount: Number(tx.amount),
+  //       description: `${t('paypalPayment')} (${tx.currency})`,
+  //       date: new Date(tx.createdAt).toLocaleString(),
+  //       status: "completed",
+  //       orderId: tx.orderId, // 환불 시 필요
+  //     }));
+  //     setTransactions(mapped);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   list();
+  // }, []);
 
   // ✅ 환불 함수
   const handleRefund = async (orderId: string) => {
@@ -90,7 +104,8 @@ export function TokenManagement() {
       if (res.data.success) {
         alert(t('refundSuccess'));
         // 환불 완료 후 목록 다시 불러오기
-        await list();
+        // await list();
+        window.location.href = "/mypage"
       } else {
         alert(t('refundFailed'));
       }

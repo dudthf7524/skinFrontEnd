@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Coins,
   FileText,
@@ -16,10 +16,16 @@ import { UserInfo } from "../type/type";
 type TabType = "tokens" | "diagnosis" | "profile";
 
 export function MyPage() {
-  const [selectedTab, setSelectedTab] = useState<TabType>("profile");
+  const location = useLocation();
+  const [selectedTab, setSelectedTab] = useState<TabType>(
+    location.state?.tab || "profile"
+  );
   const navigate = useNavigate();
 
   const [userInfoData, setUserInfoData] = useState<UserInfo | null>(null);
+  const [recordData, setRecordData] = useState(null);
+  const [userPaymentData, setUserPaymentData] = useState(null);
+
 
   useEffect(() => {
     const userStr = localStorage.getItem('user');
@@ -35,8 +41,10 @@ export function MyPage() {
       const response = await axios.get(`${apiBaseUrl}/user/mypage`, {
         withCredentials: true,
       });
-      console.log(response.data.userData.userInfo)
+      console.log(response.data);
+      setRecordData(response.data.recordData.paperweights)
       setUserInfoData(response.data.userData.userInfo);
+      setUserPaymentData(response.data.userPaymentData.userPayment)
     } catch (error) {
       console.error(error);
     }
@@ -81,9 +89,12 @@ export function MyPage() {
               <span className="hidden sm:inline">토큰 관리</span>
             </div>
           </div>
+
           {userInfoData && selectedTab === "profile" && <ProfileSettings userInfoData={userInfoData} />}
-          {selectedTab === "tokens" && <TokenManagement />}
-          {selectedTab === "diagnosis" && <DiagnosisRecords />}
+
+          {recordData && selectedTab === "diagnosis" && <DiagnosisRecords recordData={recordData} />}
+
+          {userPaymentData && selectedTab === "tokens" && <TokenManagement userPaymentData={userPaymentData} />}
 
         </div>
       </div>

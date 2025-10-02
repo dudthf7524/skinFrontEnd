@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
+
 import { useLanguage } from './LanguageContext';
-import { Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 interface DateInputProps {
   value: string;
@@ -11,7 +10,7 @@ interface DateInputProps {
   className?: string;
 }
 
-export function DateInput({ value, onChange, placeholder, className }: DateInputProps) {
+export function DateInput({ value, onChange, className }: DateInputProps) {
   const { language, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -99,48 +98,10 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     }
   };
 
-  // Get month name
-  const getMonthName = (date: Date): string => {
-    const month = date.getMonth();
-
-    switch (language) {
-      case 'ko':
-        return `${month + 1}월`;
-      case 'ja':
-        return `${month + 1}月`;
-      case 'zh':
-        return `${month + 1}月`;
-      case 'en':
-      default:
-        return date.toLocaleDateString('en-US', {
-          month: 'long'
-        });
-    }
-  };
-
-  // Get year name
-  const getYearName = (date: Date): string => {
-    const year = date.getFullYear();
-
-    switch (language) {
-      case 'ko':
-        return `${year}년`;
-      case 'ja':
-        return `${year}年`;
-      case 'zh':
-        return `${year}年`;
-      case 'en':
-      default:
-        return `${year}`;
-    }
-  };
-
-  // Get week start (0 = Sunday, 1 = Monday) - memoized
   const getWeekStart = useMemo((): number => {
-    return language === 'en' ? 0 : 1; // English starts on Sunday, others on Monday
+    return language === 'en' ? 0 : 1;
   }, [language]);
 
-  // Generate calendar grid
   const generateCalendarDays = useMemo((): (Date | null)[] => {
     const year = viewDate.getFullYear();
     const month = viewDate.getMonth();
@@ -148,23 +109,19 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     const lastDay = new Date(year, month + 1, 0);
     const weekStart = getWeekStart;
 
-    // Calculate the starting day of the week
     let startDay = firstDay.getDay() - weekStart;
     if (startDay < 0) startDay += 7;
 
     const days: (Date | null)[] = [];
 
-    // Add empty cells for days before the first day of month
     for (let i = 0; i < startDay; i++) {
       days.push(null);
     }
 
-    // Add all days of the month
     for (let day = 1; day <= lastDay.getDate(); day++) {
       days.push(new Date(year, month, day));
     }
 
-    // Fill remaining cells to complete 6 rows (42 cells)
     while (days.length < 42) {
       days.push(null);
     }
@@ -172,22 +129,18 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     return days;
   }, [viewDate, getWeekStart]);
 
-  // Check if date is selectable
   const isDateSelectable = useCallback((date: Date): boolean => {
     return date >= minDate && date <= maxDate;
   }, [minDate, maxDate]);
 
-  // Check if date is today
   const isToday = useCallback((date: Date): boolean => {
     return date.toDateString() === today.toDateString();
-  }, []); // today는 useMemo로 메모이제이션되어 dependency에서 제거
+  }, []);
 
-  // Check if date is selected
   const isSelected = useCallback((date: Date): boolean => {
     return selectedDate ? date.toDateString() === selectedDate.toDateString() : false;
   }, [selectedDate]);
 
-  // Handle date selection
   const handleDateSelect = useCallback((date: Date, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
@@ -200,13 +153,13 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     onChange(formattedDate);
 
-    // Add haptic feedback
+
     if (navigator.vibrate) {
       navigator.vibrate(10);
     }
   }, [isDateSelectable, onChange]);
 
-  // Navigation handlers
+
   const goToPreviousMonth = useCallback(() => {
     setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
   }, []);
@@ -215,7 +168,6 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   }, []);
 
-  // 년도 네비게이션 핸들러 추가
   const goToPreviousYear = useCallback(() => {
     setViewDate(prev => new Date(prev.getFullYear() - 1, prev.getMonth(), 1));
   }, []);
@@ -224,19 +176,10 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     setViewDate(prev => new Date(prev.getFullYear() + 1, prev.getMonth(), 1));
   }, []);
 
-
-
-  // 연도 선택
   const handleYearSelect = useCallback((year: number) => {
     setViewDate(prev => new Date(year, prev.getMonth(), 1));
   }, []);
 
-  // 월 선택
-  const handleMonthSelect = useCallback((month: number) => {
-    setViewDate(prev => new Date(prev.getFullYear(), month, 1));
-  }, []);
-
-  // 연도 목록 생성 (1900년부터 2100년까지)
   const generateYears = useMemo(() => {
     const startYear = 1900;
     const endYear = 2100;
@@ -249,37 +192,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     return years;
   }, []);
 
-  // 월 목록 생성
-  const generateMonths = useMemo(() => {
-    const months = [];
-    for (let month = 0; month < 12; month++) {
-      const date = new Date(viewDate.getFullYear(), month, 1);
-      let monthName = '';
-
-      switch (language) {
-        case 'ko':
-          monthName = `${month + 1}월`;
-          break;
-        case 'ja':
-          monthName = `${month + 1}月`;
-          break;
-        case 'zh':
-          monthName = `${month + 1}月`;
-          break;
-        case 'en':
-        default:
-          monthName = date.toLocaleDateString('en-US', { month: 'long' });
-          break;
-      }
-
-      months.push({ value: month, label: monthName });
-    }
-    return months;
-  }, [language, viewDate]);
-
-  // Check if navigation should be disabled
   const isPreviousDisabled = useMemo(() => {
-    const prevMonth = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
     const prevMonthEnd = new Date(viewDate.getFullYear(), viewDate.getMonth(), 0);
     return prevMonthEnd < minDate;
   }, [viewDate, minDate]);
@@ -288,24 +201,6 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
     const nextMonth = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1);
     return nextMonth > maxDate;
   }, [viewDate, maxDate]);
-
-  // Enhanced keyboard navigation
-  const handleKeyDown = useCallback((event: React.KeyboardEvent, date?: Date) => {
-    if (!date || !isDateSelectable(date)) return;
-
-    switch (event.key) {
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        event.stopPropagation();
-        handleDateSelect(date);
-        break;
-      case 'Escape':
-        event.preventDefault();
-        setIsOpen(false);
-        break;
-    }
-  }, [isDateSelectable, handleDateSelect]);
 
   // Handle modal escape key
   const handleModalKeyDown = useCallback((event: React.KeyboardEvent) => {
@@ -411,7 +306,7 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                       <span className="text-sm font-medium">
                         {viewDate.getMonth() + 1}
                       </span>
-                      <span className="text-sm font-medium">{t('month')}</span>
+                      <span className="text-sm font-medium">.</span>
                       <span className="mx-2"></span>
                       <select
                         value={viewDate.getFullYear()}
@@ -429,10 +324,9 @@ export function DateInput({ value, onChange, placeholder, className }: DateInput
                           </option>
                         ))}
                       </select>
-                      <span className="text-sm font-medium">{t('year')}</span>
+                      <span className="text-sm font-medium">.</span>
                     </>
                   ) : (
-                    // Other languages: Year Month
                     <>
                       <select
                         value={viewDate.getFullYear()}

@@ -30,86 +30,6 @@ export function AdminListPage() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [questionnaireList, setQuestionnaireList] = useState<QuestionnaireData[]>([]);
-  // 모의 데이터 - 실제로는 API에서 가져와야 함
-  // useEffect(() => {
-  //   const mockData: QuestionnaireData[] = [
-  //     {
-  //       id: '1',
-  //       petName: '멍멍이',
-  //       petBirthDate: '2020-05-15',
-  //       petBreed: '골든 리트리버',
-  //       weight: '25.5',
-  //       pruritus: 'severe',
-  //       alopecia: true,
-  //       odor: false,
-  //       affectedAreas: ['face', 'legs'],
-  //       ownerEmail: 'owner1@example.com',
-  //       createdAt: '2024-01-15T10:30:00Z',
-  //       diagnosisResult: {
-  //         condition: '아토피성 피부염',
-  //         predictClass: '구진,플라크',
-  //         confidence: 85,
-  //         severity: 'medium',
-  //         description: '알레르기성 피부 질환으로 보입니다.'
-  //       }
-  //     },
-  //     {
-  //       id: '2',
-  //       petName: '냥냥이',
-  //       petBirthDate: '2021-03-10',
-  //       petBreed: '페르시안',
-  //       weight: '4.2',
-  //       pruritus: 'moderate',
-  //       alopecia: false,
-  //       odor: true,
-  //       affectedAreas: ['ears', 'neck'],
-  //       ownerEmail: 'owner2@example.com',
-  //       createdAt: '2024-01-14T14:20:00Z',
-  //       diagnosisResult: {
-  //         condition: '외이염',
-  //         predictClass: '상피성잔고리',
-  //         confidence: 92,
-  //         severity: 'low',
-  //         description: '세균성 외이염으로 추정됩니다.'
-  //       }
-  //     },
-  //     {
-  //       id: '3',
-  //       petName: '보리',
-  //       petBirthDate: '2019-08-22',
-  //       petBreed: '말티즈',
-  //       weight: '3.8',
-  //       pruritus: 'none',
-  //       alopecia: true,
-  //       odor: false,
-  //       affectedAreas: ['back', 'sides'],
-  //       ownerEmail: 'owner3@example.com',
-  //       createdAt: '2024-01-13T09:15:00Z'
-  //     },
-  //     {
-  //       id: '4',
-  //       petName: '루루',
-  //       petBirthDate: '2022-01-05',
-  //       petBreed: '비글',
-  //       weight: '12.0',
-  //       pruritus: 'severe',
-  //       alopecia: false,
-  //       odor: true,
-  //       affectedAreas: ['belly', 'legs'],
-  //       ownerEmail: 'owner4@example.com',
-  //       createdAt: '2024-01-12T16:45:00Z',
-  //       diagnosisResult: {
-  //         condition: '세균성 피부염',
-  //         predictClass: '농포, 여드름',
-  //         confidence: 78,
-  //         severity: 'high',
-  //         description: '심각한 세균 감염이 의심됩니다.'
-  //       }
-  //     }
-  //   ];
-  //   setQuestionnaireList(mockData);
-  // }, []);
-  console.log(questionnaireList)
   const getAdminList = async () => {
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -227,7 +147,7 @@ export function AdminListPage() {
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
                       <div className="px-3 py-1 rounded-lg bg-white/15 backdrop-blur-xl border border-white/20 text-gray-800 text-xs font-medium">
-                        가려움: {item.itchiness === '심함' ? '심함' : item.itchiness === '보통' ? '보통' : '없음'}
+                        가려움 : {item.itchiness === '심함' ? '심함' : item.itchiness === '보통' ? '보통' : '없음'}
                       </div>
                       {item.alopecia && (
                         <div className="px-3 py-1 rounded-lg bg-white/15 backdrop-blur-xl border border-white/20 text-gray-800 text-xs font-medium">

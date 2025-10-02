@@ -10,10 +10,13 @@ import { useTokenCheck } from "../hooks/useTokenCheck";
 import result1 from "../assets/img/result1.png";
 import result2 from "../assets/img/result2.png";
 import result3 from "../assets/img/result3.png";
+import result11 from "../assets/img/result11.png";
+import result22 from "../assets/img/result22.png";
+import result33 from "../assets/img/result33.png";
 
 export default function Home() {
     const navigate = useNavigate()
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const { checkUserToken } = useTokenCheck();
     const [termsModalOpen, setTermsModalOpen] = useState(false);
     const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
@@ -26,7 +29,9 @@ export default function Home() {
     const sliderRef = useRef<HTMLDivElement>(null);
 
     const images = [result1, result2, result3];
-    const totalSlides = images.length;
+    const imagess = [result11, result22, result33];
+    const displayImages = language === 'ko' ? imagess : images;
+    const totalSlides = displayImages.length;
 
     // 자동 슬라이드 기능 (5초마다)
     useEffect(() => {
@@ -232,7 +237,7 @@ export default function Home() {
                                                             transform: `translateX(${-currentSlide * 100 + (isDragging ? (translateX / sliderRef.current?.offsetWidth || 1) * 100 : 0)}%)`
                                                         }}
                                                     >
-                                                        {images.map((image, index) => (
+                                                        {displayImages.map((image, index) => (
                                                             <div key={index} className="w-full h-full flex-shrink-0">
                                                                 <img
                                                                     src={image}
@@ -254,7 +259,7 @@ export default function Home() {
                                                 </div>
 
                                                 <div className="flex justify-center space-x-1 mt-2">
-                                                    {images.map((_, index) => (
+                                                    {displayImages.map((_, index) => (
                                                         <button
                                                             key={index}
                                                             onClick={() => goToSlide(index)}
@@ -333,7 +338,7 @@ export default function Home() {
                                                         transform: `translateX(${-currentSlide * 100 + (isDragging ? (translateX / sliderRef.current?.offsetWidth || 1) * 100 : 0)}%)`
                                                     }}
                                                 >
-                                                    {images.map((image, index) => (
+                                                    {displayImages.map((image, index) => (
                                                         <div key={index} className="w-full h-full flex-shrink-0">
                                                             <img
                                                                 src={image}
@@ -353,7 +358,7 @@ export default function Home() {
                                             </div>
 
                                             <div className="flex justify-center space-x-2 mt-3">
-                                                {images.map((_, index) => (
+                                                {displayImages.map((_, index) => (
                                                     <button
                                                         key={index}
                                                         onClick={() => goToSlide(index)}
