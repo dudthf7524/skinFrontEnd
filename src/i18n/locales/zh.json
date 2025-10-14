@@ -38,5 +38,7 @@
   "questionnaire_itching_severe": "严重",
   "questionnaire_itching_none_desc": "不瘙痒",
   "questionnaire_itching_moderate_desc": "偶尔抓挠或舔舐",
-  "questionnaire_itching_severe_desc": "频繁严重抓挠"
+  "questionnaire_itching_severe_desc": "频繁严重抓挠",
+  "purchaseSuccess_title": "支付完成！",
+  "purchaseSuccess_message": "谢谢。您的支付已成功处理。"
 }

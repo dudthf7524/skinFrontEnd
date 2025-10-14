@@ -416,32 +416,6 @@ const translations = {
     wholebody: "전신",
     genitalArea: "생식기 주변",
 
-    // Dog breeds
-    goldenRetriever: "골든 리트리버",
-    labradorRetriever: "래브라도 리트리버",
-    germanShepherd: "독일 셰퍼드",
-    beagle: "비글",
-    bulldog: "불독",
-    poodle: "푸들",
-    shibaInu: "시바 이누",
-    jindo: "진돗개",
-    maltese: "말티즈",
-    pomeranian: "포메라니안",
-    chihuahua: "치와와",
-    cockerSpaniel: "코카 스파니엘",
-    shihTzu: "시츄",
-    bichonFrise: "비숑 프리제",
-    yorkshireTerrier: "요크셔 테리어",
-    dachshund: "닥스훈트",
-    husky: "허스키",
-    rottweiler: "로트와일러",
-    doberman: "도베르만",
-    saintBernard: "세인트 버나드",
-    borderCollie: "보더 콜리",
-    welshCorgi: "웰시 코기",
-    papillon: "파피용",
-    spitz: "스피츠",
-
     // Cat breeds
     persian: "페르시안",
     russianBlue: "러시안 블루",
@@ -525,6 +499,10 @@ const translations = {
     nextMonth: "다음 월",
     cancel: "취소",
     confirm: "확인",
+
+    // PurchaseSuccess.tsx
+    purchaseSuccess_title: "결제 완료!",
+    purchaseSuccess_message: "감사합니다. 결제가 성공적으로 처리되었습니다.",
   },
 
   en: {
@@ -1035,6 +1013,10 @@ const translations = {
     nextMonth: "Next Month",
     cancel: "Cancel",
     confirm: "Confirm",
+
+    // PurchaseSuccess.tsx
+    purchaseSuccess_title: "Payment Complete!",
+    purchaseSuccess_message: "Thank you. Your payment has been processed successfully.",
   },
 
   ja: {
@@ -1547,6 +1529,10 @@ const translations = {
     nextMonth: "翌月",
     cancel: "キャンセル",
     confirm: "確認",
+
+    // PurchaseSuccess.tsx
+    purchaseSuccess_title: "お支払い完了！",
+    purchaseSuccess_message: "ありがとうございます。お支払いが正常に処理されました。",
   },
 
   zh: {
@@ -2058,6 +2044,10 @@ const translations = {
     nextMonth: "下个月",
     cancel: "取消",
     confirm: "确认",
+
+    // PurchaseSuccess.tsx
+    purchaseSuccess_title: "支付完成！",
+    purchaseSuccess_message: "谢谢。您的支付已成功处理。",
   }
 };
 

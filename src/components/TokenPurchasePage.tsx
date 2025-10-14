@@ -122,8 +122,7 @@ export function TokenPurchasePage() {
           );
 
           if (data.success) {
-            alert(t('paymentCompleted'));
-            window.location.href = "/"; // 원래 화면(메인페이지)으로 이동
+            window.location.href = "/token/purchase/success";
           } else {
             alert(t('paymentProcessingFailed'));
           }

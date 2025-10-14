@@ -16,6 +16,7 @@ import { TokenBalancePage } from "./components/TokenBalancePage";
 import DebugPage from "./components/DebugPage";
 import { MyPage } from "./components/mypage/MyPage";
 import { RecordDetail } from "./components/mypage/RecordDetail";
+import PurchaseSuccess from "./components/PurchaseSuccess";
 // import { usePageLogger } from "./hooks/usePageLogger";
 // import { useExitLogger } from "./hooks/useExitLogger";
 
@@ -39,7 +40,8 @@ export default function App() {
           <Route path="/admin/detail/:id" element={<AdminDetailPage />} />
           <Route path="/admin/debug" element={<DebugPage />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/record/detail/:id" element={<RecordDetail />} />
+          <Route path="/record/detail/:id" element={<RecordDetail />}/>
+          <Route path="/token/purchase/success" element={<PurchaseSuccess/>}/>
         </Routes>
       </Router>
     </LanguageProvider>

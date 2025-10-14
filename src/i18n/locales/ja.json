@@ -38,5 +38,7 @@
   "questionnaire_itching_severe": "重度",
   "questionnaire_itching_none_desc": "かゆがっていません",
   "questionnaire_itching_moderate_desc": "時々掻いたり舐めたりします",
-  "questionnaire_itching_severe_desc": "頻繁に激しく掻きます"
+  "questionnaire_itching_severe_desc": "頻繁に激しく掻きます",
+  "purchaseSuccess_title": "お支払い完了！",
+  "purchaseSuccess_message": "ありがとうございます。お支払いが正常に処理されました。"
 }
