@@ -1,33 +1,42 @@
-import { Dialog } from "@headlessui/react";
-import { useEffect } from "react";
+import React from "react";
 
-interface Props {
-  user: { id: number; name: string };
+type Payment = {
+  id: string;
+  orderId: string;
+  amount: number;
+  currency: string;
+};
+
+type UserType = {
+  Payment: Payment[];
+};
+
+interface PaymentModalProps {
+  user: UserType;
   onClose: () => void;
 }
 
-export default function PaymentModal({ user, onClose }: Props) {
-  useEffect(() => {
-    // 서버에서 결제 내역 fetch
-    // 예: fetch(`/api/payment/${user.id}`)
-  }, [user.id]);
-
+export default function PaymentModal({ user, onClose }: PaymentModalProps) {
   return (
-    <Dialog open onClose={onClose} className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white p-6 rounded-xl shadow-xl w-[400px]">
-        <h2 className="text-lg font-semibold mb-4">{user.name}님의 결제 내역</h2>
-        <div className="space-y-2">
-          <p>• 2025-10-01 — 프리미엄 플랜 ₩9,900</p>
-          <p>• 2025-09-01 — 기본 플랜 ₩4,900</p>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4">결제 내역</h2>
+        {user.Payment.length === 0 && (
+          <p className="text-gray-500 text-center py-4">결제 내역이 없습니다.</p>
+        )}
+        {user.Payment.map((p) => (
+          <div key={p.id} className="flex justify-between items-center border-b py-2">
+            <span>주문ID: {p.orderId}</span>
+            <span>금액: {p.amount} {p.currency}</span>
+          </div>
+        ))}
         <button
           onClick={onClose}
-          className="mt-4 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+          className="mt-4 w-full py-2 bg-gray-300 rounded hover:bg-gray-400"
         >
           닫기
         </button>
       </div>
-    </Dialog>
+    </div>
   );
 }

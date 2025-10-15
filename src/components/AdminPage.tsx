@@ -99,12 +99,21 @@ export default function AdminPage() {
       </table>
 
       {isPaymentOpen && selectedUser && (
-        <PaymentModal user={selectedUser} onClose={() => setIsPaymentOpen(false)} />
+        <PaymentModal
+          user={{
+            ...selectedUser,
+            Payment: [], // mock: fill with empty or mock data as necessary
+          }}
+          onClose={() => setIsPaymentOpen(false)}
+        />
       )}
 
       {isAnalysisOpen && selectedUser && (
         <PaperweightModal
-          user={selectedUser}
+          user={{
+            ...selectedUser,
+            Paperweight: [], // mock: fill with empty or mock data as necessary
+          }}
           onClose={() => setIsAnalysisOpen(false)}
           onDetail={() => {
             setIsAnalysisOpen(false);

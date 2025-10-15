@@ -1,36 +1,53 @@
-import { Dialog } from "@headlessui/react";
+import React from "react";
 
-interface Props {
-  user: { id: number; name: string };
-  onClose: () => void;
-  onDetail: () => void;
+interface PaperweightItem {
+  id: number;
+  PetName: string;
 }
 
-export default function PaperweightModal({ user, onClose, onDetail }: Props) {
+interface UserType {
+  Paperweight: PaperweightItem[];
+  // Add any other properties needed from UserType, if applicable
+}
+
+interface PaperweightModalProps {
+  user: UserType;
+  onClose: () => void;
+  onDetail: (id: number) => void;
+}
+
+
+export default function PaperweightModal({ user, onClose, onDetail }: PaperweightModalProps) {
   return (
-    <Dialog open onClose={onClose} className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white p-6 rounded-xl shadow-xl w-[400px]">
-        <h2 className="text-lg font-semibold mb-4">{user.name}님의 분석 내역</h2>
-        <div className="space-y-2">
-          <p>• 분석 ID: 1029 — AI 분석 결과</p>
-          <p>• 분석 ID: 1044 — 패턴 인식 분석</p>
-        </div>
-        <div className="mt-5 flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-          >
-            닫기
-          </button>
-          <button
-            onClick={onDetail}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            상세 보기
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4">분석 기록</h2>
+        {user.Paperweight.length === 0 && (
+          <p className="text-gray-500 text-center py-4">분석 기록이 없습니다.</p>
+        )}
+        {user.Paperweight.map((p: { id: React.Key | null | undefined; PetName: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | Iterable<React.ReactNode> | null | undefined; }) => (
+          <div key={p.id} className="flex justify-between items-center border-b py-2">
+            <span>{p.PetName}</span>
+            <button
+              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={() => {
+                if (typeof p.id === "number") {
+                  onDetail(p.id);
+                }
+              }}
+              disabled={typeof p.id !== "number"}
+            >
+              상세보기
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={onClose}
+          className="mt-4 w-full py-2 bg-gray-300 rounded hover:bg-gray-400"
+        >
+          닫기
+        </button>
       </div>
-    </Dialog>
+    </div>
   );
 }
