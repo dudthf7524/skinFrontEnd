@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileBar from "../components/ProfileBar";
+import PaperweightModal from "./PaperweightModal";
+import PaymentModal from "./PaymentModal";
 
 interface TableProps<T> {
   columns: { key: keyof T | string; label: string }[];
@@ -54,8 +56,8 @@ interface UserType {
   email: string;
   createdAt: string;
   updatedAt: string;
-  hasPayment: boolean;
-  hasAnalysis: boolean;
+  hasPayment: any[]; // patch type so we can pass to PaymentModal
+  hasAnalysis: any[]; // patch type so we can pass to PaperweightModal
 }
 
 interface RecordType {
@@ -76,6 +78,10 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<"users" | "records">("users");
   const navigate = useNavigate();
 
+  // 모달 상태 state 추가
+  const [selectedPaperUser, setSelectedPaperUser] = useState<UserType | null>(null);
+  const [selectedPaymentUser, setSelectedPaymentUser] = useState<UserType | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -91,8 +97,8 @@ export default function AdminPage() {
             email: u.email,
             createdAt: new Date(u.createdAt).toLocaleString(),
             updatedAt: new Date(u.updatedAt).toLocaleString(),
-            hasPayment: u.Payment.length > 0,
-            hasAnalysis: u.Paperweight.length > 0,
+            hasPayment: u.Payment,
+            hasAnalysis: u.Paperweight,
           }));
           setUsers(parsedUsers);
         } else {
@@ -129,9 +135,24 @@ export default function AdminPage() {
     fetchData();
   }, []);
 
-  const handleDetail = (id: number) => {
-    navigate(`/admin/detail/${id}`);
+  // "분석 내역" 버튼 누르면 PaperweightModal 오픈
+  const handlePaperweightDetail = (id: number) => {
+    const user = users.find((u) => u.id === id);
+    if (user) {
+      setSelectedPaperUser(user);
+    }
   };
+
+  // "결제 내역" 버튼 누르면 PaymentModal 오픈
+  const handlePaymentDetail = (id: number) => {
+    const user = users.find((u) => u.id === id);
+    if (user) {
+      setSelectedPaymentUser(user);
+    }
+  };
+
+  const closePaperweightModal = () => setSelectedPaperUser(null);
+  const closePaymentModal = () => setSelectedPaymentUser(null);
 
   const userColumns = [
     { key: "id", label: "ID" },
@@ -154,6 +175,11 @@ export default function AdminPage() {
     { key: "alopecia", label: "탈모 여부" },
     { key: "createdAt", label: "등록일" },
   ];
+
+  // NOTE: 버튼 클릭 핸들러: 지금은 id/user정보에 따라 모달 띄움
+  function clickPaymentButton(user: UserType) {
+    setSelectedPaymentUser(user);
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -193,27 +219,32 @@ export default function AdminPage() {
                 hasPayment: (
                   <button
                     className={`px-3 py-1 rounded-md font-semibold ${
-                      u.hasPayment ? "bg-green-500 text-white" : "bg-gray-300 text-gray-700"
+                      u.hasPayment && u.hasPayment.length > 0
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-300 text-gray-700"
                     }`}
-                    disabled={!u.hasPayment}
+                    disabled={!u.hasPayment || u.hasPayment.length === 0}
+                    onClick={() => clickPaymentButton(u)}
                   >
-                    {u.hasPayment ? "활성화" : "비활성화"}
+                    {u.hasPayment && u.hasPayment.length > 0 ? "보기" : "비활성화"}
                   </button>
                 ),
                 hasAnalysis: (
                   <button
-                    onClick={() => handleDetail(u.id)}
+                    onClick={() => handlePaperweightDetail(u.id)}
                     className={`px-3 py-1 rounded-md font-semibold ${
-                      u.hasAnalysis ? "bg-green-500 text-white" : "bg-gray-300 text-gray-700"
+                      u.hasAnalysis && u.hasAnalysis.length > 0
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-300 text-gray-700"
                     }`}
-                    disabled={!u.hasAnalysis}
+                    disabled={!u.hasAnalysis || u.hasAnalysis.length === 0}
                   >
-                    {u.hasAnalysis ? "보기" : "비활성화"}
+                    {u.hasAnalysis && u.hasAnalysis.length > 0 ? "보기" : "비활성화"}
                   </button>
                 ),
                 actions: (
                   <button
-                    onClick={() => handleDetail(u.id)}
+                    onClick={() => handlePaperweightDetail(u.id)}
                     className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                   >
                     상세보기
@@ -221,6 +252,28 @@ export default function AdminPage() {
                 ),
               }))}
             />
+
+            {/* 모달 렌더링 */}
+            {selectedPaperUser && (
+              <PaperweightModal
+                user={{
+                  ...selectedPaperUser,
+                  // PaperweightModal의 prop 요구사항에 맞춤
+                  Paperweight: selectedPaperUser.hasAnalysis || [],
+                }}
+                onClose={closePaperweightModal}
+                onDetail={() => {}} // 필요시 상세 핸들러 추가
+              />
+            )}
+            {selectedPaymentUser && (
+              <PaymentModal
+                user={{
+                  ...selectedPaymentUser,
+                  Payment: selectedPaymentUser.hasPayment || [],
+                }}
+                onClose={closePaymentModal}
+              />
+            )}
           </section>
         ) : (
           <section>
