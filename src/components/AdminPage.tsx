@@ -129,6 +129,7 @@ export default function AdminPage() {
         }
       } catch (err) {
         console.error("❌ Admin data fetch failed:", err);
+        return navigate('/')
       }
     };
 
