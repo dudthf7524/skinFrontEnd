@@ -35,7 +35,7 @@ export default function PaperweightModal({ user, onClose, onDetail }: Paperweigh
               onClick={() => {
                 if (typeof p.id === "number") {
                   onDetail(p.id);
-                  navigator(`/admin/detail/${p.id}`>)
+                  navigator(`/admin/detail/${p.id}`)
                 }
               }}
               disabled={typeof p.id !== "number"}
