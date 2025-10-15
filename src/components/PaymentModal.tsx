@@ -5,6 +5,7 @@ type Payment = {
   orderId: string;
   amount: number;
   currency: string;
+  status: string
 };
 
 type UserType = {
@@ -28,6 +29,7 @@ export default function PaymentModal({ user, onClose }: PaymentModalProps) {
           <div key={p.id} className="flex justify-between items-center border-b py-2">
             <span>주문ID: {p.orderId}</span>
             <span>금액: {p.amount} {p.currency}</span>
+            <span>상태: {p.status === "COMPLETED" ? "결제 완료" : "결제 취소"}</span>
           </div>
         ))}
         <button

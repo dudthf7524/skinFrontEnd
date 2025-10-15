@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface PaperweightItem {
   id: number;
@@ -18,6 +19,7 @@ interface PaperweightModalProps {
 
 
 export default function PaperweightModal({ user, onClose, onDetail }: PaperweightModalProps) {
+    const navigator = useNavigate()
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto">
@@ -33,6 +35,7 @@ export default function PaperweightModal({ user, onClose, onDetail }: Paperweigh
               onClick={() => {
                 if (typeof p.id === "number") {
                   onDetail(p.id);
+                  navigator(`/admin/detail/${p.id}`>)
                 }
               }}
               disabled={typeof p.id !== "number"}
