@@ -66,27 +66,7 @@ function Table<T extends Record<string, any>>({ columns, data, renderActions }: 
   );
 }
 
-// 타입 정의
-interface RecordType {
-  id: number;
-  user: string;
-  analysisType: string;
-  result: string;
-  createdAt: string;
-}
-
-interface PaymentType {
-  id: number;
-  userId: number;
-  orderId: string;
-  transactionId: string | null;
-  amount: string;
-  currency: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
+// 타입 정의 (result/list에 맞춤)
 interface PaperweightType {
   id: number;
   createdBy: number;
@@ -100,6 +80,20 @@ interface PaperweightType {
   birthday: string;
   lesionSites: string;
   imageId: number;
+  createdAt: string;
+  updatedAt?: string; // list에만 없음
+}
+
+// 기존 RecordType은 제거하고, "분석 기록" 탭에서 사용할 테이블 컬럼들을 PaperweightType 기준으로 세팅
+
+interface PaymentType {
+  id: number;
+  userId: number;
+  orderId: string;
+  transactionId: string | null;
+  amount: string;
+  currency: string;
+  status: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -118,24 +112,38 @@ type TabType = "records" | "users";
 export default function AdminPage() {
   const [selectedTab, setSelectedTab] = useState<TabType>("records");
 
-  const [records, setRecords] = useState<RecordType[]>([]);
+  // 분석 기록(분석 리스트) - PaperweightType
+  const [records, setRecords] = useState<PaperweightType[]>([]);
+  // users: api에서 users로 감싸져서 옴
   const [users, setUsers] = useState<UserType[]>([]);
-  const [selectedUserAnalysis, setSelectedUserAnalysis] = useState<RecordType[] | null>(null);
+  // 상세 - Paperweight
+  const [selectedUserAnalysis, setSelectedUserAnalysis] = useState<PaperweightType[] | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // ✅ API 호출 시 응답 타입 정제 처리
+  // ✅ API 호출 시 응답 데이터의 실제 구조에 맞춰 매핑
   useEffect(() => {
     (async () => {
       try {
+        // 분석기록 = list 결과 result 배열
         const analysisRes = await fetch(`${apiBaseUrl}/admin/list`, { credentials: "include" });
         const analysisJson = await analysisRes.json();
-        setRecords(Array.isArray(analysisJson.data) ? analysisJson.data : []);
+        // result가 올바른 형태인지 체크
+        setRecords(
+          Array.isArray(analysisJson?.data?.result)
+            ? analysisJson.data.result
+            : []
+        );
 
+        // 유저 목록 데이터 users 배열
         const userRes = await fetch(`${apiBaseUrl}/admin/userinfo`, { credentials: "include" });
         const userJson = await userRes.json();
-        setUsers(Array.isArray(userJson.data) ? userJson.data : []);
+        setUsers(
+          Array.isArray(userJson?.users)
+            ? userJson.users
+            : []
+        );
       } catch (err) {
         setRecords([]);
         setUsers([]);
@@ -145,12 +153,17 @@ export default function AdminPage() {
     })();
   }, [apiBaseUrl]);
 
-  // 상세 모달도 방어적으로
+  // 상세 모달 (PaperweightType 배열)
   const fetchUserAnalysisDetail = async (userId: number) => {
     try {
       const res = await fetch(`${apiBaseUrl}/admin/detail/${userId}`, { credentials: "include" });
       const json = await res.json();
-      setSelectedUserAnalysis(Array.isArray(json.data) ? json.data : []);
+      // 상세는 {data: {result: [...]}} 구조
+      setSelectedUserAnalysis(
+        Array.isArray(json?.data?.result)
+          ? json.data.result
+          : []
+      );
       setShowModal(true);
     } catch (error) {
       setSelectedUserAnalysis([]);
@@ -159,15 +172,22 @@ export default function AdminPage() {
     }
   };
 
-  const recordColumns: TableColumn<RecordType>[] = [
+  // "분석 기록 리스트" 컬럼 (Paperweight 기준)
+  const recordColumns: TableColumn<PaperweightType>[] = [
     { key: "id", label: "ID" },
-    { key: "user", label: "사용자" },
-    { key: "analysisType", label: "분석 종류" },
-    { key: "result", label: "결과" },
-    { key: "createdAt", label: "생성일" },
+    { key: "PetName", label: "이름" },
+    { key: "breed", label: "견종" },
+    { key: "Weight", label: "몸무게(kg)" },
+    { key: "itchiness", label: "가려움" },
+    { key: "smell", label: "냄새" },
+    { key: "alopecia", label: "탈모" },
+    { key: "birthday", label: "생일" },
+    { key: "lesionSites", label: "병변 부위" },
+    { key: "createdAt", label: "분석일" },
   ];
 
-  const userColumns: TableColumn<UserType>[] = [
+  // "사용자 리스트" 컬럼
+  const userColumns: TableColumn<UserType | any>[] = [
     { key: "id", label: "ID" },
     { key: "email", label: "이메일" },
     { key: "createdAt", label: "가입일" },
@@ -206,10 +226,14 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* 탭 내용 (각각 Array.isArray로 방어) */}
+        {/* 탭 내용: 분석 기록 */}
         {selectedTab === "records" && (
-          <Table<RecordType> columns={recordColumns} data={Array.isArray(records) ? records : []} />
+          <Table<PaperweightType>
+            columns={recordColumns}
+            data={Array.isArray(records) ? records : []}
+          />
         )}
+        {/* 탭 내용: 사용자 리스트 */}
         {selectedTab === "users" && (
           <Table<any>
             columns={userColumns}
@@ -217,11 +241,12 @@ export default function AdminPage() {
               Array.isArray(users)
                 ? users.map((user) => ({
                     ...user,
-                    // 문자열로 변환 안전하게 (테이블 컴포넌트 활용 위해)
-                    Payment: Array.isArray(user.Payment) && user.Payment.length ? "활성화" : "비활성화",
-                    Paperweight: Array.isArray(user.Paperweight) && user.Paperweight.length
-                      ? "활성화"
+                    Payment: Array.isArray(user.Payment) && user.Payment.length
+                      ? `활성화(${user.Payment.length})`
                       : "비활성화",
+                    Paperweight: Array.isArray(user.Paperweight) && user.Paperweight.length
+                      ? `활성화(${user.Paperweight.length})`
+                      : "비활성화"
                   }))
                 : []
             }
@@ -248,12 +273,18 @@ export default function AdminPage() {
             >
               ✕
             </button>
-            <Table<RecordType>
+            <Table<PaperweightType>
               columns={[
                 { key: "id", label: "ID" },
-                { key: "analysisType", label: "분석 종류" },
-                { key: "result", label: "결과" },
-                { key: "createdAt", label: "생성일" },
+                { key: "PetName", label: "이름" },
+                { key: "breed", label: "견종" },
+                { key: "Weight", label: "몸무게(kg)" },
+                { key: "itchiness", label: "가려움" },
+                { key: "smell", label: "냄새" },
+                { key: "alopecia", label: "탈모" },
+                { key: "birthday", label: "생일" },
+                { key: "lesionSites", label: "병변 부위" },
+                { key: "createdAt", label: "분석일" },
               ]}
               data={Array.isArray(selectedUserAnalysis) ? selectedUserAnalysis : []}
             />
