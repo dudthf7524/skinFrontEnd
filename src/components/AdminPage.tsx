@@ -218,30 +218,34 @@ export default function AdminPage() {
               data={users.map((u) => ({
                 ...u,
                 hasPayment: (
-                  <button
-                    className={`px-3 py-1 rounded-md font-semibold ${
-                      u.hasPayment && u.hasPayment.length > 0
-                        ? "bg-green-500 text-white"
-                        : "bg-gray-300 text-gray-700"
-                    }`}
-                    disabled={!u.hasPayment || u.hasPayment.length === 0}
-                    onClick={() => clickPaymentButton(u)}
-                  >
-                    {u.hasPayment && u.hasPayment.length > 0 ? "보기" : "데이터 없음음"}
-                  </button>
+                  <div className="flex justify-center">
+                    <button
+                      className={`px-3 py-1 rounded-md font-semibold ${
+                        u.hasPayment && u.hasPayment.length > 0
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-300 text-gray-700"
+                      }`}
+                      disabled={!u.hasPayment || u.hasPayment.length === 0}
+                      onClick={() => clickPaymentButton(u)}
+                    >
+                      {u.hasPayment && u.hasPayment.length > 0 ? "보기" : "데이터 없음"}
+                    </button>
+                  </div>
                 ),
                 hasAnalysis: (
-                  <button
-                    onClick={() => handlePaperweightDetail(u.id)}
-                    className={`px-3 py-1 rounded-md font-semibold ${
-                      u.hasAnalysis && u.hasAnalysis.length > 0
-                        ? "bg-green-500 text-white"
-                        : "bg-gray-300 text-gray-700"
-                    }`}
-                    disabled={!u.hasAnalysis || u.hasAnalysis.length === 0}
-                  >
-                    {u.hasAnalysis && u.hasAnalysis.length > 0 ? "보기" : "데이터 없음"}
-                  </button>
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => handlePaperweightDetail(u.id)}
+                      className={`px-3 py-1 rounded-md font-semibold ${
+                        u.hasAnalysis && u.hasAnalysis.length > 0
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-300 text-gray-700"
+                      }`}
+                      disabled={!u.hasAnalysis || u.hasAnalysis.length === 0}
+                    >
+                      {u.hasAnalysis && u.hasAnalysis.length > 0 ? "보기" : "데이터 없음"}
+                    </button>
+                  </div>
                 ),
               }))}
             />
