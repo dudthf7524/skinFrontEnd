@@ -19,6 +19,7 @@ import Pyoderma from "../assets/img/농피증.png";
 import lichenification from "../assets/img/태선화.jpg";
 import tumors from "../assets/img/결절.jpg";
 import erosive from "../assets/img/미란.jpg";
+import corneous from "../assets/img/각질.jpg"
 
 import style from "../styles/DetialModal.module.css";
 
@@ -47,7 +48,7 @@ export function DiseaseInfoDetailModal({
       case "1":
         return papule;
       case "2":
-        return lichenification;
+        return corneous;
       case "3":
         return lichenification;
       case "4":

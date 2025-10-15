@@ -185,7 +185,7 @@ export function TokenPurchasePage() {
                   </span>
                   <span className="text-gray-600 ml-1">{t('tokens')}</span>
                 </div>
-                <div className="text-2xl font-bold text-gray-900">${pkg.price}</div>
+                <div className="text-2xl font-bold text-gray-900">USD {pkg.price}</div>
               </div>
 
               <p className="text-gray-600 text-center mb-4">{pkg.description}</p>
