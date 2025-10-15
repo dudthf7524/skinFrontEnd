@@ -44,7 +44,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
       return false;
     }
   </script>
-
+  <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
 </head>
 
 <body>
@@ -54,6 +54,13 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8K695QR" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Google tag (gtag.js) -->
+  <amp-analytics type="gtag" data-credentials="include">
+    <script type="application/json">
+       { "vars": { "gtag_id": "AW-17640095333", "config": { "AW-17640095333": { "groups": "default" } } }, "triggers": { } }
+     </script>
+  </amp-analytics>
 </body>
 
 </html>
