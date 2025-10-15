@@ -205,7 +205,7 @@ export function AdminDetailPage() {
         <div className="mb-6">
           <Button
             variant="outline"
-            onClick={() => navigate('/admin/list')}
+            onClick={() => navigate('/admin')}
             className="mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />

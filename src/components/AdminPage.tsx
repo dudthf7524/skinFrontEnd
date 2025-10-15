@@ -126,10 +126,10 @@ export default function AdminPage() {
           setRecords(parsedRecords);
         } else {
           console.error("Unexpected record data structure:", recordJson);
+          return navigate('/')
         }
       } catch (err) {
         console.error("❌ Admin data fetch failed:", err);
-        return navigate('/')
       }
     };
 
