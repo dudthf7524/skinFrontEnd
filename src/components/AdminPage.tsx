@@ -226,7 +226,7 @@ export default function AdminPage() {
                     disabled={!u.hasPayment || u.hasPayment.length === 0}
                     onClick={() => clickPaymentButton(u)}
                   >
-                    {u.hasPayment && u.hasPayment.length > 0 ? "보기" : "비활성화"}
+                    {u.hasPayment && u.hasPayment.length > 0 ? "보기" : "데이터 없음음"}
                   </button>
                 ),
                 hasAnalysis: (
@@ -239,15 +239,7 @@ export default function AdminPage() {
                     }`}
                     disabled={!u.hasAnalysis || u.hasAnalysis.length === 0}
                   >
-                    {u.hasAnalysis && u.hasAnalysis.length > 0 ? "보기" : "비활성화"}
-                  </button>
-                ),
-                actions: (
-                  <button
-                    onClick={() => handlePaperweightDetail(u.id)}
-                    className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                  >
-                    상세보기
+                    {u.hasAnalysis && u.hasAnalysis.length > 0 ? "보기" : "데이터 없음"}
                   </button>
                 ),
               }))}

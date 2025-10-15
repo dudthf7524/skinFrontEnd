@@ -187,7 +187,7 @@ export function AdminDetailPage() {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">데이터를 찾을 수 없습니다</h2>
           <p className="text-gray-600 mb-4">요청하신 문진표 정보가 존재하지 않습니다.</p>
-          <Button onClick={() => navigate('/admin/list')}>
+          <Button onClick={() => navigate('/admin')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             목록으로 돌아가기
           </Button>
