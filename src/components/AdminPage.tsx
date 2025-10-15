@@ -119,8 +119,8 @@ export default function AdminPage() {
             breed: r.breed,
             Weight: r.Weight,
             itchiness: r.itchiness,
-            smell: r.smell,
-            alopecia: r.alopecia,
+            smell: r.smell === true ? '있음' : '없음',
+            alopecia: r.alopecia === true ? '있음' : '없음',
             createdAt: new Date(r.createdAt).toLocaleString(),
           }));
           setRecords(parsedRecords);
