@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import ProfileBar from "../components/ProfileBar";
-import axios from "axios";
 
-// Table 컴포넌트
+// Table 컴포넌트: 데이터 타입 안전성 보장 + 방어적 렌더링
 type ColumnKey<T> = keyof T | "actions";
 interface TableColumn<T> {
   key: ColumnKey<T>;
@@ -15,6 +14,11 @@ interface TableProps<T> {
 }
 
 function Table<T extends Record<string, any>>({ columns, data, renderActions }: TableProps<T>) {
+  // data가 배열이 아니면 안내 메시지
+  if (!Array.isArray(data)) {
+    return <p className="text-gray-500 py-8 text-center">데이터가 없습니다.</p>;
+  }
+
   return (
     <table className="w-full border border-gray-200 rounded-lg overflow-hidden shadow-sm">
       <thead className="bg-gray-100">
@@ -30,25 +34,33 @@ function Table<T extends Record<string, any>>({ columns, data, renderActions }: 
         </tr>
       </thead>
       <tbody>
-        {data.map((row, idx) => (
-          <tr key={idx} className="border-t hover:bg-gray-50 transition">
-            {columns.map((col) =>
-              col.key === "actions" ? (
-                <td key="actions" className="px-4 py-2 text-sm text-center">
-                  {renderActions && renderActions(row)}
-                </td>
-              ) : (
-                <td key={String(col.key)} className="px-4 py-2 text-sm text-gray-800">
-                  {typeof row[col.key as keyof T] === "boolean"
-                    ? row[col.key as keyof T]
-                      ? "O"
-                      : "X"
-                    : row[col.key as keyof T] ?? ""}
-                </td>
-              )
-            )}
+        {data.length > 0 ? (
+          data.map((row, idx) => (
+            <tr key={idx} className="border-t hover:bg-gray-50 transition">
+              {columns.map((col) =>
+                col.key === "actions" ? (
+                  <td key="actions" className="px-4 py-2 text-sm text-center">
+                    {renderActions && renderActions(row)}
+                  </td>
+                ) : (
+                  <td key={String(col.key)} className="px-4 py-2 text-sm text-gray-800">
+                    {typeof row[col.key as keyof T] === "boolean"
+                      ? row[col.key as keyof T]
+                        ? "O"
+                        : "X"
+                      : row[col.key as keyof T] ?? ""}
+                  </td>
+                )
+              )}
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={columns.length} className="text-center py-6 text-gray-400">
+              데이터가 없습니다.
+            </td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );
@@ -113,40 +125,39 @@ export default function AdminPage() {
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  const fetchRecords = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/admin/list`, { withCredentials: true });
-      setRecords(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // ✅ API 호출 시 응답 타입 정제 처리
+  useEffect(() => {
+    (async () => {
+      try {
+        const analysisRes = await fetch(`${apiBaseUrl}/admin/list`, { credentials: "include" });
+        const analysisJson = await analysisRes.json();
+        setRecords(Array.isArray(analysisJson.data) ? analysisJson.data : []);
 
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/admin/userinfo`, { withCredentials: true });
-      setUsers(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        const userRes = await fetch(`${apiBaseUrl}/admin/userinfo`, { credentials: "include" });
+        const userJson = await userRes.json();
+        setUsers(Array.isArray(userJson.data) ? userJson.data : []);
+      } catch (err) {
+        setRecords([]);
+        setUsers([]);
+        // 에러 핸들링 로깅 등
+        console.error(err);
+      }
+    })();
+  }, [apiBaseUrl]);
 
+  // 상세 모달도 방어적으로
   const fetchUserAnalysisDetail = async (userId: number) => {
     try {
-      const res = await axios.get(`${apiBaseUrl}/admin/detail/${userId}`, {
-        withCredentials: true,
-      });
-      setSelectedUserAnalysis(res.data);
+      const res = await fetch(`${apiBaseUrl}/admin/detail/${userId}`, { credentials: "include" });
+      const json = await res.json();
+      setSelectedUserAnalysis(Array.isArray(json.data) ? json.data : []);
       setShowModal(true);
     } catch (error) {
+      setSelectedUserAnalysis([]);
+      setShowModal(true);
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    fetchRecords();
-    fetchUsers();
-  }, []);
 
   const recordColumns: TableColumn<RecordType>[] = [
     { key: "id", label: "ID" },
@@ -195,16 +206,25 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* 탭 내용 */}
-        {selectedTab === "records" && <Table<RecordType> columns={recordColumns} data={records} />}
+        {/* 탭 내용 (각각 Array.isArray로 방어) */}
+        {selectedTab === "records" && (
+          <Table<RecordType> columns={recordColumns} data={Array.isArray(records) ? records : []} />
+        )}
         {selectedTab === "users" && (
-          <Table<UserType>
+          <Table<any>
             columns={userColumns}
-            data={users.map((user) => ({
-              ...user,
-              Payment: user.Payment.length ? "활성화" : "비활성화",
-              Paperweight: user.Paperweight.length ? "활성화" : "비활성화",
-            }))}
+            data={
+              Array.isArray(users)
+                ? users.map((user) => ({
+                    ...user,
+                    // 문자열로 변환 안전하게 (테이블 컴포넌트 활용 위해)
+                    Payment: Array.isArray(user.Payment) && user.Payment.length ? "활성화" : "비활성화",
+                    Paperweight: Array.isArray(user.Paperweight) && user.Paperweight.length
+                      ? "활성화"
+                      : "비활성화",
+                  }))
+                : []
+            }
             renderActions={(user) => (
               <button
                 className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
@@ -218,7 +238,7 @@ export default function AdminPage() {
       </main>
 
       {/* 모달 */}
-      {showModal && selectedUserAnalysis && (
+      {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
           <div className="relative bg-white rounded-xl shadow-2xl max-w-3xl w-full p-6 overflow-y-auto max-h-[80vh]">
             <h2 className="text-xl font-bold mb-4">분석 내용</h2>
@@ -235,7 +255,7 @@ export default function AdminPage() {
                 { key: "result", label: "결과" },
                 { key: "createdAt", label: "생성일" },
               ]}
-              data={selectedUserAnalysis}
+              data={Array.isArray(selectedUserAnalysis) ? selectedUserAnalysis : []}
             />
           </div>
         </div>
