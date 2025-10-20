@@ -318,9 +318,9 @@ function CouponManager() {
     const isoEndsAt = new Date(endsAt).toISOString();
 
     const data = await api<{ ok: boolean; count: number; items: CouponRow[] }>(
-      "/admin/coupons",
+      "/admin/coupon",
       {
-        method: "GET",
+        method: "POST",
         body: JSON.stringify({ tokens, endsAt: isoEndsAt, count }),
       }
     );
