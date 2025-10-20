@@ -20,11 +20,6 @@ export default function CouponRedeemPage() {
     setMsg(null);
     setError(null);
 
-    if (!/^\d{6}$/.test(code)) {
-      setError("6자리 숫자 코드를 입력하세요.");
-      return;
-    }
-
     setLoading(true);
     try {
       const res = await fetch(`${API_BASE}/coupon/redeem`, {
