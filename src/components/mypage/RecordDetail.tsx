@@ -72,6 +72,20 @@ export function RecordDetail() {
     return p.startsWith("/") ? p : `/${p.replace(/^(\.\/|\/)?/, "")}`;
   };
 
+  // 질병 키를 소문자 카멜케이스로 변환하는 함수
+  const getDiseaseKey = (diseaseName: string) => {
+    return diseaseName.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
+  };
+
+  // 섹션별 설명 키 반환 함수
+  const getDescriptionKey = (predictName: string, diseaseKey: string) => {
+    if (predictName === 'A2' && diseaseKey === 'superficialpyoderma') {
+      return `${diseaseKey}A2Desc`;
+    }
+    // 다른 섹션에 대한 추가 조건이 필요하면 여기에 추가
+    return `${diseaseKey}Desc`;
+  };
+
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -88,6 +102,11 @@ export function RecordDetail() {
   }
 
 
+
+  const diseaseKey = getDiseaseKey(data.diseaseName);
+  const translatedDiseaseName = t(`${diseaseKey}Name`);
+  const descriptionKey = getDescriptionKey(data.predictName, diseaseKey);
+  const translatedDescription = t(descriptionKey);
 
   return (
     <div className="min-h-screen bg-white from-gray-50 to-blue-50">
@@ -143,8 +162,8 @@ export function RecordDetail() {
                 </div>
 
                 <div className="p-4 sm:p-6 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 rounded-2xl border-2 border-orange-200">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">{data.diseaseName}</h3>
-                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{data.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">{translatedDiseaseName}</h3>
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{translatedDescription}</p>
                 </div>
 
                 <div className="bg-white/60 p-4 sm:p-5 rounded-2xl border border-orange-100">

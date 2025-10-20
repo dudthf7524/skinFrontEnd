@@ -379,7 +379,7 @@ const translations = {
     skinOdorQuestion: "피부에서 냄새가 납니까?",
     yesGreasySmell: "O (네, 기름기나 곰팡이 냄새가 남)",
     noOdor: "X (냄새 없음)",
-    excessiveSheddingQuestion: "털이 과도하게 빠집니까?",
+    excessiveSheddingQuestion: "털이 과도하게 빠지습니까?",
     yesHairLoss: "O (네, 털 빠짐이 관찰됨)",
     noExcessiveShedding: "X (과도한 털 빠짐 없음)",
     weightGainLethargyQuestion: "체중이 증가했거나 무기력해 보입니까?",
@@ -503,6 +503,96 @@ const translations = {
     // PurchaseSuccess.tsx
     purchaseSuccess_title: "결제 완료!",
     purchaseSuccess_message: "감사합니다. 결제가 성공적으로 처리되었습니다.",
+
+    // Added disease_name and description from the provided data
+    superficialPyodermaName: "표재성 농피증 (Superficial Pyoderma)",
+    superficialPyodermaDesc: "구진은 일반적으로 모낭을 중심으로 발생하며 붉은색(erythematous)을 띠고 농포나 상피성 잔고리(epidermal collarette)를 동반할 수 있는 발진입니다. 다모증에 부분적인 탈모를 동반할 수 있으며, 모낭염을 통해 모낭충 감염(cocci)과 동반되기도 합니다. [1, 2]",
+    superficialPyodermaA2Desc: "상피성 잔고리가 이 질환의 특징적인 병변(hallmark lesion)이며, 다수의 잔고리가 융합되면 넓은 '지도 모양'의 탈모와 인설 부위를 형성할 수 있습니다. 원형 또는 벗겨지는 테두리를 가진 상피성 잔고리가 특징적이며, 다발성으로 몸통과 복부에 분포합니다. [5, 6]",
+
+    fleaAllergyDermatitisName: "벼룩 알레르기 피부염 (Flea Allergy Dermatitis, FAD)",
+    fleaAllergyDermatitisDesc: "구진성 발진을 특징으로 하는 벼룩 타액에 대한 염증 반응입니다. 심한 소양감과 함께 구진이 나타나며, 병변은 주로 몸통 전체에 발생하고 심한 가려움증, 붉어짐, 두드러기, 피부 흉터, 비늘, 탈모, 태선화가 동반될 수 있습니다. [2, 3]",
+
+    sarcopticMangeName: "개선충증 (Sarcoptic Mange, scabies)",
+    sarcopticMangeDesc: "심한 소양감과 함께 구진이 주요 특징으로 나타나는 질환입니다. 병변은 주로 팔꿈치, 발목, 귀 가장자리, 복부, 가슴 부위에 집중되며, 탈모, 출혈성 딱지, 홍반이 동반될 수 있습니다. [3, 4]",
+
+    atopicDermatitisName: "아토피 피부염 (Atopic Dermatitis, 식이 알레르기)",
+    atopicDermatitisDesc: "구진은 알레르기성 피부염에서 흔히 관찰되는 일차 병변이며 종종 홍반을 동반합니다. 만성적이고 염증성이며 소양감을 유발하는 질환으로, 주로 얼굴(입 주변, 눈 주변), 귓바퀴, 겨드랑이, 서혜부, 발에 병변이 나타납니다. [3]",
+
+    papillomavirusInducedOilyPlaquesName: "유두종 바이러스성 유성 플라크 (Papillomavirus-induced oily plaques)",
+    papillomavirusInducedOilyPlaquesDesc: "다수의 민색, 회색 또는 노란색(macule) 플라크와 때로는 구진으로 구성된 병변입니다. 주로 목, 몸통, 복부, 그리고 사지에 위치하며, 과각화(hyperkeratotic)되어 편평하거나 약간 융기되어 있습니다. [2]",
+
+    seborrheaName: "지루성 피부염 (Seborrhea)",
+    seborrheaDesc: "비정상적인 각화 과정으로 인해 과도한 인설이 형성되는 것을 특징으로 합니다. 건성 지루(seborrhea sicca)는 건조하고 하얀색 인설과 산패한 기름 냄새를 특징으로 하며, 유성 지루(seborrhea oleosa)는 기름진 피부와 노란-갈색의 인설, 산패한 기름 냄새를 특징으로 합니다. 등, 몸통, 피부 주름에 분포합니다. [5, 6]",
+
+    malasseziaDermatitisName: "말라세지아 피부염 (Malassezia Dermatitis)",
+    malasseziaDermatitisDesc: "효모 Malassezia pachydermatis의 과증식으로 인해 발생하며, 홍반, 중등도에서 심한 소양감, 기름지고 노란색을 띠는 인설을 동반합니다. 강한 퀴퀴한 냄새가 특징적이며, 피부 주름, 발가락 사이, 겨드랑이, 목 복측, 귓바퀴, 서혜부에 호발합니다. [6, 7]",
+
+    ichthyosisName: "어린선 (Ichthyosis)",
+    ichthyosisDesc: "선천적/유전적 각화 이상 질환입니다. 피부가 크고 단단하게 부착된 판 모양의 인설로 덮여 있으며, 초기에는 흰색일 수 있으나 나이가 들면서 종종 회색이나 검은색으로 착색됩니다. 몸통 전체에 전반적으로 분포합니다. [6, 7]",
+
+    hypothyroidismName: "갑상선 기능 저하증 (Hypothyroidism)",
+    hypothyroidismDesc: "건조하고 미세하거나 중등도의 인설인 '비듬'을 특징으로 하며, 전반적, 몸통에 분포합니다. [6]",
+    hypothyroidismA3Desc: "피부가 두꺼워지고(점액수종) 색소가 침착될 수 있으며, 전형적으로 소양감이 없는 대칭성 탈모를 동반합니다. 건조하고 부석한 피부를 특징으로 하며, 몸통, 마찰 부위에 주로 나타납니다. [9]",
+
+    allergicDermatitisName: "알레르기성 피부염 (아토피 피부염, 식이 알레르기)",
+    allergicDermatitisDesc: "태선화와 과다색소침착의 가장 흔한 원인 중 하나입니다. 가려움으로 인한 지속적인 자가 손상은 알레르기성 피부병의 특징적인 병변으로, 피부가 두껍고, 가죽 같고, 어두워지며 종종 털이 빠집니다. 홍반, 긁은 상처, 재발성 감염이 특징입니다. [8, 9]",
+
+    chronicMalasseziaDermatitisName: "말라세지아 피부염 (Chronic Malassezia Dermatitis)",
+    chronicMalasseziaDermatitisDesc: "염증성 알레르기성 피부염과 동시에 발생하여 이를 악화시킵니다. 말라세지아 감염은 염증과 소양감을 강력하게 유발하여 심각한 태선화와 과다색소침착을 초래하며, 종종 기름진 표면과 강한 냄새를 동반합니다. 태선화된 부위에 기름진 삼출물과 특징적인 퀴퀴한 냄새가 동반됩니다. [8, 9]",
+
+    hyperadrenocorticismName: "부신피질 기능 항진증 (Hyperadrenocorticism)",
+    hyperadrenocorticismDesc: "피부가 종종 얇고 위축되어 있지만 때로는 과다색소침착을 동반합니다. 몸통, 마찰 부위에 주로 나타나며, 얇고 위축된 피부, 때때로 복부 팽만, 다뇨/다식, 피모 기력저하가 동반됩니다. [10]",
+
+    bacterialPyodermaName: "세균성 농피증 (표재성 모낭염)",
+    bacterialPyodermaDesc: "농포는 반려견에서 가장 흔한 원인 중 하나이며, 일반적으로 작고 모낭을 중심으로 형성됩니다. 뾰루지, 겨드랑이, 서혜부에서 흔히 관찰되며, 모낭성 농포와 동일 부위에 구진 및 상피성 잔고리가 함께 존재합니다. [10, 11]",
+
+    demodicosisName: "모낭충증",
+    demodicosisDesc: "Demodex canis 모낭충의 과증식이 심각한 염증 반응을 유발하며, 탈모, 홍반, 비늘이 주된 병변입니다. 농포나 면포도 관찰될 수 있으며, 얼굴, 발, 전신에 분포합니다. [11, 12]",
+
+    pemphigusFoliaceusName: "낙엽성 천포창",
+    pemphigusFoliaceusDesc: "반려견에서 가장 흔한 자가면역 피부 질환으로, 일차 병변은 농포이지만 농포는 종종 크기가 크고 여러 모낭에 걸쳐 있으며, 반드시 모낭 중심적이지는 않습니다. 얼굴, 귀, 발바닥에 대칭적으로 발생하며 미란과 탈모를 동반합니다. [11, 12]",
+
+    schnauzerComedoneSyndromeName: "슈나우저 면포 증후군",
+    schnauzerComedoneSyndromeDesc: "일차적인 각화 이상 질환으로, 등 중앙선과 등에 일차적인 면포가 다수 발생합니다. 이차 세균 감염이 발생하면 구진과 농포가 생길 수 있습니다. [11]",
+
+    deepPyodermaAndFurunculosisName: "심부 농피증 및 절종증 (Deep Pyoderma and Furunculosis)",
+    deepPyodermaAndFurunculosisDesc: "세균 감염이 진피 깊숙이 확장되거나 모낭 파열을 유발할 때(절종증) 궤양 형성 및 고름이나 혈액성 삼출물을 배출하는 누관(draining tract) 형성으로 이어집니다. 주로 발가락 사이, 턱, 주둥이, 앞발 부위에 호발합니다. [13, 14]",
+
+    discoidLupusErythematosusName: "반려견 홍반 루푸스 (DLE) (Discoid Lupus Erythematosus)",
+    discoidLupusErythematosusDesc: "코에 색소 소실, 홍반, 인설 및 미란을 유발하는 질환이며, 주로 코와 콧등에 발생합니다. [14, 15]",
+
+    pemphigusVulgarisName: "심상성 천포창 (Pemphigus Vulgaris)",
+    pemphigusVulgarisDesc: "피부 점막 경계부(입술, 콧구멍, 항문)와 구강 내에 소수포 및 궤양을 유발하는 심각한 자가면역 질환입니다. [14, 15]",
+
+    vasculitisName: "혈관염 (Vasculitis)",
+    vasculitisDesc: "혈관의 염증으로 치명적이며 궤양과 괴사로 이어질 수 있습니다. 전형적으로 귓바퀴 끝, 꼬리 끝, 또는 발바닥에 발생하며 '펀치로 뚫은 듯한' 외관을 보입니다. [14, 15]",
+
+    squamousCellCarcinomaName: "편평상피암 (Squamous Cell Carcinoma, SCC)",
+    squamousCellCarcinomaDesc: "여러 종양 중 햇볕에 노출된 부위에 가장 흔한 악성 종양이며 궤양화됩니다. 단단하고 성장하는 종양이나 궤양이 나타나며, 귓바퀴, 코, 몸통, 사지에 발생합니다. [14, 15]",
+
+    decubitusUlcersName: "욕창 (Decubitus Ulcers)",
+    decubitusUlcersDesc: "대형견이나 누워 지내는 개의 뼈 돌출부(팔꿈치, 발목, 엉덩이) 위에서 만성적인 압력으로 인해 발생하는 질환입니다. 피부에 근육성 괴사가 형성되며, 누워 지내는 병력이 있습니다. [15, 16]",
+
+    fungalKerionName: "진균성 각화증 (Fungal Kerion)",
+    fungalKerionDesc: "피부사상균(곰팡이) 감염에 대한 결절성, 물렁물렁함(boggy), 종종 삼출물이 나오는 염증 반응으로, 감염된 모낭이 파열되어 발생합니다. 육아종성 염증이며 비신생물성(감염성)입니다. [16, 17]",
+
+    sterileNodularPanniculitisName: "무균성 결절성 지방층염 (Sterile Nodular Panniculitis, SNP)",
+    sterileNodularPanniculitisDesc: "피하 지방의 염증으로, 단일 또는 다수의 깊은 결절로 나타나며, 이 결절은 터져서 기름지고 투명한 액체를 배출할 수 있습니다. 육아종성 염증이며 비신생물성(감염성)입니다. [16]",
+
+    mastCellTumorName: "비만세포종 (Mast Cell Tumor, MCT)",
+    mastCellTumorDesc: "반려견에서 가장 흔한 악성 피부 종양입니다. 외부적으로 매우 다양하게 나타나는데, 붉은색/분홍색 결절, 때로는 궤양을 동반하거나, 피부 병변처럼 부드러운 피하 종괴로 나타날 수 있으며, 히스타민 방출로 인해 종종 가려움증이 나타날 수 있습니다. [17, 18]",
+
+    cutaneousHistiocytomaName: "피부 조직구종 (Cutaneous Histiocytoma)",
+    cutaneousHistiocytomaDesc: "일반적으로 3세 미만의 어린 개에서 흔한 양성 종양입니다. 전형적으로 단독성으로, 빠르게 성장하는 분홍색-붉은색의 털이 없는 '단추 모양'의 결절로 나타나며, 머리, 귀, 사지에 주로 발생합니다. [17, 18]",
+
+    lipomaName: "지방종 (Lipoma)",
+    lipomaDesc: "지방 세포로 구성된 매우 흔한 양성 종양입니다. 부드럽고, 움직이며, 경계가 명확한 피하 종괴로 나타나며, 몸통, 가슴, 복부에 주로 발생합니다. [17, 18]",
+
+    sebaceousGlandAdenomaName: "피지샘종 (Sebaceous Gland Adenoma)",
+    sebaceousGlandAdenomaDesc: "표피성 이개에서 흔하게 나타나는 양성 종양입니다. 분홍색이며 기름지고 사마귀 모양 또는 콜리플라워 모양을 가집니다. 머리, 몸통, 사지에 나타납니다. [17, 18]",
+
+    fungalGranulomaNoduleName: "진균종성 농포 (Fungal Granuloma/Nodule)",
+    fungalGranulomaNoduleDesc: "단단하고 물렁물렁한 결절이며, 종종 궤양이나 누공을 동반합니다. 얼굴과 발에 나타나며 염증성으로, 비신생물성(감염성)입니다. [17]",
   },
 
   en: {
@@ -1017,6 +1107,96 @@ const translations = {
     // PurchaseSuccess.tsx
     purchaseSuccess_title: "Payment Complete!",
     purchaseSuccess_message: "Thank you. Your payment has been processed successfully.",
+
+    // Added disease_name and description from the provided data
+    superficialPyodermaName: "Superficial Pyoderma",
+    superficialPyodermaDesc: "Papules typically occur around hair follicles and are erythematous, with possible pustules or epidermal collarettes. May be associated with partial alopecia in areas of increased hair density and folliculitis with cocci infection. [1, 2]",
+    superficialPyodermaA2Desc: "Epidermal collarettes are the hallmark lesion of this condition. When multiple collarettes coalesce, they can form extensive 'geographic' areas of alopecia and scaling. Characteristic circular or peeling-edged epidermal collarettes are typical, distributed multiply on the trunk and abdomen. [5, 6]",
+
+    fleaAllergyDermatitisName: "Flea Allergy Dermatitis (FAD)",
+    fleaAllergyDermatitisDesc: "An inflammatory reaction to flea saliva characterized by papular eruptions. Papules appear with severe pruritus, lesions mainly occur throughout the trunk with severe itching, erythema, urticaria, skin scars, scales, alopecia, and lichenification. [2, 3]",
+
+    sarcopticMangeName: "Sarcoptic Mange (Scabies)",
+    sarcopticMangeDesc: "A disease characterized by papules with severe pruritus as the main feature. Lesions are mainly concentrated on the elbows, ankles, ear margins, abdomen, and chest areas, and may be accompanied by alopecia, hemorrhagic crusts, and erythema. [3, 4]",
+
+    atopicDermatitisName: "Atopic Dermatitis (Food Allergy)",
+    atopicDermatitisDesc: "Papules are primary lesions commonly observed in allergic dermatitis and often accompanied by erythema. A chronic, inflammatory, and pruritic condition with lesions mainly appearing on the face (around mouth and eyes), ear pinnae, axillae, inguinal area, and feet. [3]",
+
+    papillomavirusInducedOilyPlaquesName: "Papillomavirus-induced oily plaques",
+    papillomavirusInducedOilyPlaquesDesc: "Lesions composed of multiple flesh-colored, gray, or yellow (macule) plaques and sometimes papules. Located mainly on the neck, trunk, abdomen, and limbs, they are hyperkeratotic and appear flat or slightly raised. [2]",
+
+    seborrheaName: "Seborrhea",
+    seborrheaDesc: "Characterized by excessive scale formation due to abnormal keratinization processes. Seborrhea sicca is characterized by dry, white scales and a rancid oily odor, while seborrhea oleosa is characterized by oily skin and yellow-brown scales with a rancid oily odor. Distributed on the back, trunk, and skin folds. [5, 6]",
+
+    malasseziaDermatitisName: "Malassezia Dermatitis",
+    malasseziaDermatitisDesc: "Caused by overgrowth of the yeast Malassezia pachydermatis, accompanied by erythema, moderate to severe pruritus, and greasy yellowish scales. Characterized by a strong musty odor, commonly affecting skin folds, between toes, axillae, ventral neck, ear pinnae, and inguinal areas. [6, 7]",
+
+    ichthyosisName: "Ichthyosis",
+    ichthyosisDesc: "A congenital/hereditary keratinization disorder. The skin is covered with large, firmly adherent, plate-like scales that may be white initially but often become gray or black with age. Distributed generally throughout the entire trunk. [6, 7]",
+
+    hypothyroidismName: "Hypothyroidism",
+    hypothyroidismDesc: "Characterized by dry, fine to moderate scales ('dandruff'), distributed generally throughout the trunk. [6]",
+    hypothyroidismA3Desc: "Skin may become thickened (myxedema) and pigmented, typically accompanied by symmetrical alopecia without pruritus. Characterized by dry, brittle skin, mainly appearing on the trunk and friction areas. [9]",
+
+    allergicDermatitisName: "Allergic Dermatitis (Atopic Dermatitis, Food Allergy)",
+    allergicDermatitisDesc: "One of the most common causes of lichenification and hyperpigmentation. Continuous self-trauma from itching is a characteristic lesion of allergic dermatoses, with skin becoming thick, leather-like, dark, and often hairless. Characterized by erythema, scratch marks, and recurrent infections. [8, 9]",
+
+    chronicMalasseziaDermatitisName: "Chronic Malassezia Dermatitis",
+    chronicMalasseziaDermatitisDesc: "Occurs concurrently with inflammatory allergic dermatitis and worsens it. Malassezia infection strongly induces inflammation and pruritus, resulting in severe lichenification and hyperpigmentation, often accompanied by oily surfaces and strong odors. Lichenified areas are accompanied by oily exudate and characteristic musty odor. [8, 9]",
+
+    hyperadrenocorticismName: "Hyperadrenocorticism",
+    hyperadrenocorticismDesc: "Skin is often thin and atrophic but sometimes accompanied by hyperpigmentation. Mainly appears on the trunk and friction areas, with thin atrophic skin, sometimes accompanied by abdominal distension, polyuria/polydipsia, and lethargy. [10]",
+
+    bacterialPyodermaName: "Bacterial Pyoderma (Superficial Folliculitis)",
+    bacterialPyodermaDesc: "Pustules are one of the most common causes in dogs and are typically small and form around hair follicles. Commonly observed in acne, axillae, and inguinal areas, with follicular pustules coexisting with papules and epidermal collarettes in the same area. [10, 11]",
+
+    demodicosisName: "Demodicosis",
+    demodicosisDesc: "Overgrowth of Demodex canis mites causes severe inflammatory reactions, with alopecia, erythema, and scales as the main lesions. Pustules or comedones may also be observed, distributed on the face, feet, and throughout the body. [11, 12]",
+
+    pemphigusFoliaceusName: "Pemphigus Foliaceus",
+    pemphigusFoliaceusDesc: "The most common autoimmune skin disease in dogs, with primary lesions being pustules, but the pustules are often large and span multiple follicles and are not necessarily follicle-centric. Occurs symmetrically on the face, ears, and paw pads, accompanied by erosions and alopecia. [11, 12]",
+
+    schnauzerComedoneSyndromeName: "Schnauzer Comedone Syndrome",
+    schnauzerComedoneSyndromeDesc: "A primary keratinization disorder with multiple primary comedones occurring along the dorsal midline and back. Secondary bacterial infection can lead to papules and pustules. [11]",
+
+    deepPyodermaAndFurunculosisName: "Deep Pyoderma and Furunculosis",
+    deepPyodermaAndFurunculosisDesc: "When bacterial infection extends deep into the dermis or causes follicular rupture (furunculosis), it leads to ulcer formation and the development of draining tracts that discharge pus or hemorrhagic exudate. Commonly occurs between toes, chin, muzzle, and front leg areas. [13, 14]",
+
+    discoidLupusErythematosusName: "Discoid Lupus Erythematosus (DLE)",
+    discoidLupusErythematosusDesc: "A disease that causes depigmentation, erythema, scaling, and erosion of the nose, primarily occurring on the nose and nasal bridge. [14, 15]",
+
+    pemphigusVulgarisName: "Pemphigus Vulgaris",
+    pemphigusVulgarisDesc: "A severe autoimmune disease that causes vesicles and ulcers at mucocutaneous junctions (lips, nostrils, anus) and within the oral cavity. [14, 15]",
+
+    vasculitisName: "Vasculitis",
+    vasculitisDesc: "Inflammation of blood vessels that can be fatal and lead to ulceration and necrosis. Typically occurs at ear tips, tail tips, or paw pads with a 'punched-out' appearance. [14, 15]",
+
+    squamousCellCarcinomaName: "Squamous Cell Carcinoma (SCC)",
+    squamousCellCarcinomaDesc: "Among various tumors, it is the most common malignant tumor in sun-exposed areas and ulcerates. Firm, growing tumors or ulcers appear on ear pinnae, nose, trunk, and limbs. [14, 15]",
+
+    decubitusUlcersName: "Decubitus Ulcers",
+    decubitusUlcersDesc: "A condition occurring due to chronic pressure over bony prominences (elbows, ankles, hips) in large dogs or recumbent dogs. Muscular necrosis forms in the skin, with a history of recumbency. [15, 16]",
+
+    fungalKerionName: "Fungal Kerion",
+    fungalKerionDesc: "A nodular, boggy, often exudative inflammatory reaction to dermatophyte (fungal) infection, caused by rupture of infected hair follicles. It is a granulomatous inflammation and non-neoplastic (infectious). [16, 17]",
+
+    sterileNodularPanniculitisName: "Sterile Nodular Panniculitis (SNP)",
+    sterileNodularPanniculitisDesc: "Inflammation of subcutaneous fat presenting as single or multiple deep nodules that may rupture and discharge oily, clear fluid. It is a granulomatous inflammation and non-neoplastic (infectious). [16]",
+
+    mastCellTumorName: "Mast Cell Tumor (MCT)",
+    mastCellTumorDesc: "The most common malignant skin tumor in dogs. Externally highly variable in appearance, appearing as red/pink nodules, sometimes with ulceration, or as soft subcutaneous masses resembling skin lesions, often with pruritus due to histamine release. [17, 18]",
+
+    cutaneousHistiocytomaName: "Cutaneous Histiocytoma",
+    cutaneousHistiocytomaDesc: "A common benign tumor in young dogs, typically under 3 years of age. Characteristically solitary, rapidly growing pink-red hairless 'button-like' nodules, primarily occurring on the head, ears, and limbs. [17, 18]",
+
+    lipomaName: "Lipoma",
+    lipomaDesc: "A very common benign tumor composed of fat cells. Presents as soft, movable, well-demarcated subcutaneous masses, primarily occurring on the trunk, chest, and abdomen. [17, 18]",
+
+    sebaceousGlandAdenomaName: "Sebaceous Gland Adenoma",
+    sebaceousGlandAdenomaDesc: "A benign tumor commonly found in epidermal appendages. Pink, oily, and warty or cauliflower-shaped. Appears on the head, trunk, and limbs. [17, 18]",
+
+    fungalGranulomaNoduleName: "Fungal Granuloma/Nodule",
+    fungalGranulomaNoduleDesc: "Firm and boggy nodules, often accompanied by ulceration or fistulas. Appears on the face and feet, is inflammatory, and non-neoplastic (infectious). [17]",
   },
 
   ja: {
@@ -1076,7 +1256,7 @@ const translations = {
     mypage_logout: "ログアウト",
     mypage_currentTokens: "保有トークン",
     mypage_recharge: "チャージ",
-    mypage_logoutSuccess: "ログアウトしました。",
+    mypage_logoutSuccess: "로그アウト했습니다。",
     mypage_profile: "プロフィール",
     mypage_diagnosisRecords: "診断記録",
     mypage_tokenManagement: "トークン管理",
@@ -1131,7 +1311,7 @@ const translations = {
     epithelialCollarsDesc: "真菌感染によってほとんど発生する疾患で、フケや角質などに関連する疾患の一部として現れることがあります。",
     epithelialCollarsSymptoms: ["かゆみ", "かさぶた", "乾燥", "輪状の赤い斑点"],
 
-    lichenificationName: "苔癬化、過色素沈着",
+    lichenificationName: "苔癬化、色素沈着過多",
     lichenificationDesc: "真菌感染により発生した疾患",
     lichenificationSymptoms: ["匂い・悪臭", "脱毛", "耳の赤み", "黒い耳垢", "かゆみ"],
 
@@ -1152,7 +1332,7 @@ const translations = {
     step2Title: "ステップ2. 症状・部位入力",
     step1Description: "スマートAIソリューションでペットの皮膚問題を分析します",
     step2Description: "ペットの主な症状と影響を受けた部位を選択してください",
-    accurateInfo: "正確な診断のために詳しくご記入ください",
+    accurateInfo: "正確な分析のために詳しくご記入ください",
     petName: "ペット名",
     required: "*",
     namePlaceholder: "名前",
@@ -1479,7 +1659,7 @@ const translations = {
     // diagnosisComplete: "診断完了"
 
     // Token related translations
-    logoutSuccess: "ログアウトしました",
+    logoutSuccess: "로그アウトしました",
     tokenPurchase: "トークン購入",
     tokenPurchaseDesc: "AI診断に必要なトークンを購入してください",
     tokenPackageStarter: "スターター",
@@ -1533,521 +1713,96 @@ const translations = {
     // PurchaseSuccess.tsx
     purchaseSuccess_title: "お支払い完了！",
     purchaseSuccess_message: "ありがとうございます。お支払いが正常に処理されました。",
-  },
 
-  zh: {
-    // App.tsx
-    appTitle: "Talktail AI",
-    appSubtitle: "宠物皮肤诊断助手",
-    stepQuestionnaire: "宠物信息和症状输入",
-    stepUpload: "照片上传",
-    stepDiagnosis: "诊断结果",
-    stepHospitals: "医院推荐",
-    stepComplete: "完成",
-    aiAnalyzing: "AI正在分析{petName}的皮肤状况",
-    aiAnalyzingGeneric: "AI正在分析您宠物的皮肤状况",
-    analysisDescription: "正在综合问诊表和照片准备准确诊断...",
-    diagnosisComplete: "诊断完成！",
-    diagnosisThankYou: "🐾 感谢您检查{petName}的皮肤健康！",
-    visitRecommendation: "如有需要，请到推荐的医院进行准确治疗。",
-    resultSent: "📬 结果已成功发送",
-    emailCheck: "请查看您的邮件，获取有助于宠物健康管理的额外信息。",
-    aiSolution: "✨ 通过GPTOnline.ai提供的智能AI解决方案体验更好的宠物护理",
-    newDiagnosis: "开始新诊断",
-    disclaimer: " Talktail AI仅供参考，准确诊断请咨询兽医。",
+    // Added disease_name and description from the provided data
+    superficialPyodermaName: "表在性膿皮症",
+    superficialPyodermaDesc: "丘疹は一般的に毛包を中心に発生し、紅斑性で膿疱や表皮襟状鱗屑を伴う可能性があります。多毛部位での部分的脱毛を伴うことがあり, 球菌感染による毛包炎と併発することもあります。[1, 2]",
+    superficialPyodermaA2Desc: "表皮襟状鱗屑がこの疾患の特徴的病変（hallmark lesion）であり、多数の襟状鱗屑が融合すると広範囲の「地図状」脱毛と鱗屑部位を形成することがあります。円形または剥離する縁を持つ表皮襟状鱗屑が特徴的で、体幹と腹部に多発性に分布します。[5, 6]",
 
-    // Navbar.tsx
-    home: "首页",
-    aiAnalysis: "AI分析",
-    diseaseInfo: "疾病信息",
-    hospitalSearch: "找医院",
-    myRecord: "我的记录",
-    login: "登录",
-    logout: "登出",
-    diagnoseNow: "立即诊断",
-    languageSelect: "语言选择",
+    fleaAllergyDermatitisName: "ノミアレルギー性皮膚炎",
+    fleaAllergyDermatitisDesc: "ノミの唾液に対する炎症反応で、丘疹性発疹を特徴とします。激しい掻痒感とともに丘疹が現れ、病変は主に体幹全体に発生し、激しい痒み、紅斑、蕁麻疹、皮膚瘢痕、鱗屑、脱毛、苔癬化を伴うことがあります。[2, 3]",
 
-    // LoginPage.tsx
-    goBack: "返回",
-    welcomeBack: "很高兴再次见到您！",
-    keepHealthySkin: "让我们一起守护宠物的健康皮肤",
-    continueWithGoogle: "使用Google继续",
-    continueWithKakao: "使用Kakao继续",
-    continueWithNaver: "使用Naver继续",
-    continueWithApple: "使用Apple继续",
-    termsAgreement: "登录即表示您同意服务条款和隐私政策",
-    terms: "服务条款",
-    privacyPolicy: "隐私政策",
-    loginTitle: "登录",
-    socialLoginDescription: "使用社交账户轻松登录",
-    welcome: "欢迎！",
-    petHealthMessage: "让我们一起守护宠物的皮肤健康",
-    cumulativeDiagnosis: "累计诊断",
-    accuracy: "准确率",
-    goHome: "回到首页",
-    noTokenAlert: "没有代币",
-    loginRequiredAlert: "需要登录。",
+    sarcopticMangeName: "疥癬",
+    sarcopticMangeDesc: "激しい掻痒感とともに丘疹が主要な特徴として現れる疾患です。病変は主に肘、足首、耳縁、腹部、胸部に集中し、脱毛、出血性痂皮、紅斑を伴うことがあります。[3, 4]",
 
-    // MyPage.tsx
-    mypage_logout: "退出登录",
-    mypage_currentTokens: "当前代币",
-    mypage_recharge: "充值",
-    mypage_logoutSuccess: "已退出登录。",
-    mypage_profile: "个人资料",
-    mypage_diagnosisRecords: "诊断记录",
-    mypage_tokenManagement: "代币管理",
-    mypage_profileInfo: "个人资料信息",
-    mypage_name: "姓名",
-    mypage_email: "邮箱",
-    mypage_phone: "电话号码",
-    mypage_itching: "瘙痒",
-    mypage_severe: "严重",
-    mypage_moderate: "中等",
-    mypage_none: "无",
-    mypage_hairLoss: "脱毛",
-    mypage_smell: "气味",
-    mypage_area: "部位",
-    mypage_viewDetails: "查看详情",
-    mypage_dataNotFound: "找不到数据",
-    mypage_diagnosisInfoNotExist: "请求的诊断信息不存在。",
-    mypage_backToList: "返回列表",
-    mypage_diagnosisDetailView: "诊断详情",
-    mypage_receptionDate: "接收日期",
-    mypage_analysisResult: "分析结果",
-    mypage_skinConditionClassification: "皮肤状况分类",
-    mypage_expectedDiagnosis: "預測分析",
-    mypage_aiConfidence: "AI可信度",
+    atopicDermatitisName: "アトピー性皮膚炎（食物アレルギー）",
+    atopicDermatitisDesc: "丘疹はアレルギー性皮膚炎でよく観察される一次病変で、しばしば紅斑を伴います。慢性的で炎症性、掻痒感を引き起こす疾患で、主に顔面（口周囲、眼周囲）、耳介、腋窩、鼠径部、足に病変が現れます。[3]",
 
-    // DiseaseInfoPage.tsx
-    skinDiseaseInfo: "皮肤疾病信息",
-    skinDiseaseDescription: "了解宠物常见皮肤疾病",
-    consultVetNote: "准确诊断请咨询专业兽医",
-    mainSymptoms: "主要症状",
-    diseaseMainSymptoms: "疾病主要症状",
-    description: "说明",
-    checkOtherDiseases: "查看其他疾病",
-    riskLevel: "风险等级",
-    common: "常见",
-    normal: "普通",
-    rare: "罕见",
-    viewDetails: "查看详情",
-    severity: "严重程度",
-    prevalence: "发生频率",
-    high: "高",
-    medium: "中等",
-    low: "低",
+    papillomavirusInducedOilyPlaquesName: "パピローマウイルス性油性プラーク",
+    papillomavirusInducedOilyPlaquesDesc: "多数の肌色、灰色、または黄色の斑状プラークと時には丘疹で構成される病変です。主に頸部、体幹、腹部、四肢に位置し、過角化して平坦または軽度隆起しています。[2]",
 
-    // Disease names and descriptions
-    papulesPlaquesName: "丘疹、斑块",
-    papulesPlaquesDesc: "由过敏、细菌感染引起的疾病。",
-    papulesPlaquesSymptoms: ["瘙痒", "发红", "脱毛", "鳞屑和皮屑", "分泌物和结痂"],
+    seborrheaName: "脂漏性皮膚炎",
+    seborrheaDesc: "異常な角化過程により過度の鱗屑形成を特徴とします。乾性脂漏（seborrhea sicca）は乾燥した白色鱗屑と酸敗した油臭を特徴とし、油性脂漏（seborrhea oleosa）は油性皮膚と黄褐色鱗屑、酸敗した油臭を特徴とします。背部、体幹、皮膚襞に分布します。[5, 6]",
 
-    epithelialCollarsName: "上皮环状物（皮屑、鳞屑）",
-    epithelialCollarsDesc: "主要由真菌感染引起的疾病，可能作为与皮屑、鳞屑相关疾病的一部分出现。",
-    epithelialCollarsSymptoms: ["瘙痒", "结痂", "干燥", "环状红斑"],
+    malasseziaDermatitisName: "マラセチア皮膚炎",
+    malasseziaDermatitisDesc: "酵母Malassezia pachydermatisの過増殖により発生し、紅斑、中等度から重度の掻痒感、油性で黄色の鱗屑を伴います。強いかび臭い臭いが特徴的で、皮膚襞、趾間、腋窩、頸部腹側、耳介、鼠径部に好発します。[6, 7]",
 
-    lichenificationName: "苔藓化、色素沉着过度",
-    lichenificationDesc: "由真菌感染引起的疾病",
-    lichenificationSymptoms: ["异味和恶臭", "脱毛", "耳朵发红", "黑色耳垢", "瘙痒"],
+    ichthyosisName: "魚鱗癬",
+    ichthyosisDesc: "先天性/遺伝性角化異常疾患です。皮膚は大きく硬く付着した板状の鱗屑で覆われており、初期は白色ですが、年齢とともにしばしば灰色や黒色に着色されます。体幹全体に全般的に分布します。[6, 7]",
 
-    pustulesAcneName: "脓疱、痤疮",
-    pustulesAcneDesc: "由细菌感染、免疫力下降、个人卫生不当引起的疾病。",
-    pustulesAcneSymptoms: ["红肿", "小疙瘩", "脓液", "脱毛", "瘙痒"],
+    hypothyroidismName: "甲状腺機能低下症",
+    hypothyroidismDesc: "乾燥した微細から中等度の鱗屑である「フケ」を特徴とし、全般的に体幹に分布します。[6]",
+    hypothyroidismA3Desc: "皮膚が厚くなり（粘液水腫）色素沈着が起こる可能性があり、典型的には掻痒感のない対称性脱毛を伴います。乾燥してもろい皮膚を特徴とし、主に体幹、摩擦部位に現れます。[9]",
 
-    erosionUlcerName: "糜烂、溃疡",
-    erosionUlcerDesc: "由外伤、过敏、病毒感染引起的疾病。",
-    erosionUlcerSymptoms: ["眼屎和眼泪增多", "揉眼和刺激", "角膜混浊", "眼部充血"],
+    allergicDermatitisName: "アレルギー性皮膚炎（アトピー性皮膚炎、食物アレルギー）",
+    allergicDermatitisDesc: "苔癬化および色素沈着過多の最も一般的な原因の一つです。掻痒による持続的な自己損傷はアレルギー性皮膚病の特徴的病変で、皮膚が厚く、革のようになり、暗くなり、しばしば毛が抜けます。紅斑、掻き傷、再発性感染が特徴です。[8, 9]",
 
-    nodulesName: "结节、肿块",
-    nodulesDesc: "由皮肤和皮下组织问题、器官肿瘤、老化变化引起的疾病。",
-    nodulesSymptoms: ["皮肤肿块", "呼吸困难", "跛行", "体重减轻", "食欲不振"],
+    chronicMalasseziaDermatitisName: "慢性マラセチア皮膚炎",
+    chronicMalasseziaDermatitisDesc: "炎症性アレルギー性皮膚炎と同時に発生し、これを悪化させます。マラセチア感染は炎症と掻痒感を強力に誘発し、深刻な苔癬化と色素沈着過多を引き起こし、しばしば油性表面と強い臭いを伴います。苔癬化部位には油性滲出物と特徴的なかび臭い臭いが伴います。[8, 9]",
 
-    // MedicalQuestionnaire.tsx
-    step1Title: "步骤1. 宠物信息",
-    step2Title: "步骤2. 症状和部位输入",
-    step1Description: "用智能AI解决方案分析您宠物的皮肤问题",
-    step2Description: "请选择您宠物的主要症状和受影响的部位",
-    accurateInfo: "为了准确诊断，请详细填写",
-    petName: "宠物姓名",
-    required: "*",
-    namePlaceholder: "姓名",
-    birthDate: "出生日期",
-    dateFormat: "YYYY-MM-DD",
-    datePlaceholder: "年-月-日",
-    weight: "体重 (公斤)",
-    weightPlaceholder: "3.15",
-    breed: "品种",
-    breedPlaceholder: "请选择品种",
-    dogCategory: "🐕 狗",
-    catCategory: "🐱 猫",
-    otherBreed: "🔍 其他（直接输入）",
-    customBreedPlaceholder: "请直接输入品种",
-    customBreedHelper: "例如：混种犬、猫混种、特殊品种名称等",
-    // mainSymptoms: "主要症状",
-    symptomsDescription: "请选择所有适用的症状",
-    selectedSymptoms: "选择的症状",
-    moreSymptoms: "+还有{count}个",
-    affectedAreas: "受影响的部位",
-    categorySelect: "选择大类",
-    selectAreaPlaceholder: "选择部位",
-    subAreaSelect: "子部位（可多选）",
-    selectedAreas: "选择的部位 ({count}个)",
-    moreAreas: "+还有{count}个",
-    previous: "上一步",
-    next: "下一步",
-    complete: "完成",
+    hyperadrenocorticismName: "副腎皮質機能亢進症",
+    hyperadrenocorticismDesc: "皮膚はしばしば薄く萎縮していますが、時には色素沈着過多を伴います。主に体幹、摩擦部位に現れ、薄く萎縮した皮膚、時には腹部膨満、多尿/多飲、被毛の活力低下を伴います。[10]",
 
-    // Symptoms
-    itching: "瘙痒",
-    scaling: "鳞屑",
-    hairLoss: "脱毛",
-    redness: "发红",
-    wounds: "伤口",
-    odor: "异味",
-    swelling: "肿胀",
-    scabs: "结痂",
-    blackSpots: "黑斑",
-    whiteDandruff: "白色皮屑",
+    bacterialPyodermaName: "細菌性膿皮症（表在性毛包炎）",
+    bacterialPyodermaDesc: "膿疱は犬で最も一般的な原因の一つで、通常小さく毛包を中心に形成されます。座瘡、腋窩、鼠径部でよく観察され、毛包性膿疱と同一部位に丘疹および表皮襟状鱗屑が共存します。[10, 11]",
 
-    // New symptom questions
-    petItchyQuestion: "您的宠物感到瘙痒吗？",
-    itchyNone: "无：完全不抓挠或舔舐",
-    itchyModerate: "中等：偶尔抓挠或舔舐",
-    itchySevere: "严重：持续过度抓挠或舔舐，造成困扰",
+    demodicosisName: "毛包虫症",
+    demodicosisDesc: "Demodex canisダニの過増殖が深刻な炎症反応を引き起こし、脱毛、紅斑、鱗屑が主な病変です。膿疱や面皰も観察される可能性があり、顔面、足、全身に分布します。[11, 12]",
 
-    // Questionnaire specific itching questions
-    questionnaire_doesPetItch: "您的宠物瘙痒吗？",
-    questionnaire_itching_none: "无",
-    questionnaire_itching_moderate: "中等",
-    questionnaire_itching_severe: "严重",
-    questionnaire_itching_none_desc: "不瘙痒",
-    questionnaire_itching_moderate_desc: "偶尔抓挠或舔舐",
-    questionnaire_itching_severe_desc: "频繁严重抓挠",
+    pemphigusFoliaceusName: "落葉状天疱瘡",
+    pemphigusFoliaceusDesc: "犬で最も一般的な自己免疫性皮膚疾患で、一次病変は膿疱ですが、膿疱はしばしば大きく複数の毛包にまたがり、必ずしも毛包中心性ではありません。顔面、耳、肉球に対称的に発生し、糜爛と脱毛を伴います。[11, 12]",
 
-    // Questionnaire odor questions
-    questionnaire_skinOdor: "皮肤有异味吗？",
-    questionnaire_odor_yes: "O",
-    questionnaire_odor_no: "X",
-    questionnaire_odor_yes_desc: "油腻有异味",
-    questionnaire_odor_no_desc: "无异味",
+    schnauzerComedoneSyndromeName: "シュナウザー面皰症候群",
+    schnauzerComedoneSyndromeDesc: "一次的な角化異常疾患で、背部中央線と背中に一次性面皰が多数発生します。二次細菌感染が発生すると丘疹と膿疱が生じる可能性があります。[11]",
 
-    // Questionnaire hair loss questions
-    questionnaire_hairLoss: "毛发过度脱落吗？",
-    questionnaire_hairLoss_yes: "O",
-    questionnaire_hairLoss_no: "X",
-    questionnaire_hairLoss_yes_desc: "观察到脱毛",
-    questionnaire_hairLoss_no_desc: "正常脱毛",
+    deepPyodermaAndFurunculosisName: "深部膿皮症および癰腫症",
+    deepPyodermaAndFurunculosisDesc: "細菌感染が真皮深部に拡張するか、毛包破裂を引き起こす場合（癰腫症）、潰瘍形成および膿や血性滲出物を排出する瘻管形成につながります。主に趾間、顎、鼻口部、前肢部に好発します。[13, 14]",
 
-    // Selected symptoms
-    questionnaire_selectedSymptoms: "选择的症状",
+    discoidLupusErythematosusName: "円板状エリテマトーデス",
+    discoidLupusErythematosusDesc: "鼻に色素脱失、紅斑、鱗屑および糜爛を引き起こす疾患で、主に鼻および鼻梁に発生します。[14, 15]",
 
-    // PhotoUpload page
-    upload_title: "皮肤状态照片上传",
-    upload_description: "请上传有问题皮肤部位的清晰照片",
-    upload_tip: "自然光下近距离拍摄可获得更准确的分析",
-    upload_dragOrClick: "拖拽照片或点击上传",
-    upload_fileFormat: "仅支持JPG、PNG文件（最大10MB）",
-    upload_selectFile: "选择文件",
-    upload_completed: "上传完成",
-    upload_cropReady: "裁剪并准备诊断",
-    upload_cropCompleted: "裁剪完成",
-    upload_optimized: "已优化为224x224尺寸",
-    upload_cropNeeded: "需要裁剪图像",
-    upload_cropDescription: "为了准确诊断，请将病变部位裁剪为224x224尺寸",
-    upload_cropButton: "裁剪",
-    upload_diagnosisReady: "诊断准备就绪！",
-    upload_imageOptimized: "图像已优化为224x224尺寸。开始AI诊断。",
-    upload_startDiagnosis: "开始诊断",
-    upload_photographyGuide: "拍摄指南",
-    upload_guideBrightLight: "请在明亮的自然光下拍摄",
-    upload_guideClearCapture: "请清晰地拍摄病变部位",
-    upload_guideCloseShot: "请近距离拍摄，避免晃动",
-    upload_cropModal_title: "图像裁剪",
-    upload_cropModal_description: "请将病变部位选择为正方形区域。",
-    upload_cropModal_imageAlt: "要裁剪的图像",
-    upload_cropModal_cancel: "取消",
-    upload_cropModal_complete: "裁剪完成",
-    upload_backToPrevious: "上一步",
-    upload_errorImageOnly: "只能上传图像文件。",
-    upload_errorFileSize: "文件大小超过10MB。请选择更小的文件。",
+    pemphigusVulgarisName: "尋常性天疱瘡",
+    pemphigusVulgarisDesc: "皮膚粘膜境界部（唇、鼻孔、肛門）および口腔内に小水疱および潰瘍を引き起こす重篤な自己免疫疾患です。[14, 15]",
 
-    // DiagnosisResult page
-    diagnosis_analysisResult: "分析结果",
-    diagnosis_skinConditionClassification: "皮肤状态分类",
-    diagnosis_uploadedSkinPhoto: "已上传皮肤照片",
-    diagnosis_expectedDiagnosis: "预期诊断",
-    diagnosis_severityLow: "轻度",
-    diagnosis_severityMedium: "中度",
-    diagnosis_severityHigh: "重度",
-    diagnosis_aiConfidence: "AI置信度",
-    diagnosis_nearbyRecommendedHospitals: "附近推荐医院",
-    diagnosis_listView: "列表视图",
-    diagnosis_mapView: "地图视图",
-    diagnosis_locationChecking: "位置确认中",
-    diagnosis_gpsLocationChecking: "正在通过GPS确认当前位置...",
-    diagnosis_hospitalSearching: "医院搜索中",
-    diagnosis_searchingNearbyHospitals: "正在搜索附近的动物医院...",
-    diagnosis_locationPermissionRequired: "需要位置权限",
-    diagnosis_locationPermissionMessage: "需要位置权限来查找附近的医院。\n请在浏览器中允许位置访问。",
-    diagnosis_noHospitalsFound: "找不到医院",
-    diagnosis_noHospitalsFoundMessage: "附近找不到动物医院。\n请尝试在其他地区搜索。",
-    diagnosis_operatingNow: "营业中",
-    diagnosis_callHospital: "致电",
-    diagnosis_getDirections: "导航",
-    diagnosis_mapLoading: "地图加载中",
-    diagnosis_loadingMapMessage: "正在加载地图...",
-    diagnosis_activatingGpsMessage: "正在激活GPS位置服务...",
-    diagnosis_myLocation: "我的位置",
-    diagnosis_shareResults: "分享结果",
-    diagnosis_saveAsImage: "将分析结果保存为图像",
-    diagnosis_saveImageFile: "保存为图像文件",
-    diagnosis_saveImageDescription: "将分析结果保存为高质量图像以便存储",
-    diagnosis_emailSubscription: "通过电子邮件订阅",
-    diagnosis_emailPlaceholder: "请输入您的电子邮件地址",
-    diagnosis_subscribe: "订阅",
-    diagnosis_emailDescription: "通过电子邮件接收详细的诊断报告和护理指南",
-    diagnosis_importantNotice: "重要提示",
-    diagnosis_disclaimerMessage: "此结果为AI预测，准确诊断请务必咨询兽医。",
-    diagnosis_newAnalysis: "开始新的AI分析",
-    diagnosis_urgencyEmergency: "需要立即前往急诊室",
-    diagnosis_urgencyUrgent: "建议尽快就医",
-    diagnosis_urgencyNormal: "需要定期护理",
-    diagnosis_hospitalContactCall: "您要致电{hospitalName}吗？\n\n电话：{phone}\n营业时间：{openHours}\n预计等待时间：{waitTime}",
-    diagnosis_hospitalContactNavigate: "开始导航至{hospitalName}。\n\n地址：{address}\n距离：{distance}\n预计行程时间：步行{walkTime}分钟",
-    diagnosis_emailSentSuccess: "诊断结果已发送至{email}",
-    diagnosis_emailSentError: "发送电子邮件时出错。请重试。",
-    diagnosis_saveImageError: "找不到要保存的区域。请刷新页面后重试。",
-    diagnosis_inAppBrowserWarning: "应用内浏览器可能限制图像保存。\n\n建议在Chrome、Safari等常规浏览器中打开。\n\n仍要尝试吗？",
-    diagnosis_imageSavedSuccess: "分析结果已保存到选定位置！",
-    diagnosis_imageOpenedInNewTab: "图像已在新标签页中打开！\n\n💡 长按图像并选择\"保存图像\"，或在Chrome/Safari浏览器中重试。",
-    diagnosis_imageDownloadedSuccess: "分析结果已保存到下载文件夹！\n\n💡 要选择保存位置，请在Chrome设置 > 下载中启用\"下载前询问每个文件的保存位置\"。",
-    diagnosis_imageSaveGeneralError: "保存图像时出错。\n\n💡 请在Chrome、Safari等常规浏览器中重试。",
+    vasculitisName: "血管炎",
+    vasculitisDesc: "血管の炎症で致命的であり、潰瘍と壊死につながる可能性があります。典型的には耳介先端、尾端、または肉球に発生し、「パンチで抜いたような」外観を示します。[14, 15]",
 
-    // VetFinderPage
-    vetFinder_pageTitle: "查找医院",
-    vetFinder_pageDescription: "查找附近的专业动物医院",
-    vetFinder_searchPlaceholder: "按医院名称或地区搜索",
-    vetFinder_filtersTitle: "筛选器",
-    vetFinder_filterOpen: "营业中",
-    vetFinder_statusOpen: "营业中",
-    vetFinder_statusClosed: "已关闭",
-    vetFinder_reserveButton: "预约",
-    vetFinder_loading: "加载中...",
-    vetFinder_error: "发生错误",
-    vetFinder_loadSuccess: "加载成功",
+    squamousCellCarcinomaName: "扁平上皮癌",
+    squamousCellCarcinomaDesc: "さまざまな腫瘍の中で日光露出部位に最も一般的な悪性腫瘍であり、潰瘍化します。硬く成長する腫瘍または潰瘍が現れ、耳介、鼻、体幹、四肢に発生します。[14, 15]",
 
-    // Home page
-    home_aiScreeningService: "AI皮肤疾病监测服务",
-    home_mainTitle: "用AI诊断宠物皮肤健康",
-    home_mainDescription: "上传宠物皮肤照片或立即开始AI诊断",
-    home_tryNowButton: "立即体验",
-    home_aiAnalyzing: "AI分析中...",
-    home_aiAnalysisResult: "AI分析结果",
-    home_stepsTitle: "简单3步",
-    home_stepsComplete: "完成",
-    home_stepsSubtitle: "无需复杂流程，轻松快速检查宠物皮肤健康",
-    home_step1Title: "上传照片",
-    home_step1Description: "拍摄有问题的皮肤部位并上传。",
-    home_step2Title: "AI分析",
-    home_step2Description: "先进的AI分析皮肤状况并诊断可能的疾病。",
-    home_step3Title: "医院连接",
-    home_step3Description: "根据分析结果推荐附近的专业医院并协助预约。",
-    home_analysisTime: "💡 平均分析时间：30秒内",
-    home_whyChooseTitle: "为什么要选择Talktail Care？",
-    home_whyChooseSubtitle: "专业可靠的宠物皮肤诊断服务",
-    home_feature1Title: "85%高精度",
-    home_feature1Description: "基于数万条数据训练的AI算法",
-    home_feature2Title: "连接附近的动物医院",
-    home_feature2Description: "与500+合作医院即时连接",
-    home_feature3Title: "使用简便",
-    home_feature3Description: "仅需上传照片，30秒内出结果",
-    home_testimonialsTitle: "用户评价",
-    home_testimonialsSubtitle: "许多宠物主人已经体验过了",
-    home_testimonial1Name: "金敏智",
-    home_testimonial1Pet: "金毛寻回犬 汪汪",
-    home_testimonial1Content: "能够快速发现我们汪汪的皮肤问题，真的很有帮助。AI分析真的很准确！",
-    home_testimonial2Name: "朴成浩",
-    home_testimonial2Pet: "波斯猫 娜比",
-    home_testimonial2Content: "24小时随时可以使用很好，还推荐了附近的医院很方便。",
-    home_testimonial3Name: "李有珍",
-    home_testimonial3Pet: "马尔济斯犬 云朵",
-    home_testimonial3Content: "只要拍照就能立即出结果很神奇。兽医师也说是准确的诊断。",
-    home_petOwner: "宠物主人",
-    home_ctaTitle: "立即开始",
-    home_ctaSubtitle: "为我们宝贝健康皮肤迈出第一步",
-    home_freeTrialButton: "免费试用",
-    home_footerTitle: "Talktail Care",
-    home_footerSubtitle: "宠物皮肤健康的可靠伙伴",
-    home_footerDescription: "利用AI技术守护宠物皮肤健康的智能解决方案。通过连接附近的动物医院，获得更好的治疗。",
-    home_footerAccuracy: "准确率95%",
-    home_footerHospitals: "500+合作医院",
-    home_footerServices: "服务",
-    home_footerAiAnalysis: "AI分析",
-    home_footerDiseaseInfo: "疾病信息",
-    home_footerHospitalFinder: "查找医院",
-    home_footerCustomerSupport: "客户支持",
-    home_footerFaq: "常见问题",
-    home_footerUserGuide: "使用指南",
-    home_footerCustomerCenter: "客户中心",
-    home_footerPrivacyPolicy: "隐私政策",
-    home_footerCopyright: "© 2024 Talktail Care. All rights reserved.",
+    decubitusUlcersName: "褥瘡",
+    decubitusUlcersDesc: "大型犬または臥位で過ごす犬の骨突起部（肘、足首、臀部）上の慢性的な圧迫により発生する疾患です。皮膚に筋性壊死が形成され、臥位の病歴があります。[15, 16]",
 
-    // Dog breed selector
-    selectBreed: "请选择品种",
+    fungalKerionName: "真菌性ケリオン",
+    fungalKerionDesc: "皮膚糸状菌（真菌）感染に対する結節性、湿潤性で、しばしば滲出性の炎症反応であり、感染した毛包の破裂により発生します。肉芽腫性炎症で非腫瘍性（感染性）です。[16, 17]",
 
-    skinOdorQuestion: "皮肤有异味吗？",
-    yesGreasySmell: "O（是的，有油腥味或霉味）",
-    noOdor: "X（无异味）",
-    excessiveSheddingQuestion: "您的宠物是否过度掉毛？",
-    yesHairLoss: "O（是的，观察到脱毛）",
-    noExcessiveShedding: "X（无过度掉毛）",
-    weightGainLethargyQuestion: "您的宠物是否体重增加或显得无精打采？",
-    yesSuchSymptoms: "O（是的，有这样的症状）",
-    noSuchSymptoms: "X（没有，没有这样的症状）",
+    sterileNodularPanniculitisName: "無菌性結節性脂肪織炎",
+    sterileNodularPanniculitisDesc: "皮下脂肪の炎症で、単一または多数の深い結節として現れ、これらの結節は破裂して油性で透明な液体を排出することがあります。肉芽腫性炎症で非腫瘍性（感染性）です。[16]",
 
-    // Areas
-    face: "面部",
-    back: "背部",
-    legs: "腿部",
-    belly: "腹部",
-    other: "其他",
-    ears: "耳朵",
-    eyeArea: "眼周",
-    noseArea: "鼻周",
-    mouthArea: "嘴周",
-    snoutChin: "嘴部/下巴",
-    neck: "颈部",
-    shoulders: "肩部",
-    upperBack: "上背部",
-    lowerBack: "下背部",
-    sides: "侧腹",
-    frontLegs: "前腿",
-    hindLegs: "后腿",
-    paws: "爪子",
-    betweenToes: "脚趾间",
-    kneeJoint: "膝盖/关节",
-    chest: "胸部",
-    upperBelly: "上腹部",
-    lowerBelly: "下腹部",
-    groin: "腹股沟",
-    tail: "尾巴",
-    analArea: "肛门周围",
-    wholebody: "全身",
-    genitalArea: "生殖器周围",
+    mastCellTumorName: "肥満細胞腫",
+    mastCellTumorDesc: "犬で最も一般的な悪性皮膚腫瘍です。外観は非常に多様で、赤色/ピンク色の結節として現れ、時には潰瘍を伴ったり、皮膚病変のような柔らかい皮下腫瘤として現れることがあり、ヒスタミン放出により しばしば掻痒感が現れることがあります。[17, 18]",
 
-    // Dog breeds
-    goldenRetriever: "金毛寻回犬",
-    labradorRetriever: "拉布拉多寻回犬",
-    germanShepherd: "德国牧羊犬",
-    beagle: "比格犬",
-    bulldog: "斗牛犬",
-    poodle: "贵宾犬",
-    shibaInu: "柴犬",
-    jindo: "珍岛犬",
-    maltese: "马尔济斯",
-    pomeranian: "博美",
-    chihuahua: "吉娃娃",
-    cockerSpaniel: "可卡犬",
-    shihTzu: "西施犬",
-    bichonFrise: "比熊",
-    yorkshireTerrier: "约克夏",
-    dachshund: "腊肠犬",
-    husky: "哈士奇",
-    rottweiler: "罗威纳",
-    doberman: "杜宾犬",
-    saintBernard: "圣伯纳",
-    borderCollie: "边境牧羊犬",
-    welshCorgi: "威尔士柯基",
-    papillon: "蝴蝶犬",
-    spitz: "博美犬",
+    cutaneousHistiocytomaName: "皮膚組織球腫",
+    cutaneousHistiocytomaDesc: "一般的に3歳未満の若い犬でよく見られる良性腫瘍です。典型的には単発性で、急速に成長するピンク色から赤色の毛のない「ボタン様」の結節として現れ、主に頭部、耳、四肢に発生します。[17, 18]",
 
-    // Cat breeds
-    persian: "波斯猫",
-    russianBlue: "俄罗斯蓝猫",
-    siamese: "暹罗猫",
-    maineCoon: "缅因猫",
-    britishShorthair: "英国短毛猫",
-    americanShorthair: "美国短毛猫",
-    bengal: "孟加拉猫",
-    abyssinian: "阿比西尼亚猫",
-    scottishFold: "苏格兰折耳猫",
-    ragdoll: "布偶猫",
-    norwegianForest: "挪威森林猫",
-    turkishAngora: "土耳其安哥拉猫",
-    siamCat: "暹罗猫",
-    highlandFold: "高地折耳猫",
-    sphinx: "斯芬克斯猫",
+    lipomaName: "脂肪腫",
+    lipomaDesc: "脂肪細胞で構成される非常に一般的な良性腫瘍です。柔らかく、可動性があり、境界明瞭な皮下腫瘤として現れ、主に体幹、胸部、腹部に発生します。[17, 18]",
 
-    // SkinAI.tsx - Process steps
-    infoInput: "信息输入",
-    photoUpload: "照片上传",
-    diagnosisResult: "分析结果",
-    basicInfo: "基本信息",
-    symptomInput: "症状输入",
+    sebaceousGlandAdenomaName: "脂腺腺腫",
+    sebaceousGlandAdenomaDesc: "表皮付属器でよく見られる良性腫瘍です。ピンク色で油性、疣贅様またはカリフラワー様の形状を持ちます。頭部、体幹、四肢に現れます。[17, 18]",
 
-    // SkinAI.tsx - Loading messages
-    aiAnalysisInProgress: "AI皮肤分析中",
-    petSkinAnalysis: "正在分析{petName}的皮肤状态",
-    advancedAiAnalysis: "高级AI算法正在对上传的图像进行精确分析，以提供准确的皮肤诊断",
-    imageAnalysis: "图像分析",
-    patternRecognition: "模式识别",
-    // diagnosisComplete: "诊断完成"
-
-    // Token related translations
-    logoutSuccess: "已退出登录",
-    tokenPurchase: "代币购买",
-    tokenPurchaseDesc: "购买AI诊断所需的代币",
-    tokenPackageStarter: "入门版",
-    tokenPackageStarterDesc: "首次用户的基础套餐",
-    tokenPackageStarterFeature1: "1次AI诊断",
-    tokenPackageStandard: "标准版",
-    tokenPackageStandardDesc: "最受欢迎的套餐",
-    tokenPackageStandardFeature1: "5次AI诊断",
-    tokenPackagePremium: "高级版",
-    tokenPackagePremiumDesc: "重度用户的大容量套餐",
-    tokenPackagePremiumFeature1: "10次AI诊断",
-    tokenPackagePremiumFeature2: "高级疾病信息",
-    orderCreationFailed: "订单创建失败",
-    tokenRefreshFailed: "代币刷新失败。请重新登录。",
-    tokenRefreshError: "代币刷新过程中发生错误。请重新登录。",
-    paymentRequestError: "支付请求过程中发生错误。",
-    errorDetails: "错误详情",
-    unknownError: "未知错误",
-    paymentCompleted: "支付完成！代币已充值。",
-    paymentProcessingFailed: "支付处理失败",
-    paymentProcessingError: "支付处理过程中发生错误",
-    newMemberEvent: "开始 AI 疾病分析",
-    firstPurchaseBenefit: "首次购买",
-    discount20: "20%折扣",
-    bonusTokens: "准确、快速、基于数据的 AI 诊断服务。",
-    popular: "建议",
-    tokens: "代币",
-    purchase: "购买",
-    tokenManagement: "代币管理",
-    transactionHistory: "交易记录",
-    completed: "已完成",
-    paypalPayment: "PayPal支付",
-    confirmRefund: "确定要退款吗？",
-    refundSuccess: "退款成功！",
-    refundFailed: "退款失败",
-    refundError: "退款过程中发生错误。",
-    refunding: "退款中...",
-    refund: "退款",
-    noTransactions: "没有已完成的交易记录。",
-
-    // Date related translations
-    year: "年",
-    month: "月",
-    previousYear: "上一年",
-    nextYear: "下一年",
-    previousMonth: "上个月",
-    nextMonth: "下个月",
-    cancel: "取消",
-    confirm: "确认",
-
-    // PurchaseSuccess.tsx
-    purchaseSuccess_title: "支付完成！",
-    purchaseSuccess_message: "谢谢。您的支付已成功处理。",
+    fungalGranulomaNoduleName: "真菌性肉芽腫/結節",
+    fungalGranulomaNoduleDesc: "硬くて湿潤な結節で、しばしば潰瘍や瘻孔を伴います。顔面と足に現れ、炎症性で非腫瘍性（感染性）です。[17]",
   }
 };
 
@@ -2087,6 +1842,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const [language, setLanguage] = useState<Language>('en');
 
   const t = (key: string, replacements?: Record<string, string>): string => {
+    // @ts-expect-error: Allow dynamic key access for language codes, assuming translations object contains all valid languages
     const translation = translations[language]?.[key] || key;
 
     if (replacements && typeof translation === 'string') {
@@ -2112,12 +1868,15 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         if (language === 'en' && parts.length === 3) {
           // MM/DD/YYYY -> YYYY-MM-DD
           return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
-        } else if ((language === 'ja' || language === 'zh') && parts.length === 3) {
+        } else if (language === 'ja' && parts.length === 3) {
           // YYYY/MM/DD -> YYYY-MM-DD
           return `${parts[0]}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
         }
+      } else if (date.includes('-')) {
+        // YYYY-MM-DD remains the same
+        return date;
       }
-      // If already in YYYY-MM-DD format or invalid, return as is
+      // If invalid, return as is
       return date;
     }
 
@@ -2134,11 +1893,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       case 'en':
         return `${month}/${day}/${year}`;
       case 'ja':
-      case 'zh':
         return `${year}${config.separator}${month}${config.separator}${day}`;
       case 'ko':
-      default:
+      case 'zh':
         return `${year}-${month}-${day}`;
+      default:
+        return date;
     }
   };
 
@@ -2162,8 +1922,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
           return `${year}-${month}-${day}`;
         }
       }
-    } else if ((language === 'ja' || language === 'zh') && cleaned.includes('/')) {
-      // Handle YYYY/MM/DD format  
+    } else if (language === 'ja' && cleaned.includes('/')) {
+      // Handle YYYY/MM/DD format
       const parts = cleaned.split('/');
       if (parts.length === 3) {
         const year = parts[0];
@@ -2174,7 +1934,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         }
       }
     } else if (cleaned.includes('-')) {
-      // Handle YYYY-MM-DD format (Korean and Chinese)
+      // Handle YYYY-MM-DD format (for 'ko' and 'zh')
       const parts = cleaned.split('-');
       if (parts.length === 3) {
         const year = parts[0];
@@ -2186,7 +1946,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       }
     }
 
-    return dateString; // Return original if parsing fails
+    // If parsing fails, return original string (with potential validation error handling in UI)
+    return dateString;
   };
 
   const getDatePlaceholder = (): string => {
