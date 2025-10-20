@@ -18,6 +18,7 @@ import { MyPage } from "./components/mypage/MyPage";
 import { RecordDetail } from "./components/mypage/RecordDetail";
 import PurchaseSuccess from "./components/PurchaseSuccess";
 import AdminPage from "./components/admin/AdminPage";
+import CouponRedeemPage from "./components/mypage/CouponRedeemPage";
 // import { usePageLogger } from "./hooks/usePageLogger";
 // import { useExitLogger } from "./hooks/useExitLogger";
 
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/record/detail/:id" element={<RecordDetail />}/>
           <Route path="/token/purchase/success" element={<PurchaseSuccess/>}/>
           <Route path="/admin" element={<AdminPage/>}/>
+          <Route path="/coupon" element={<CouponRedeemPage />} />
         </Routes>
       </Router>
     </LanguageProvider>
