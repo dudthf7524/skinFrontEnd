@@ -26,7 +26,7 @@ export default function CouponRedeemPage() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: code,
+        body: JSON.stringify({ code }),
       });
 
       // 백엔드 JSON 응답 가정
