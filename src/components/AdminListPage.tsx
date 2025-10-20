@@ -5,6 +5,33 @@ import { Input } from './ui/input';
 import { Eye, Search, Calendar, FileText, Filter } from 'lucide-react';
 import axios from 'axios';
 
+// 번역용 훅 (예시, 추후 실제 다국어 처리 시스템과 연동)
+function useTranslation() {
+  // 실제 번역 구현/라이브러리로 교체 필요
+  const t = (key: string) => {
+    const dict: Record<string, string> = {
+      'admin_dashboard': '관리자 대시보드',
+      'admin_petSurveyDesc': '반려동물 피부 진단 문진표 관리',
+      'admin_searchPlaceholder': '반려동물 이름으로 검색...',
+      'admin_all': '전체',
+      'admin_birth': '생년월일',
+      'admin_weight': '체중',
+      'admin_reception': '접수일',
+      'admin_itchiness': '가려움',
+      'admin_itchiness_high': '심함',
+      'admin_itchiness_medium': '보통',
+      'admin_itchiness_none': '없음',
+      'admin_alopecia': '털빠짐',
+      'admin_odor': '냄새',
+      'admin_area': '부위',
+      'admin_viewDetail': '상세보기',
+      'admin_noData': '문진 결과가 없습니다',
+    };
+    return dict[key] || key;
+  };
+  return { t };
+}
+
 interface QuestionnaireData {
   id: string;
   PetName: string;
@@ -16,7 +43,7 @@ interface QuestionnaireData {
   odor: boolean;
   affectedAreas: string[];
   createdAt: string;
-  lesionSites: string;
+  lesionSites: string[] | string;
   diagnosisResult?: {
     condition: string;
     predictClass?: string;
@@ -27,27 +54,32 @@ interface QuestionnaireData {
 }
 
 export function AdminListPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [questionnaireList, setQuestionnaireList] = useState<QuestionnaireData[]>([]);
   const getAdminList = async () => {
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-      const response = await axios.get(`${apiBaseUrl}/admin/list`,);
+      const response = await axios.get(`${apiBaseUrl}/admin/list`);
       const result = response.data.data.result.map((item: any) => ({
         ...item,
-        lesionSites: item.lesionSites ? JSON.parse(item.lesionSites) : [], // 문자열 → 배열
+        lesionSites: item.lesionSites
+          ? Array.isArray(item.lesionSites)
+            ? item.lesionSites
+            : JSON.parse(item.lesionSites)
+          : [],
       }));
 
       setQuestionnaireList(result);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     getAdminList();
-  }, [])
+  }, []);
 
   // 필터링된 데이터
   const filteredData = questionnaireList.filter(item => {
@@ -66,6 +98,14 @@ export function AdminListPage() {
     });
   };
 
+  // 증상 번역
+  const translateItchiness = (itchiness: string) => {
+    if (itchiness === '심함' || itchiness === 'high') return t('admin_itchiness_high');
+    if (itchiness === '보통' || itchiness === 'medium') return t('admin_itchiness_medium');
+    if (itchiness === '없음' || itchiness === 'none') return t('admin_itchiness_none');
+    return itchiness;
+  };
+
   const handleViewDetail = (id: string) => {
     navigate(`/admin/detail/${id}`);
   };
@@ -77,12 +117,11 @@ export function AdminListPage() {
 
       {/* 블러 효과를 위한 배경 패턴 */}
 
-
       <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* 헤더 - 유리 효과 */}
         <div className="mb-6 sm:mb-8 p-4 sm:p-6 rounded-3xl bg-white/20 backdrop-blur-2xl border border-white/30 shadow-2xl">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 drop-shadow-lg">관리자 대시보드</h1>
-          <p className="text-sm sm:text-base text-gray-800 drop-shadow">반려동물 피부 진단 문진표 관리</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 drop-shadow-lg">{t('admin_dashboard')}</h1>
+          <p className="text-sm sm:text-base text-gray-800 drop-shadow">{t('admin_petSurveyDesc')}</p>
         </div>
 
         {/* 검색 및 필터 - 유리 효과 */}
@@ -91,7 +130,7 @@ export function AdminListPage() {
             <div className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 w-5 h-5" />
               <Input
-                placeholder="반려동물 이름으로 검색..."
+                placeholder={t('admin_searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-12 h-12 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl text-gray-900 placeholder-gray-600 focus:bg-white/25 focus:border-white/50 transition-all duration-300"
@@ -102,7 +141,7 @@ export function AdminListPage() {
                 className="flex items-center justify-center gap-2 h-12 px-4 sm:px-6 rounded-2xl font-medium transition-all duration-300 bg-white/30 text-gray-900 border-white/50 backdrop-blur-xl shadow-lg"
               >
                 <Filter className="w-4 h-4" />
-                <span className="text-sm sm:text-base">전체 ({questionnaireList.length})</span>
+                <span className="text-sm sm:text-base">{t('admin_all')} ({questionnaireList.length})</span>
               </Button>
             </div>
           </div>
@@ -131,15 +170,15 @@ export function AdminListPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700 mb-4">
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-white/10 backdrop-blur-xl">
                       <Calendar className="w-4 h-4 text-gray-600" />
-                      <span>생년월일: {item.birthday}</span>
+                      <span>{t('admin_birth')}: {item.birthday}</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-white/10 backdrop-blur-xl">
                       <FileText className="w-4 h-4 text-gray-600" />
-                      <span>체중: {item.Weight}kg</span>
+                      <span>{t('admin_weight')}: {item.Weight}kg</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-white/10 backdrop-blur-xl">
                       <Calendar className="w-4 h-4 text-gray-600" />
-                      <span>접수일: {formatDate(item.createdAt)}</span>
+                      <span>{t('admin_reception')}: {formatDate(item.createdAt)}</span>
                     </div>
                   </div>
 
@@ -147,24 +186,23 @@ export function AdminListPage() {
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
                       <div className="px-3 py-1 rounded-lg bg-white/15 backdrop-blur-xl border border-white/20 text-gray-800 text-xs font-medium">
-                        가려움 : {item.itchiness === '심함' ? '심함' : item.itchiness === '보통' ? '보통' : '없음'}
+                        {t('admin_itchiness')} : {translateItchiness(item.itchiness)}
                       </div>
                       {item.alopecia && (
                         <div className="px-3 py-1 rounded-lg bg-white/15 backdrop-blur-xl border border-white/20 text-gray-800 text-xs font-medium">
-                          털빠짐
+                          {t('admin_alopecia')}
                         </div>
                       )}
                       {item.odor && (
                         <div className="px-3 py-1 rounded-lg bg-white/15 backdrop-blur-xl border border-white/20 text-gray-800 text-xs font-medium">
-                          냄새
+                          {t('admin_odor')}
                         </div>
                       )}
                       <div className="px-3 py-1 rounded-lg bg-white/15 backdrop-blur-xl border border-white/20 text-gray-800 text-xs font-medium">
-                        부위: {Array.isArray(item.lesionSites) ? item.lesionSites.join(", ") : ""}
+                        {t('admin_area')}: {Array.isArray(item.lesionSites) ? item.lesionSites.join(", ") : ""}
                       </div>
                     </div>
                   </div>
-
                 </div>
 
                 <Button
@@ -172,7 +210,7 @@ export function AdminListPage() {
                   className="w-full lg:w-auto lg:ml-6 h-12 px-6 bg-white/20 backdrop-blur-xl border border-white/30 text-gray-900 rounded-2xl hover:bg-white/30 hover:border-white/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 font-medium shadow-lg"
                 >
                   <Eye className="w-4 h-4" />
-                  상세보기
+                  {t('admin_viewDetail')}
                 </Button>
               </div>
             </div>
@@ -182,7 +220,7 @@ export function AdminListPage() {
         {filteredData.length === 0 && (
           <div className="p-12 text-center rounded-3xl bg-white/15 backdrop-blur-2xl border border-white/30 shadow-2xl">
             <FileText className="w-16 h-16 text-gray-500 mx-auto mb-6" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-3 drop-shadow">문진 결과가 없습니다</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3 drop-shadow">{t('admin_noData')}</h3>
           </div>
         )}
       </div>
