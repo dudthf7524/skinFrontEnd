@@ -40,5 +40,6 @@
   "questionnaire_itching_moderate_desc": "時々掻いたり舐めたりします",
   "questionnaire_itching_severe_desc": "頻繁に激しく掻きます",
   "purchaseSuccess_title": "お支払い完了！",
-  "purchaseSuccess_message": "ありがとうございます。お支払いが正常に処理されました。"
+  "purchaseSuccess_message": "ありがとうございます。お支払いが正常に処理されました。",
+  "mypage_code": "クーポン"
 }

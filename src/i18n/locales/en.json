@@ -40,5 +40,6 @@
   "questionnaire_itching_moderate_desc": "Occasionally scratches or licks",
   "questionnaire_itching_severe_desc": "Frequently scratches severely",
   "purchaseSuccess_title": "Payment Complete!",
-  "purchaseSuccess_message": "Thank you. Your payment has been processed successfully."
+  "purchaseSuccess_message": "Thank you. Your payment has been processed successfully.",
+  "mypage_code": "Coupon"
 }

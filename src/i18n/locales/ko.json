@@ -40,5 +40,6 @@
   "questionnaire_itching_moderate_desc": "가끔 긁거나 핥아요",
   "questionnaire_itching_severe_desc": "자주 심하게 긁어요",
   "purchaseSuccess_title": "결제 완료!",
-  "purchaseSuccess_message": "감사합니다. 결제가 성공적으로 처리되었습니다."
+  "purchaseSuccess_message": "감사합니다. 결제가 성공적으로 처리되었습니다.",
+  "mypage_code": "쿠폰"
 }
