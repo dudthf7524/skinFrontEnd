@@ -12,8 +12,7 @@ export default function CouponRedeemPage() {
   const [error, setError] = useState<string | null>(null);
 
   const onChange = (v: string) => {
-    // 숫자만, 최대 6자리
-    const normalized = v.replace(/\D/g, "").slice(0, 6);
+    const normalized = v.slice(0, 6);
     setCode(normalized);
   };
 
