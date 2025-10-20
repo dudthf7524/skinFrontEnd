@@ -1,35 +1,39 @@
 import { useState, useRef } from "react";
-import ProfileImage from "./ui/profileImage"
+import ProfileImage from "./ui/profileImage";
 import { Button } from "./ui/button";
 import { Globe, User } from "lucide-react";
 import axios from "axios";
 import { useLanguage } from "./LanguageContext";
 import { useNavigate } from "react-router-dom";
 
-// interface propsType {
-//     handleNavigation: (page: string) => void;
-// }
-
 export default function ProfileBar() {
-    // localStorage에서 user 정보를 가져오고, JSON 파싱
     const { t } = useLanguage();
-    const userStr = localStorage.getItem('user');
-    const user = userStr ? JSON.parse(userStr) : null;
-    const profileImage = user?.profileImage
-    const navigation = useNavigate()
+    const navigation = useNavigate();
 
+    // 안전하게 파싱
+    let user: any = null;
+    let profileImage = "";
     let name = "";
+    let role = "";
+
+    const userStr = localStorage.getItem('user');
     if (userStr) {
         try {
-            const user = JSON.parse(userStr);
-            name = user.name || "";
+            user = JSON.parse(userStr);
+            name = user?.name || "";
+            profileImage = user?.profileImage || "";
+            role = user?.role || "";
         } catch (e) {
             name = "";
+            profileImage = "";
+            role = "";
         }
     }
+
     const handlerClickProfile = () => {
         navigation("/mypage");
-    }
+    };
+
     // 드롭다운 상태 및 타이머 ref
     const [showLogout, setShowLogout] = useState(false);
     const hideTimer = useRef<number | null>(null);
@@ -38,16 +42,15 @@ export default function ProfileBar() {
     const handleMouseEnter = () => {
         if (hideTimer.current) {
             clearTimeout(hideTimer.current);
-            // hideTimr.current = null;
         }
         setShowLogout(true);
     };
 
-    // 드롭다운을 약간의 딜레이 후 숨김
+    // 드롭다운을 약간의 딜레이 후 숨김 (주석 처리된 부분은 미사용)
     const handleMouseLeave = () => {
         // hideTimer.current = setTimeout(() => {
         //     setShowLogout(false);
-        // }, 120); // 120ms 딜레이 (너무 짧으면 200~300ms로 조정 가능)
+        // }, 120);
     };
 
     // 로그아웃 처리 함수
@@ -55,63 +58,65 @@ export default function ProfileBar() {
         localStorage.removeItem('user');
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
         try {
-            const response = await axios.post(`${apiBaseUrl}/auth/logout`,
+            const response = await axios.post(
+                `${apiBaseUrl}/auth/logout`,
                 {},
                 {
-                    withCredentials: true
+                    withCredentials: true,
                 }
             );
-
             if (response.status === 200) {
                 alert(response.data.message);
                 window.location.reload();
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
-    }
+    };
 
     return (
-        <div
-            className="flex items-center space-x-2 md:space-x-4 relative group"
-        // onMouseEnter={handleMouseEnter}
-        // onMouseLeave={handleMouseLeave}
-        >
+        <div className="flex items-center space-x-2 md:space-x-4 relative group">
+            {/* 어드민 버튼: user가 존재하고 role이 ADMIN일 때만 */}
+            {role === "ADMIN" && (
+                <button
+                    onClick={() => navigation("/admin")}
+                    className="px-4 py-2 bg-orange-200 rounded text-orange-900 font-bold hover:bg-orange-300 transition"
+                >
+                    어드민 페이지
+                </button>
+            )}
+
             {/* 프로필 이미지 */}
             <div
                 className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 cursor-pointer"
                 onClick={handlerClickProfile}
             >
-                {
-                    profileImage ? (
-                        <ProfileImage />
-                    ) : (
-                        <div className="w-full h-full bg-orange-50 rounded-full flex items-center justify-center">
-                            <User className="w-6 h-6 text-orange-500" />
-                        </div>
-                    )
-                }
-
+                {profileImage ? (
+                    <ProfileImage />
+                ) : (
+                    <div className="w-full h-full bg-orange-50 rounded-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-orange-500" />
+                    </div>
+                )}
             </div>
-            {/* 데스크탑용 인사말 */}
-            {/* <div className="hidden md:flex flex-col">
+            {/* 아래 인사말, 로그아웃 버튼 등은 필요에 따라 해제 */}
+            {/* 
+            <div className="hidden md:flex flex-col">
                 <span className="font-semibold text-base md:text-lg">{name}님,</span>
                 <span className="text-sm md:text-base text-gray-500">안녕하세요!</span>
-            </div> */}
-            {/* 모바일용 인사말 */}
-            {/* <div className="flex flex-col md:hidden">
+            </div>
+            <div className="flex flex-col md:hidden">
                 <span className="font-semibold text-sm">{name}님</span>
-            </div> */}
-            {/* 호버 시 로그아웃 버튼 */}
-            {/* <Button
+            </div>
+            <Button
                 onClick={handleLogout}
                 variant="ghost"
                 size="sm"
                 className="hidden sm:flex h-8 px-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg text-gray-700 text-sm font-normal shadow-sm"
             >
                 <span className="text-sm">{t('logout')}</span>
-            </Button> */}
-            {/* <div
+            </Button>
+            <div
                 className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded shadow-lg px-4 py-2 min-w-[120px] text-center"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -123,8 +128,8 @@ export default function ProfileBar() {
                 >
                     로그아웃
                 </button>
-            </div> */}
-
+            </div> 
+            */}
         </div>
-    )
+    );
 }
