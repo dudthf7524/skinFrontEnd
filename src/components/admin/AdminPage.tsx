@@ -129,8 +129,8 @@ function AdminRoleManager() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      
-      const data = await api<{ users: any[] }>("/user/userinfo");
+
+      const data = await api<{ users: any[] }>("/admin/userinfo");
       const rows = (data.users || []).map((u) => ({
         id: u.id,
         email: u.email,
