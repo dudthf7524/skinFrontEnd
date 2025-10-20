@@ -320,7 +320,7 @@ function CouponManager() {
     const data = await api<{ ok: boolean; count: number; items: CouponRow[] }>(
       "/admin/coupons",
       {
-        method: "POST",
+        method: "GET",
         body: JSON.stringify({ tokens, endsAt: isoEndsAt, count }),
       }
     );
