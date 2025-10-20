@@ -67,7 +67,6 @@ export default function CouponRedeemPage() {
         </p>
 
         <input
-          inputMode="numeric"
           pattern="\d*"
           placeholder="예) 123456"
           value={code}
