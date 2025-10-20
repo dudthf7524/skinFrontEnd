@@ -22,7 +22,7 @@ export default function CouponRedeemPage() {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/redeem/coupon`, {
+      const res = await fetch(`${API_BASE}/user/redeem/coupon`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
