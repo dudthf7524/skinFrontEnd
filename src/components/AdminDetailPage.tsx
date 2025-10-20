@@ -20,7 +20,7 @@ export function AdminDetailPage() {
   const navigate = useNavigate();
   const [data, setData] = useState<QuestionnaireData | null>(null);
 
-  // ✅ 분석 코드명 매핑
+  /** ✅ 예측 코드 → 한국어 분류명 변환 */
   const convertPredictName = (value?: string): string => {
     if (!value) return '';
     const map: Record<string, string> = {
@@ -34,7 +34,7 @@ export function AdminDetailPage() {
     return map[value] ?? value;
   };
 
-  // ✅ 데이터 로드
+  /** ✅ 데이터 로드 */
   const postAdminDetail = async () => {
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -50,7 +50,7 @@ export function AdminDetailPage() {
     postAdminDetail();
   }, [id]);
 
-  // ✅ 날짜 포맷 (한국식)
+  /** ✅ 날짜 포맷 (항상 한국식) */
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
       year: 'numeric',
@@ -61,24 +61,11 @@ export function AdminDetailPage() {
     });
   };
 
-  // ✅ 이미지 경로 처리
+  /** ✅ 이미지 경로 보정 */
   const buildImgSrc = (p?: string) => {
     if (!p) return '';
     if (/^(https?:)?\/\//i.test(p) || /^(data:|blob:)/i.test(p)) return p;
     return p.startsWith('/') ? p : `/${p.replace(/^(\.\/|\/)?/, '')}`;
-  };
-
-  // ✅ 질병 이름을 소문자 카멜케이스 키로 변환
-  const getDiseaseKey = (diseaseName: string) => {
-    return diseaseName.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
-  };
-
-  // ✅ 섹션별 description 키 반환
-  const getDescriptionKey = (predictName: string, diseaseKey: string) => {
-    if (predictName === 'A2' && diseaseKey === 'superficialpyoderma') {
-      return `${diseaseKey}A2Desc`;
-    }
-    return `${diseaseKey}Desc`;
   };
 
   if (!data) {
@@ -96,12 +83,7 @@ export function AdminDetailPage() {
     );
   }
 
-  // ✅ 다국어 처리 (항상 한국어만 표시)
-  const diseaseKey = getDiseaseKey(
-    typeof data.diseaseName === 'object' ? data.diseaseName.ko : data.diseaseName
-  );
-  const descriptionKey = getDescriptionKey(data.predictName, diseaseKey);
-
+  /** ✅ 무조건 한국어만 표시 */
   const translatedDiseaseName =
     typeof data.diseaseName === 'object' ? data.diseaseName.ko : data.diseaseName;
   const translatedDescription =
@@ -116,13 +98,14 @@ export function AdminDetailPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             목록으로 돌아가기
           </Button>
+
           <div className="p-7 bg-white rounded-2xl border border-gray-200 shadow-xl">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">문진표 상세보기</h1>
             <p className="text-gray-600">접수일 {formatDate(data.createdAt)}</p>
           </div>
         </div>
 
-        {/* 본문 */}
+        {/* 내용 */}
         <div className="space-y-6">
           <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-3xl overflow-hidden">
             <CardHeader className="pb-4 sm:pb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50">
@@ -141,7 +124,7 @@ export function AdminDetailPage() {
                 />
               </div>
 
-              {/* 피부 상태 */}
+              {/* 피부 상태 분류 */}
               <div className="text-left mb-4">
                 <span className="text-lg sm:text-xl font-bold text-gray-900">피부 상태 분류</span>
               </div>
@@ -177,6 +160,7 @@ export function AdminDetailPage() {
                       {data.confidence}%
                     </span>
                   </div>
+
                   <div className="relative">
                     <div className="h-3 sm:h-4 bg-gray-200 rounded-full overflow-hidden">
                       <div
