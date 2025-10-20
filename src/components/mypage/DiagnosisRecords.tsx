@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "../ui/card";
 import { Eye } from "lucide-react";
 import { useLanguage } from "../LanguageContext";
+import { useAllBreedTranslation } from "../AllBreedTranslation";
 
 export function DiagnosisRecords({ recordData }: any) {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { translateBreed, getKoreanBreed } = useAllBreedTranslation();
   console.log(recordData)
  
   const formatDate = (dateString: string) => {
@@ -37,7 +39,7 @@ export function DiagnosisRecords({ recordData }: any) {
                         <div className="font-semibold text-gray-900">{record.PetName}</div>
                       </div>
                       <p className="text-sm text-gray-600">
-                        {record.breed} • {record.Weight}kg
+                        {record.breed === "other" ? t("otherBreed") : translateBreed(record.breed)} • {record.Weight}kg
                       </p>
 
                       <p className="text-sm text-gray-600">
