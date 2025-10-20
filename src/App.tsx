@@ -9,15 +9,15 @@ import LoginCallback from "./components/LoginCallback";
 import { LoginPage } from "./components/LoginPage";
 import Login from "./components/Login";
 import { MyRecordsPage } from "./components/MyRecordsPage";
-import { AdminListPage } from "./components/AdminListPage";
-import { AdminDetailPage } from "./components/AdminDetailPage";
+import { AdminListPage } from "./components/admin/AdminListPage";
+import { AdminDetailPage } from "./components/admin/AdminDetailPage";
 import { TokenPurchasePage } from "./components/TokenPurchasePage";
 import { TokenBalancePage } from "./components/TokenBalancePage";
 import DebugPage from "./components/DebugPage";
 import { MyPage } from "./components/mypage/MyPage";
 import { RecordDetail } from "./components/mypage/RecordDetail";
 import PurchaseSuccess from "./components/PurchaseSuccess";
-import AdminPage from "./components/AdminPage";
+import AdminPage from "./components/admin/AdminPage";
 // import { usePageLogger } from "./hooks/usePageLogger";
 // import { useExitLogger } from "./hooks/useExitLogger";
 

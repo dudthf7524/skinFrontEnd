@@ -121,7 +121,6 @@ export default function Home() {
                 navigate('/token');
             }
         } else {
-            alert(t("loginRequiredAlert"))
             navigate('/signin')
         }
     }

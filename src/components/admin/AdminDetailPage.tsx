@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
 import { ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 
