@@ -15,6 +15,23 @@ interface QuestionnaireData {
   createdAt: string;
 }
 
+type Lang = 'ko' | 'en' | 'ja' | 'zh';
+
+function getLocaleLang(): Lang {
+  const lang = (navigator.language || '').toLowerCase();
+  if (lang.startsWith('ko')) return 'ko';
+  if (lang.startsWith('zh')) return 'zh';
+  if (lang.startsWith('ja')) return 'ja';
+  if (lang.startsWith('en')) return 'en';
+  return 'ko';
+}
+
+/** 다국어 병명/설명 출력 함수 (한글 우선, 없으면 fallback) */
+function getLocalizedValue(value: string | { ko?: string; en?: string; ja?: string; zh?: string }, fallback = ''): string {
+  if (typeof value === 'string') return value;
+  return value.ko || value.en || value.ja || value.zh || fallback;
+}
+
 export function AdminDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -39,7 +56,6 @@ export function AdminDetailPage() {
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
       const response = await axios.get(`${apiBaseUrl}/admin/detail/${id}`);
-      console.log('백엔드 응답:', response.data.data);
       setData(response.data.data);
     } catch (error) {
       console.error('데이터 로드 실패:', error);
@@ -83,11 +99,9 @@ export function AdminDetailPage() {
     );
   }
 
-  /** ✅ 무조건 한국어만 표시 */
-  const translatedDiseaseName =
-    typeof data.diseaseName === 'object' ? data.diseaseName.ko : data.diseaseName;
-  const translatedDescription =
-    typeof data.description === 'object' ? data.description.ko : data.description;
+  // 한글로 변환 (없으면 적당히 fallback)
+  const translatedDiseaseName = getLocalizedValue(data.diseaseName);
+  const translatedDescription = getLocalizedValue(data.description);
 
   return (
     <div className="min-h-screen bg-white from-gray-50 to-blue-50">
@@ -121,6 +135,7 @@ export function AdminDetailPage() {
                   src={buildImgSrc(data.imagePath)}
                   className="object-cover rounded-xl border-2 border-blue-300 shadow-lg"
                   style={{ width: '224px', height: '224px' }}
+                  alt="analysis result"
                 />
               </div>
 
