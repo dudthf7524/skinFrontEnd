@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Ticket, Sparkles, ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
-import Navbar from "../components/Navbar";
-import { useLanguage } from "../components/LanguageContext";
+import Navbar from "../Navbar";
+import { useLanguage } from "../LanguageContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
 
