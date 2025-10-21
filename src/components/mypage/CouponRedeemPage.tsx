@@ -15,7 +15,7 @@ export default function CouponRedeemPage() {
   const [error, setError] = useState<string | null>(null);
 
   const onChange = (v: string) => {
-    const normalized = v.replace(/\D/g, "").slice(0, 6);
+    const normalized = v.slice(0, 6);
     setCode(normalized);
   };
 
