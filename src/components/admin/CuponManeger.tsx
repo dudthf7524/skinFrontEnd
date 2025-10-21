@@ -196,7 +196,7 @@ export default function CouponManager() {
                   <td className="px-4 py-2 border-b font-mono">{c.code}</td>
                   <td className="px-4 py-2 border-b">{c.tokens}</td>
                   <td className="px-4 py-2 border-b">{new Date(c.endsAt).toLocaleString()}</td>
-                  <td className="px-4 py-2 border-b">{c.isActive ? "활성" : "비활성"}</td>
+                  <td className="px-4 py-2 border-b">{new Date(c.endsAt).getTime() > Date.now() ? "활성" : "유효기간 만료"}</td>
                   <td className="px-4 py-2 border-b">{c._count?.redemptions ?? 0}</td>
                   <td className="px-4 py-2 border-b">{new Date(c.createdAt).toLocaleString()}</td>
                   <td className="px-4 py-2 border-b">
