@@ -79,7 +79,7 @@ export default function CouponRedeemPage() {
             <input
               pattern="\d*"
               inputMode="numeric"
-              placeholder="예: 123456"
+              placeholder="예: 45AKV"
               value={code}
               onChange={(e) => onChange(e.target.value)}
               className="w-full px-5 py-3 border-2 border-gray-200 rounded-xl text-center tracking-widest text-lg font-mono focus:ring-4 focus:ring-[var(--talktail-orange-light)] focus:border-[var(--talktail-orange)] outline-none transition-all"
