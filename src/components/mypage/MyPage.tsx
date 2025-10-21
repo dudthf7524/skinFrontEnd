@@ -37,20 +37,30 @@ export function MyPage() {
     }
   }, [navigate, t]);
 
-  const userMyPageAPI = async () => {
+  const userMyPageAPI = async (retryCount = 0): Promise<void> => {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    const MAX_RETRIES = 3; // ✅ 최대 재시도 횟수
+    const RETRY_DELAY = 1000; // ✅ 재시도 간격(ms) — 1초
+  
     try {
       const response = await axios.get(`${apiBaseUrl}/user/mypage`, {
         withCredentials: true,
       });
+  
       console.log(response.data);
-      setRecordData(response.data.recordData.paperweights)
+      setRecordData(response.data.recordData.paperweights);
       setUserInfoData(response.data.userData.userInfo);
-      setUserPaymentData(response.data.userPaymentData.userPayment)
+      setUserPaymentData(response.data.userPaymentData.userPayment);
     } catch (error) {
-      console.error(error);
+      console.error(`userMyPageAPI 실패 (시도 ${retryCount + 1}회):`, error);
+      if (retryCount < MAX_RETRIES) {
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY)); // 잠깐 대기
+        return userMyPageAPI(retryCount + 1); // 재귀적으로 재시도
+      }
+      alert("서버 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
-  }
+  };
+  
 
   useEffect(() => {
     userMyPageAPI();
