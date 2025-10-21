@@ -117,7 +117,6 @@ export default function CouponRedeemPage() {
               onClick={() => navigate("/mypage")}
               className="flex-1 flex items-center justify-center gap-2 bg-[var(--talktail-mint)] hover:bg-[var(--talktail-mint-dark)] text-[var(--talktail-orange-dark)] py-2 rounded-xl font-semibold transition-all"
             >
-              <HeartIcon />
               마이페이지로 돌아가기
             </button>
 
